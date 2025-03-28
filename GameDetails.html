@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8-Bit Market</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <style>
+        body {
+            font-family: "Kanit", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #222;
+        }
+        header {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 70px;
+            background-color: #F5B841;
+            padding: 15px;
+            padding-right: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            @media (max-width: 768px) {
+                padding-right: 15px;
+            }
+        }
+        .menu{
+            display:none;
+            @media (max-width: 768px) {
+                display: block;
+                margin-left: 20px;
+            }
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .search{
+            width: 40vw;
+            padding: 5px;
+            border-radius: 12px;
+            @media (max-width: 768px) {
+                width: 80vw;
+                margin-left: 10vw;
+            }
+        }
+        .search_icon{
+            background-color: #ffffff;
+            padding: 5px;
+
+        }
+        .search_bar{
+            display: flex;
+            @media (max-width: 768px) {
+                display: none;
+            }
+        }
+        .user_actions{
+            display: flex;  
+        }
+        .action{
+            margin: 0 15px;
+            text-decoration: none;
+            color: #000000;
+            @media (max-width: 768px) {
+                display: none;
+            } 
+        }
+        main {
+            background: #FBFFFE;
+            margin-top: 70px;
+            height: calc(100vh - 108.4px);
+            margin-bottom: 35px;
+            padding: 20px;
+            box-sizing: border-box;
+            @media (max-width: 768px) {
+                height: auto;
+                min-height: calc(100vh - 108.4px);
+            }
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            gap: 20px;;
+            justify-content: space-around;
+        }
+        .game_name{
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center;
+            margin: 0 9vw 0 5vw;
+        }
+        .game {
+            width: auto;
+            height: 400px;
+            @media (max-width: 768px) {
+                width: 100%;
+                height: auto;
+            }
+
+        }
+        .game_details{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 30px;
+            @media (max-width: 768px) {
+                gap: 10px; 
+            }
+        }
+        .details {
+            margin-top: 10px;
+            width: 25vw;
+            @media (max-width: 768px) {
+                width: auto;  
+            }
+        }
+        .price-box { 
+            padding: 20px;
+            border: 1px solid black;
+            border-radius: 12px;
+            background-color: white;
+            text-align: center;
+            min-width: 300px;
+            @media (max-width: 768px) {
+                width: 100%;
+            }
+        }
+        .button {
+            font-family: "Kanit", sans-serif;
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #275DAD;
+            border: none;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+        .button:hover{
+            background-color: #7ca6e4;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: black;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            left: -100vw; 
+            width: 100vw;
+            height: 100%;
+            background: white;
+            transition: transform 0.3s ease-in-out;
+            padding-top: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            text-align: start;
+            gap: 20px;
+            z-index: 100;
+        }
+        .sidebar.open {
+            transform: translateX(100vw); 
+            z-index: 100;
+        }
+        .title{
+            display: flex;
+            flex-direction: row;
+        }
+        .logo{
+            height: 70px;
+            width: auto;
+        }
+        .heart {
+            cursor: pointer;
+        }
+        .price{
+            margin-top: 10px;
+        }
+        footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background: #F5B841;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            z-index: 100;
+            box-sizing: border-box;
+            height: 38.4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="title">
+            <a href="LandingPage.html"> 
+                <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
+            </a>
+        </div>
+        <div class="search_bar">
+            <input class="search" type="text" placeholder="Search">
+        </div>
+        <div class="user_actions">
+            <svg width="24px" height="24px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                <path d="m 8 1 c -1.65625 0 -3 1.34375 -3 3 s 1.34375 3 3 3 s 3 -1.34375 3 -3 s -1.34375 -3 -3 -3 z m -1.5 7 c -2.492188 0 -4.5 2.007812 -4.5 4.5 v 0.5 c 0 1.109375 0.890625 2 2 2 h 8 c 1.109375 0 2 -0.890625 2 -2 v -0.5 c 0 -2.492188 -2.007812 -4.5 -4.5 -4.5 z m 0 0" fill="#000000"/>
+            </svg>
+            <a class="action" href="#">Sign In</a>
+            <a href="ShoppingCart.html">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>               
+            </a>
+            <a class="action" href="ShoppingCart.html">Cart</a>
+            <div class="menu">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 6H20M4 12H20M4 18H20" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+            </div>
+        </div>
+        
+    </header>
+    <div class="sidebar">
+        <button class="close-btn">&times;</button> 
+        <div>
+            <input class="search" type="text" placeholder="Search">
+        </div>         
+    </div>
+    <main>
+        <div class="game_name">
+            <h2>Game Name</h2>
+            <div id="heartIcon" class="heart">
+                <svg  width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.96173 18.9109L9.42605 18.3219L8.96173 18.9109ZM12 5.50063L11.4596 6.02073C11.601 6.16763 11.7961 6.25063 12 6.25063C12.2039 6.25063 12.399 6.16763 12.5404 6.02073L12 5.50063ZM15.0383 18.9109L15.5026 19.4999L15.0383 18.9109ZM9.42605 18.3219C7.91039 17.1271 6.25307 15.9603 4.93829 14.4798C3.64922 13.0282 2.75 11.3345 2.75 9.1371H1.25C1.25 11.8026 2.3605 13.8361 3.81672 15.4758C5.24723 17.0866 7.07077 18.3752 8.49742 19.4999L9.42605 18.3219ZM2.75 9.1371C2.75 6.98623 3.96537 5.18252 5.62436 4.42419C7.23607 3.68748 9.40166 3.88258 11.4596 6.02073L12.5404 4.98053C10.0985 2.44352 7.26409 2.02539 5.00076 3.05996C2.78471 4.07292 1.25 6.42503 1.25 9.1371H2.75ZM8.49742 19.4999C9.00965 19.9037 9.55954 20.3343 10.1168 20.6599C10.6739 20.9854 11.3096 21.25 12 21.25V19.75C11.6904 19.75 11.3261 19.6293 10.8736 19.3648C10.4213 19.1005 9.95208 18.7366 9.42605 18.3219L8.49742 19.4999ZM15.5026 19.4999C16.9292 18.3752 18.7528 17.0866 20.1833 15.4758C21.6395 13.8361 22.75 11.8026 22.75 9.1371H21.25C21.25 11.3345 20.3508 13.0282 19.0617 14.4798C17.7469 15.9603 16.0896 17.1271 14.574 18.3219L15.5026 19.4999ZM22.75 9.1371C22.75 6.42503 21.2153 4.07292 18.9992 3.05996C16.7359 2.02539 13.9015 2.44352 11.4596 4.98053L12.5404 6.02073C14.5983 3.88258 16.7639 3.68748 18.3756 4.42419C20.0346 5.18252 21.25 6.98623 21.25 9.1371H22.75ZM14.574 18.3219C14.0479 18.7366 13.5787 19.1005 13.1264 19.3648C12.6739 19.6293 12.3096 19.75 12 19.75V21.25C12.6904 21.25 13.3261 20.9854 13.8832 20.6599C14.4405 20.3343 14.9903 19.9037 15.5026 19.4999L14.574 18.3219Z" fill="#1C274C"/>
+                </svg>
+            </div>
+        </div>
+        <div class="container">
+            <div class="game_details">
+                <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
+                <div class="details">
+                    <p><strong>Platform:</strong> xxxxxxxxxx</p>
+                    <p><strong>Region:</strong> xxxxxxxxxx</p>
+                    <p><strong>Genre:</strong> xxxxxxxxxx</p>
+                    <p><strong>Date of release:</strong> xx/xx/xxxx</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus condimentum maximus lorem, a luctus lacus sodales nec. Donec ac mauris eu sem congue mattis vel id mi.</p>
+                </div>
+            </div>
+            <div class="price-box">
+                <h3 class="price">Price</h3>
+                <p><strong>XX €</strong></p>
+                <button class="button">Add to cart</button>
+                <button class="button">Buy now</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        2025 © 8-Bit Market. All rights reserved. 🎮❤️
+    </footer>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const menuIcon = document.querySelector(".menu");
+    const sidebar = document.querySelector(".sidebar");
+    const closeButton = document.querySelector(".close-btn");
+
+    menuIcon.addEventListener("click", function () {
+        sidebar.classList.toggle("open");
+    });
+
+    closeButton.addEventListener("click", function () {
+        sidebar.classList.remove("open");
+    });
+});
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const heartIcon = document.getElementById("heartIcon");
+        let isFavorite = false;
+        
+        const heartFilled = `<svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#1C274C"/>
+</svg>`;
+        
+        const heartOutline = `<svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.96173 18.9109L9.42605 18.3219L8.96173 18.9109ZM12 5.50063L11.4596 6.02073C11.601 6.16763 11.7961 6.25063 12 6.25063C12.2039 6.25063 12.399 6.16763 12.5404 6.02073L12 5.50063ZM15.0383 18.9109L15.5026 19.4999L15.0383 18.9109ZM9.42605 18.3219C7.91039 17.1271 6.25307 15.9603 4.93829 14.4798C3.64922 13.0282 2.75 11.3345 2.75 9.1371H1.25C1.25 11.8026 2.3605 13.8361 3.81672 15.4758C5.24723 17.0866 7.07077 18.3752 8.49742 19.4999L9.42605 18.3219ZM2.75 9.1371C2.75 6.98623 3.96537 5.18252 5.62436 4.42419C7.23607 3.68748 9.40166 3.88258 11.4596 6.02073L12.5404 4.98053C10.0985 2.44352 7.26409 2.02539 5.00076 3.05996C2.78471 4.07292 1.25 6.42503 1.25 9.1371H2.75ZM8.49742 19.4999C9.00965 19.9037 9.55954 20.3343 10.1168 20.6599C10.6739 20.9854 11.3096 21.25 12 21.25V19.75C11.6904 19.75 11.3261 19.6293 10.8736 19.3648C10.4213 19.1005 9.95208 18.7366 9.42605 18.3219L8.49742 19.4999ZM15.5026 19.4999C16.9292 18.3752 18.7528 17.0866 20.1833 15.4758C21.6395 13.8361 22.75 11.8026 22.75 9.1371H21.25C21.25 11.3345 20.3508 13.0282 19.0617 14.4798C17.7469 15.9603 16.0896 17.1271 14.574 18.3219L15.5026 19.4999ZM22.75 9.1371C22.75 6.42503 21.2153 4.07292 18.9992 3.05996C16.7359 2.02539 13.9015 2.44352 11.4596 4.98053L12.5404 6.02073C14.5983 3.88258 16.7639 3.68748 18.3756 4.42419C20.0346 5.18252 21.25 6.98623 21.25 9.1371H22.75ZM14.574 18.3219C14.0479 18.7366 13.5787 19.1005 13.1264 19.3648C12.6739 19.6293 12.3096 19.75 12 19.75V21.25C12.6904 21.25 13.3261 20.9854 13.8832 20.6599C14.4405 20.3343 14.9903 19.9037 15.5026 19.4999L14.574 18.3219Z" fill="#1C274C"/>
+                </svg>`;
+        
+        heartIcon.addEventListener("click", function () {
+            isFavorite = !isFavorite;
+            heartIcon.innerHTML = isFavorite ? heartFilled : heartOutline;
+        });
+    });
+</script>
+</html>
