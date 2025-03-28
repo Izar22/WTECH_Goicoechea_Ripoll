@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8-Bit Market</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <style>
+        body {
+            font-family: "Kanit", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #222;
+        }
+        header {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 70px;
+            background-color: #F5B841;
+            padding: 15px;
+            padding-right: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            @media (max-width: 768px) {
+                padding-right: 15px;
+            }
+        }
+        .menu{
+            display:none;
+            @media (max-width: 768px) {
+                display: block;
+                margin-left: 20px;
+            }
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .search{
+            width: 40vw;
+            padding: 5px;
+            border-radius: 12px;
+            @media (max-width: 768px) {
+                width: 80vw;
+                margin-left: 10vw;
+            }
+        }
+        .search_icon{
+            background-color: #ffffff;
+            padding: 5px;
+
+        }
+        .search_bar{
+            display: flex;
+            @media (max-width: 768px) {
+                display: none;
+            }
+        }
+        .user_actions{
+            display: flex;  
+        }
+        .action{
+            margin: 0 15px;
+            text-decoration: none;
+            color: #000000;
+            @media (max-width: 768px) {
+                display: none;
+            } 
+        }
+        main {
+            background: #FBFFFE;
+            height: auto;
+            min-height: calc(100vh - 108.4px);
+            padding: 20px 40px;
+            box-sizing: border-box;
+            margin-top: 70px;
+            margin-bottom: 35px;
+            display: flex;  
+            flex-direction: column;
+            @media (max-width: 768px) {
+                height: auto;
+                max-height: calc(100vh - 108.4px);
+            }
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: black;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            left: -100vw; 
+            width: 100vw;
+            height: 100%;
+            background: white;
+            transition: transform 0.3s ease-in-out;
+            padding-top: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            text-align: start;
+            gap: 20px;
+            z-index: 100;
+        }
+        .sidebar.open {
+            transform: translateX(100vw); 
+            z-index: 100;
+        }
+        .title{
+            display: flex;
+            flex-direction: row;
+        }
+        .logo{
+            height: 70px;
+            width: auto;
+        }
+        .top_section{
+            display: flex;
+            justify-content: space-between;
+            
+        }
+        .divider{
+            width: 100%;
+            height: 1px;
+            background-color: #000000;
+            @media (max-width: 768px) {
+                display: none;
+            }
+        }
+        .container{
+            display: flex;
+            gap: 50px;
+        }
+        .filters{
+            display: flex;
+            flex-direction: column;
+            min-width: 200px;
+            gap: 20px;
+            @media (max-width: 768px) {
+                display: none;
+            }
+        }
+        .filter{
+            display: flex;
+            flex-direction: column;
+            font-size: 1.17em;
+            font-weight: bold;
+            gap: 10px;
+            @media (max-width: 768px) {
+                margin-bottom:10px;
+            }
+           
+        }
+        .games{
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            gap: 40px;
+            overflow-y: scroll;
+            max-height: calc(100vh - 280px);
+            @media (max-width: 768px) {
+                max-height: calc(100vh - 350px);               
+                margin-left: 15px;
+                margin-top: 5px;
+            }
+        }
+        .image_game{
+            width: 120px;
+            height: 180px;
+        }
+
+        .game_image_container {
+            position: relative; 
+        }
+
+        .trash_icon {
+            position: absolute;
+            top: 10px; 
+            right: 10px; 
+            width: 30px; 
+            height: 30px; 
+            cursor: pointer; 
+        }
+            .order_by{
+            align-self: end;
+            margin-bottom: 16px;
+            font-size: 1.17em;
+            font-weight: bold;
+            @media (max-width: 768px) {
+                display: none;
+            }
+        }
+        .order_by_mobile{
+            margin-top: 16px;
+            align-self: end;
+            margin-bottom: 16px;
+            font-size: 1.17em;
+            font-weight: bold;
+        }
+        .price_range{
+            display: flex;
+            gap: 8px;
+            width: 75%;
+        }
+        .button_apply{
+            width: 75%;
+            margin-top: 20px;
+            background-color: #275DAD;
+            border: none;
+            border-radius: 10px;
+            padding: 5px 0;
+            color: #ffffff;
+        }
+        #genre,#platform{
+            width: 75%;
+        }
+        #fromPrice,#toPrice{
+            width: 20%;
+        }
+        .price_icon{
+            display: flex;
+            justify-content: space-between;
+        }
+        .price_icon p{
+            margin: 0;
+        }
+        footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background: #F5B841;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            z-index: 100;
+            box-sizing: border-box;
+            height: 38.4px;
+        }
+        .applied_filters {
+            display: flex;
+            gap: 10px;
+            align-self: end;
+            margin-bottom: 9px;
+            @media (max-width: 768px) {
+                align-self: start;
+            }
+        }
+        .filter_label {
+            background-color: #F5B841;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+        .filter_label .remove {
+            cursor: pointer;
+            font-weight: bold;
+            padding: 0 5px;
+        }
+        .articles_pills{
+            display: flex;
+            gap: 50px;
+            @media (max-width: 768px) {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        .top_section p{
+            width: 200px;
+            margin-top: 0;           
+        }
+        .mobile_filters{
+            margin-left: 10vw;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="title">
+            <a href="LandingPage.html"> 
+                <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
+            </a>
+        </div>
+        <div class="search_bar">
+            <input class="search" type="text" placeholder="Search">
+        </div>
+        <div class="user_actions">
+            <svg width="24px" height="24px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                <path d="m 8 1 c -1.65625 0 -3 1.34375 -3 3 s 1.34375 3 3 3 s 3 -1.34375 3 -3 s -1.34375 -3 -3 -3 z m -1.5 7 c -2.492188 0 -4.5 2.007812 -4.5 4.5 v 0.5 c 0 1.109375 0.890625 2 2 2 h 8 c 1.109375 0 2 -0.890625 2 -2 v -0.5 c 0 -2.492188 -2.007812 -4.5 -4.5 -4.5 z m 0 0" fill="#000000"/>
+            </svg>
+            <a class="action" href="#">Sign In</a>
+            <a href="ShoppingCart.html">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>               
+            </a>
+            <a class="action" href="ShoppingCart.html">Cart</a>
+            <div class="menu">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 6H20M4 12H20M4 18H20" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>       
+    </header>
+    <div class="sidebar">
+        <button class="close-btn">&times;</button> 
+        <div>
+            <input class="search" type="text" placeholder="Search">
+            <div class="mobile_filters">
+                <div class="order_by_mobile">
+                    <label for="order_by">Order By</label>
+                    <select name="order_by" id="order_by">
+                        <option value="">Choose an option</option>
+                        <option value="price_increasing">Price: from less to more</option>
+                        <option value="price_decreasing">Price: from more to less</option>
+                    </select>
+                </div>
+                <div>
+                    <div>
+                        <h3>Price range</h3>
+                        <div class="price_range">
+                            <label for="fromPrice">From</label>
+                            <input type="number" id="fromPrice" name="fromPrice" min="0" max="1000" step="1">
+                            <label for="toPrice">To</label>
+                            <input type="number" id="toPrice" name="toPrice" min="0" max="500" step="1">
+                        </div>
+                        <button class="button_apply" disabled>Apply</button>
+                    </div>
+                    <div class="filter">
+                        <label for="genre">Genre</label>
+                        <select name="genre" id="genre">
+                            <option value="">Choose an option</option>
+                            <option value="action">Action</option>
+                            <option value="adventure">Adventure</option>
+                            <option value="rpg">RPG</option>
+                            <option value="shooter">Shooter</option>
+                            <option value="strategy">Strategy</option>
+                            <option value="sports">Sports</option>
+                            <option value="racing">Racing</option>
+                            <option value="simulation">Simulation</option>
+                            <option value="horror">Horror</option>
+                            <option value="platformer">Platformer</option>
+                            <option value="puzzle">Puzzle</option>
+                        </select>
+                    </div>        
+                    <div class="filter">
+                        <label for="platform">Platform</label>
+                        <select name="platform" id="platform">
+                            <option value="">Choose an option</option>
+                            <option value="pc">PC</option>
+                            <option value="ps5">PlayStation 5</option>
+                            <option value="ps4">PlayStation 4</option>
+                            <option value="xbox_series">Xbox Series X|S</option>
+                            <option value="xbox_one">Xbox One</option>
+                            <option value="switch">Nintendo Switch</option>
+                            <option value="mobile">Mobile</option>
+                        </select>
+                    </div>          
+                </div>
+            </div>         
+        </div>         
+    </div>
+    <main>
+        <div class="top_section">
+            <div>
+                <h2 id="category_name"></h2>
+                <div class="articles_pills">
+                    <p>XXXX articles</p>
+                    <div class="applied_filters"></div>
+                </div>                
+            </div>           
+            <div class="order_by">
+                <label for="order_by">Order By</label>
+                <select name="order_by" id="order_by">
+                    <option value="">Choose an option</option>
+                    <option value="price_increasing">Price: from less to more</option>
+                    <option value="price_decreasing">Price: from more to less</option>
+                </select>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="container">
+            <div class="filters">
+                <div>
+                    <h3>Price range</h3>
+                    <div class="price_range">
+                        <label for="fromPrice">From</label>
+                        <input type="number" id="fromPrice" name="fromPrice" min="0" max="1000" step="1">
+                        <label for="toPrice">To</label>
+                        <input type="number" id="toPrice" name="toPrice" min="0" max="500" step="1">
+                    </div>
+                    <button class="button_apply" disabled>Apply</button>
+                </div>
+                <div class="filter">
+                    <label for="genre">Genre</label>
+                    <select name="genre" id="genre">
+                        <option value="">Choose an option</option>
+                        <option value="action">Action</option>
+                        <option value="adventure">Adventure</option>
+                        <option value="rpg">RPG</option>
+                        <option value="shooter">Shooter</option>
+                        <option value="strategy">Strategy</option>
+                        <option value="sports">Sports</option>
+                        <option value="racing">Racing</option>
+                        <option value="simulation">Simulation</option>
+                        <option value="horror">Horror</option>
+                        <option value="platformer">Platformer</option>
+                        <option value="puzzle">Puzzle</option>
+                    </select>
+                </div>
+                
+                <div class="filter">
+                    <label for="platform">Platform</label>
+                    <select name="platform" id="platform">
+                        <option value="">Choose an option</option>
+                        <option value="pc">PC</option>
+                        <option value="ps5">PlayStation 5</option>
+                        <option value="ps4">PlayStation 4</option>
+                        <option value="xbox_series">Xbox Series X|S</option>
+                        <option value="xbox_one">Xbox One</option>
+                        <option value="switch">Nintendo Switch</option>
+                        <option value="mobile">Mobile</option>
+                    </select>
+                </div>         
+            </div>
+            <div class="games" id="gamesContainer"></div>
+        </div> 
+    </main>
+    <footer>
+        2025 © 8-Bit Market. All rights reserved. 🎮❤️
+    </footer>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const games = [
+            { name: "Overwatch 2", price: "29", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+            { name: "Cyberpunk 2077", price: "39", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+            { name: "Elden Ring", price: "40", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+            { name: "Overwatch 2", price: "29", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+            { name: "Cyberpunk 2077", price: "39", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+            { name: "Elden Ring", price: "40", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+            { name: "Overwatch 2", price: "29", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+            { name: "Cyberpunk 2077", price: "39", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+            { name: "Elden Ring", price: "40", image: "./Images/Overwatch_2_Steam_artwork.jpg" }
+        ];
+
+        const gamesContainer = document.getElementById("gamesContainer");
+
+        games.forEach(game => {
+            const gameDiv = document.createElement("div");
+            gameDiv.classList.add("game");
+            
+            gameDiv.innerHTML = `
+                <div class="game_image_container">
+                    <img class="image_game" src="${game.image}" alt="${game.name}" />
+                    <img src="images/trash-full-svgrepo-com-v2.svg" alt="Trash Icon" class="trash_icon"/>
+                </div>
+                <div class="game-link" >
+                    <p>${game.name}</p>
+                </div>
+                <div class="price_icon">
+                    <p>${game.price} €</p>
+                    <img class="edit_icon" src="images/edit-3-svgrepo-com.svg" alt="Edit" width="24px" height="24px" style="cursor: pointer;">
+                </div>
+            `;
+
+            const gameLinks = gameDiv.querySelectorAll('.edit_icon'); 
+            gameLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    window.location.href = `EditGameDetails.html?name=${encodeURIComponent(game.name)}`;
+                });
+            });
+
+            gamesContainer.appendChild(gameDiv);
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const menuIcon = document.querySelector(".menu");
+    const sidebar = document.querySelector(".sidebar");
+    const closeButton = document.querySelector(".close-btn");
+
+    menuIcon.addEventListener("click", function () {
+        sidebar.classList.toggle("open");
+    });
+
+    closeButton.addEventListener("click", function () {
+        sidebar.classList.remove("open");
+    });
+});
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const genreSelects = document.querySelectorAll("#genre");
+    const platformSelects = document.querySelectorAll("#platform");
+    const fromPrices = document.querySelectorAll("#fromPrice");
+    const toPrices = document.querySelectorAll("#toPrice");
+    const applyButtons = document.querySelectorAll(".button_apply");
+    const filterContainer = document.querySelector(".applied_filters");
+
+    const filterOrder = ["Price", "Genre", "Platform"];
+    const filters = {};
+
+    function updateFilterDisplay() {
+        filterContainer.innerHTML = "";
+        filterOrder.forEach(type => {
+            if (filters[type]) {
+                filterContainer.appendChild(filters[type]);
+            }
+        });
+    }
+
+    function addFilterLabel(type, value) {
+        if (filters[type]) filters[type].remove();
+
+        const filterLabel = document.createElement("div");
+        filterLabel.classList.add("filter_label");
+        filterLabel.dataset.type = type;
+        filterLabel.innerHTML = `${type}: ${value} <span class="remove">✖</span>`;
+
+        filterLabel.querySelector(".remove").addEventListener("click", function () {
+            filterLabel.remove();
+            delete filters[type];
+
+            if (type === "Genre") genreSelects.forEach(select => (select.value = ""));
+            if (type === "Platform") platformSelects.forEach(select => (select.value = ""));
+            if (type === "Price") {
+                fromPrices.forEach(input => (input.value = ""));
+                toPrices.forEach(input => (input.value = ""));
+                toggleApplyButton(0);
+                toggleApplyButton(1);
+            }
+
+            updateFilterDisplay();
+        });
+
+        filters[type] = filterLabel;
+        updateFilterDisplay();
+    }
+
+    function toggleApplyButton(index) {
+        const fromValue = fromPrices[index].value.trim();
+        const toValue = toPrices[index].value.trim();
+        applyButtons[index].disabled = !(fromValue !== "" && toValue !== "");
+    }
+
+    genreSelects.forEach(select => {
+        select.addEventListener("change", function () {
+            if (select.value !== "") {
+                addFilterLabel("Genre", select.options[select.selectedIndex].text);
+            }
+        });
+    });
+
+    platformSelects.forEach(select => {
+        select.addEventListener("change", function () {
+            if (select.value !== "") {
+                addFilterLabel("Platform", select.options[select.selectedIndex].text);
+            }
+        });
+    });
+
+    fromPrices.forEach((input, index) => {
+        input.addEventListener("input", () => toggleApplyButton(index));
+    });
+
+    toPrices.forEach((input, index) => {
+        input.addEventListener("input", () => toggleApplyButton(index));
+    });
+
+    applyButtons.forEach((button, index) => {
+        button.addEventListener("click", function () {
+            const fromValue = fromPrices[index].value.trim();
+            const toValue = toPrices[index].value.trim();
+            if (fromValue !== "" && toValue !== "") {
+                addFilterLabel("Price", `${fromValue} - ${toValue} €`);
+            }
+        });
+    });
+});
+
+</script>    
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        function getCategoryFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('category'); 
+        }
+
+        const categoryName = getCategoryFromURL();
+        
+        const categoryElement = document.getElementById("category_name");
+        categoryElement.textContent = categoryName;
+    });
+</script>
+
+</html>
