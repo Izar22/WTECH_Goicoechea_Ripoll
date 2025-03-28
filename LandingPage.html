@@ -316,40 +316,7 @@
         </section>       
         <h3 class="section_title">Our recommendations</h3>
         <div class="swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                
+            <div class="swiper-wrapper" id="swiper-wrapper">
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
@@ -375,6 +342,42 @@
 });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const games = [
+        { name: "Overwatch 2", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "League of Legends", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Valorant", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Apex Legends", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Minecraft", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Fortnite", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Call of Duty", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "PUBG", image: "./Images/Overwatch_2_Steam_artwork.jpg" }
+        ];
+
+        const swiperWrapper = document.getElementById('swiper-wrapper');
+
+        games.forEach(game => {
+
+            const swiperSlide = document.createElement('div');
+            swiperSlide.classList.add('swiper-slide');
+            swiperSlide.innerHTML = `
+                <img class="game" src=${game.image} alt=${game.name}>
+                <h4 class="game_name">${game.name}</h4>
+
+            `;
+
+            swiperWrapper.appendChild(swiperSlide);
+        });
+
+        var swiper = new Swiper('.swiper', {
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
+        });
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         new Swiper(".swiper", {
