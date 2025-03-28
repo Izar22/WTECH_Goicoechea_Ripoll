@@ -139,6 +139,7 @@
             border-radius: 50px;
             padding-top: 10px;
             padding-left: 10px;
+            cursor: pointer;
         }
         .circle.selected{
             background-color: #F5B841;
@@ -206,11 +207,20 @@
             width: 30px;
             height: 30px;
         }
-        .cart{
+
+        .left_section_cart{
             max-height: calc(100vh - 108.4px - 120px);
             width: 50vw;
             @media (max-width: 768px) {
                 max-height: calc(65vh - 108.4px - 120px);
+                width: 100%;
+                padding: 10px;
+            }
+        }
+        .left_section{
+            max-height: calc(100vh - 108.4px - 120px);
+            width: 50vw;
+            @media (max-width: 768px) {
                 width: 100%;
                 padding: 10px;
             }
@@ -225,7 +235,7 @@
                 max-height: calc(65vh - 108.4px - 180px); 
             }
         }
-        .container{
+        .container_cart, .container_payment, .container_shipping{
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -235,7 +245,7 @@
                 gap: 10px;
             }
         }
-        .continue{
+        .right_section{
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -245,17 +255,41 @@
                 padding: 10px;
             }
         }
-        .continue h2{
+        .total_price_title{
             align-self: start;
         }
-        .continue p{
+        .total_price_title_small{
+            align-self: start;
+            font-size: 20px;
+            
+        }
+        .total_price_cart{
             font-size: 24px;
             background-color: #F5B841;
             padding: 10px;
             border-radius: 12px;
             border: solid 1px black;
         }
-        .continue button{
+        .total_price_shipping{
+            font-size: 24px;
+            background-color: #F5B841;
+            padding: 10px;
+            border-radius: 12px;
+            border: solid 1px black;
+            margin: 0;
+        }
+        .total_price_shipping_small{
+            font-size: 16px;
+            background-color: #F5B841;
+            padding: 10px;
+            border-radius: 12px;
+            border: solid 1px black;
+            margin: 0;
+        }
+        .total_price_button{
+            margin-top: 20px;
+        }
+        .right_section button{
             font-size: 20px;
             font-family: "Kanit", sans-serif;
             background-color: #275DAD;
@@ -265,9 +299,65 @@
             width: 100%;
             border: solid 1px black;
         }
-        .continue button:hover{
+        .right_section button:hover{
             background-color: #7ca6e4;
         }
+        .delete-button{
+            width: 24px;
+            height: 24px;
+        }
+        .container_shipping, .container_payment, .container_cart {
+            display: none; 
+        }
+
+        .container_shipping.visible, .container_payment.visible, .container_cart.visible {
+            display: flex; 
+        }
+
+        .section_title {
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        .form_group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+        .form_group input {
+            font-family: "Kanit", sans-serif;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .double_width {
+            margin-bottom: 15px;
+        }
+        .double_width input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .summary {
+            margin-top: 20px;
+        }
+        .summary div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .button_container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
         footer {
             position: fixed;
             left: 0;
@@ -339,8 +429,8 @@
                 </svg>
             </div>
         </div>
-        <div class="container">
-            <div class="cart">
+        <div class="container_cart">
+            <div class="left_section_cart">
                 <h2>Shopping Cart</h2>
                 <div class="games">
                     <div class="game">
@@ -356,9 +446,7 @@
                             </div>
                         </div>
                         <div class="price_game">
-                            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete-button">
                             <p>XX,XX €</p>
                         </div>
                     </div>
@@ -375,9 +463,7 @@
                             </div>
                         </div>
                         <div class="price_game">
-                            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete-button">
                             <p>XX,XX €</p>
                         </div>
                     </div>
@@ -394,9 +480,7 @@
                             </div>
                         </div>
                         <div class="price_game">
-                            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete-button">
                             <p>XX,XX €</p>
                         </div>
                     </div>
@@ -413,19 +497,75 @@
                             </div>
                         </div>
                         <div class="price_game">
-                            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete-button">
                             <p>XX,XX €</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="continue">
-                <h2>Order Price</h2>
-                <p>XX,XX €</p>
-                <button>Continue to payment</button>
+            <div class="right_section">
+                <h2 class="total_price_title">Order Price:</h2>
+                <p class="total_price_cart">XX,XX €</p>
+                <button>Continue to shipping</button>
                 <button>Keep shopping</button>
+            </div>
+        </div>
+        <div class="container_shipping">
+            <div class="left_section">
+                <div class="section_title">Contact Information</div>
+                <div class="form_group">
+                    <input type="text" placeholder="Name">
+                    <input type="text" placeholder="Surname">
+                </div>
+                <div class="form_group">
+                    <input type="email" placeholder="E-mail address">
+                    <input type="text" placeholder="Phone number">
+                </div>
+                <div class="section_title">Shipping</div>
+                <div class="double_width">
+                    <input type="text" placeholder="Address">
+                </div>
+                <div class="form_group">
+                    <input type="text" placeholder="City">
+                    <input type="text" placeholder="Region">
+                </div>
+                <div class="form_group">
+                    <input type="text" placeholder="Country">
+                    <input type="text" placeholder="Zip Code">
+                </div>
+            </div>
+            <div class="right_section">
+                <h2 class="total_price_title_small">Order Price:</h2>
+                <p class="total_price_shipping_small">XX,XX €</p>
+                <h2 class="total_price_title_small">Shipping:</h2>
+                <p class="total_price_shipping_small">XX,XX €</p>
+                <h2 class="total_price_title">Total price:</h2>
+                <p class="total_price_shipping">XX,XX €</p>
+                <button class="total_price_button">Continue to payment</button>
+            </div>
+        </div>
+        <div class="container_payment">
+            <div class="left_section">
+                <div class="section_title">Payment Details</div>
+                <div class="double_width">
+                    <input type="text" placeholder="Cardholder Name">
+                </div>
+                <div class="double_width">
+                    <input type="text" placeholder="Card Number">
+                </div>
+                <div class="form_group">
+                    <input type="text" placeholder="Expiration Date (MM/YY)">
+                    <input type="text" placeholder="CVV">
+                </div>
+            </div>
+            <div class="right_section">
+                <h2 class="total_price_title_small">Order Price:</h2>
+                <p class="total_price_shipping_small">XX,XX €</p>
+                <h2 class="total_price_title_small">Shipping:</h2>
+                <p class="total_price_shipping_small">XX,XX €</p>
+                <h2 class="total_price_title">Total price:</h2>
+                <p class="total_price_shipping">XX,XX €</p>
+                <button class="total_price_button">Complete payment</button>
             </div>
         </div>
     </main>
@@ -468,5 +608,46 @@
             }
         });
     });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const deleteButtons = document.querySelectorAll('.delete-button');
+
+        deleteButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const gameCard = button.closest('.game');
+                gameCard.remove();
+            });
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const containers = document.querySelectorAll(".container_cart, .container_shipping, .container_payment");
+        containers[0].classList.add("visible"); 
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+    const circles = document.querySelectorAll(".circle");
+    const containers = document.querySelectorAll(".container_cart, .container_shipping, .container_payment");
+
+    function changeContainer(selectedIndex) {
+        containers.forEach(container => container.classList.remove("visible"));
+
+        if (selectedIndex >= 0 && selectedIndex < containers.length) {
+            containers[selectedIndex].classList.add("visible");
+        }
+    }
+
+    circles.forEach((circle, index) => {
+        circle.addEventListener("click", () => {
+            circles.forEach(c => c.classList.remove("selected"));
+            circle.classList.add("selected");
+
+            changeContainer(index);
+        });
+    });
+});
 </script>
 </html>
