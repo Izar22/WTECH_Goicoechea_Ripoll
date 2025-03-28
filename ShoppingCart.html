@@ -448,4 +448,25 @@
     });
 });
 </script>
+<script>
+    const buttonsLess = document.querySelectorAll('.button'); 
+
+    buttonsLess.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const buttonClicked = event.target;
+            const quantityElement = buttonClicked.parentElement.querySelector('p'); 
+            let currentQuantity = parseInt(quantityElement.innerText);
+
+            if (buttonClicked.innerText === '-') {
+                if (currentQuantity > 1) { 
+                    quantityElement.innerText = currentQuantity - 1;
+                }
+            }
+
+            if (buttonClicked.innerText === '+') {
+                quantityElement.innerText = currentQuantity + 1;
+            }
+        });
+    });
+</script>
 </html>
