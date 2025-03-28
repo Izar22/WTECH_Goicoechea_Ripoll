@@ -357,6 +357,46 @@
             justify-content: center;
             margin-top: 20px;
         }
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); 
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            padding-top: 5%;
+            margin: 30vh auto;
+            width: 40%;
+            height: 30%;
+            border-radius: 8px;
+            text-align: center;
+            @media (max-width: 768px) {
+                margin: 25vh auto;
+                height: auto;
+            }
+        }
+
+        .modal-content button{
+            font-size: 20px;
+            font-family: "Kanit", sans-serif;
+            background-color: #275DAD;
+            padding: 10px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            width: 100%;
+            border: solid 1px black;
+        }
+        .modal-content button:hover{
+            background-color: #7ca6e4;
+        }
 
         footer {
             position: fixed;
@@ -506,8 +546,8 @@
             <div class="right_section">
                 <h2 class="total_price_title">Order Price:</h2>
                 <p class="total_price_cart">XX,XX €</p>
-                <button>Continue to shipping</button>
-                <button>Keep shopping</button>
+                <button id="continue_shipping">Continue to shipping</button>
+                <button onclick="history.back(); return false;">Keep shopping</button>
             </div>
         </div>
         <div class="container_shipping">
@@ -541,7 +581,7 @@
                 <p class="total_price_shipping_small">XX,XX €</p>
                 <h2 class="total_price_title">Total price:</h2>
                 <p class="total_price_shipping">XX,XX €</p>
-                <button class="total_price_button">Continue to payment</button>
+                <button class="total_price_button" id="continue_payment">Continue to payment</button>
             </div>
         </div>
         <div class="container_payment">
@@ -565,7 +605,17 @@
                 <p class="total_price_shipping_small">XX,XX €</p>
                 <h2 class="total_price_title">Total price:</h2>
                 <p class="total_price_shipping">XX,XX €</p>
-                <button class="total_price_button">Complete payment</button>
+                <button class="total_price_button" id="finish_payment">Complete payment</button>
+            </div>
+            
+        </div>
+        <div id="paymentModal" class="modal">
+            <div class="modal-content">
+                <h2>Thanks for ordering with us!</h2>
+                <p>Your payment was successfully processed</p>
+                <a href="LandingPage.html">
+                    <button>Back to homepage</button>
+                </a>
             </div>
         </div>
     </main>
@@ -629,6 +679,27 @@
     });
 
     document.addEventListener("DOMContentLoaded", () => {
+        const continueToShippingButton = document.querySelector("#continue_shipping");
+        const continueToPaymentButton = document.querySelector("#continue_payment");
+        const containers = document.querySelectorAll(".container_cart, .container_shipping, .container_payment");
+        const circles = document.querySelectorAll(".circle");
+
+        continueToShippingButton.addEventListener("click", () => {
+            containers.forEach(container => container.classList.remove("visible"));
+            document.querySelector(".container_shipping").classList.add("visible");
+            circles.forEach(c => c.classList.remove("selected"));
+            circles[1].classList.add("selected");
+        });
+
+        continueToPaymentButton.addEventListener("click", () => {
+            containers.forEach(container => container.classList.remove("visible"));
+            document.querySelector(".container_payment").classList.add("visible");
+            circles.forEach(c => c.classList.remove("selected"));
+            circles[2].classList.add("selected");
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
     const circles = document.querySelectorAll(".circle");
     const containers = document.querySelectorAll(".container_cart, .container_shipping, .container_payment");
 
@@ -647,6 +718,16 @@
 
             changeContainer(index);
         });
+    });
+});
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const completePaymentButton = document.querySelector("#finish_payment"); 
+    const modal = document.getElementById("paymentModal"); 
+
+    completePaymentButton.addEventListener("click", function () {
+        modal.style.display = "block";
     });
 });
 </script>
