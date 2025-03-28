@@ -231,6 +231,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            max-height: 285.4px;
         }
         .game {
             width: 170px;
@@ -242,6 +243,14 @@
             text-align: center;
             color: black;
             margin-top: 5px;
+            text-overflow: ellipsis;
+            margin-bottom: 0;
+            overflow: hidden;
+            width: 100%;
+            max-width: 170px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
         }
         .swiper-button-next,
         .swiper-button-prev {
@@ -362,11 +371,11 @@
             const swiperSlide = document.createElement('div');
             swiperSlide.classList.add('swiper-slide');
             swiperSlide.innerHTML = `
-                <img class="game" src=${game.image} alt=${game.name}>
+            <a href="gameDetails.html?name=${encodeURIComponent(game.name)}">
+                <img class="game" src="${game.image}" alt="${game.name}">
                 <h4 class="game_name">${game.name}</h4>
-
+            </a>
             `;
-
             swiperWrapper.appendChild(swiperSlide);
         });
 
