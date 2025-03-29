@@ -420,7 +420,7 @@
                 <h3 class="price">Price</h3>
                 <p><strong>XX €</strong></p>
                 <button class="button">Add to cart</button>
-                <button class="button" onclick="customBack(); return false;">Buy now</button>
+                <button class="button" onclick="customBackCart(); return false;">Buy now</button>
             </div>
         </div>
         <div id="logoutModal" class="modal">
@@ -532,7 +532,7 @@
     }
 </script>
 <script>
-    function customBack() {
+    function customBackCart() {
         const urlParams = new URLSearchParams(window.location.search);
         const loginParam = urlParams.get("login");  
 

@@ -142,6 +142,7 @@
         .container{
             display: flex;
             gap: 50px;
+            min-height: 477.6px;
         }
         .filters{
             display: flex;
@@ -170,11 +171,21 @@
             gap: 40px;
             overflow-y: scroll;
             max-height: calc(100vh - 280px);
+            width: 100%;
             @media (max-width: 768px) {
                 max-height: calc(100vh - 350px);               
                 margin-left: 15px;
                 margin-top: 5px;
             }
+        }
+        .game p{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            max-width: 120px;
+            height: 24px;
         }
         .image_game{
             width: 120px;
@@ -314,6 +325,25 @@
         .icon{
             width: 24px;
             height: 24px;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .page-button {
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            background-color: #ddd;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .page-button.active {
+            background-color: #275DAD;
+            color: white;
         }
     </style>
 </head>
@@ -462,8 +492,9 @@
                     </select>
                 </div>         
             </div>
-            <div class="games" id="gamesContainer"></div>
+            <div class="games" id="gamesContainer"></div>   
         </div> 
+        <div id="pagination" class="pagination"></div>
         <div id="logoutModal" class="modal">
             <div class="modal-content">
                 <p>Are you sure you want to log out?</p>
@@ -477,82 +508,116 @@
     </footer>
 </body>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const games = [
-            { name: "Overwatch 2", price: 29, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Cyberpunk 2077", price: 39, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Elden Ring", price: 40, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Overwatch 2", price: 29, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Cyberpunk 2077", price: 39, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Elden Ring", price: 40, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Overwatch 2", price: 29, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Cyberpunk 2077", price: 39, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Elden Ring", price: 40, image: "./Images/Overwatch_2_Steam_artwork.jpg" }
-        ];
+document.addEventListener("DOMContentLoaded", function () {
+    const games = [
+        { name: "Overwatch 2", price: 29, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Cyberpunk 2077", price: 39, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Elden Ring", price: 40, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Halo Infinite", price: 50, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "FIFA 23", price: 30, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Minecraft", price: 20, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Resident Evil 4", price: 45, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "The Witcher 3", price: 35, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "GTA V", price: 25, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Red Dead Redemption 2", price: 50, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Overwatch 2", price: 29, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Cyberpunk 2077", price: 39, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Elden Ring", price: 40, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Halo Infinite", price: 50, image: "./Images/Overwatch_2_Steam_artwork.jpg" }
+    ];
 
-        let gamesOrdered = [...games];
+    let gamesOrdered = [...games];
+    let currentPage = 1;
+    const itemsPerPage = 10;
 
-        const gamesContainer = document.getElementById("gamesContainer");
-        const orderBySelects = document.querySelectorAll("#order_by");
-        const articlesCount = document.getElementById("articles_count");
+    const gamesContainer = document.getElementById("gamesContainer");
+    const articlesCount = document.getElementById("articles_count");
+    const paginationContainer = document.getElementById("pagination");
+    const orderBySelects = document.querySelectorAll("#order_by");
 
-        function renderGames() {
-            gamesContainer.innerHTML = "";
-            gamesOrdered.forEach(game => {
-                const gameDiv = document.createElement("div");
-                gameDiv.classList.add("game");
-                
-                gameDiv.innerHTML = `
-                    <div class="game_link" style="cursor: pointer;">
-                        <img class="image_game" src="${game.image}" alt="${game.name}" />
-                    </div>
-                    <div class="game_link" style="cursor: pointer;">
-                        <p>${game.name}</p>
-                    </div>
-                    <div class="price_icon">
-                        <p>${game.price} €</p>
-                    </div>
-                `;
-                articlesCount.textContent = `${gamesOrdered.length} articles`;
+    function renderGames() {
+        gamesContainer.innerHTML = "";
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const gamesToShow = gamesOrdered.slice(start, end);
 
-                const urlParams = new URLSearchParams(window.location.search);
-                const loginParam = urlParams.get("login");
+        gamesToShow.forEach(game => {
+            const gameDiv = document.createElement("div");
+            gameDiv.classList.add("game");
 
-                gameDiv.querySelectorAll(".game_link").forEach(link => {
-                    link.addEventListener("click", function () {
-                        const gameName = this.getAttribute("data-game-name");
-                        if (loginParam) {
-                            window.location.href = `gameDetails.html?name=${encodeURIComponent(game.name)}&login=valid`;
-                        }
-                        else{
-                            window.location.href = `gameDetails.html?name=${encodeURIComponent(game.name)}`;
-                        }
-                    });
+            gameDiv.innerHTML = `
+                <div class="game_link" style="cursor: pointer;">
+                    <img class="image_game" src="${game.image}" alt="${game.name}" />
+                </div>
+                <div class="game_link" style="cursor: pointer;">
+                    <p>${game.name}</p>
+                </div>
+                <div class="price_icon">
+                    <p>${game.price} €</p>
+                </div>
+            `;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const loginParam = urlParams.get("login");
+
+            gameDiv.querySelectorAll(".game_link").forEach(link => {
+                link.addEventListener("click", function () {
+                    const gameName = this.getAttribute("data-game-name");
+                    if (loginParam) {
+                        window.location.href = `gameDetails.html?name=${encodeURIComponent(game.name)}&login=valid`;
+                    }
+                    else{
+                        window.location.href = `gameDetails.html?name=${encodeURIComponent(game.name)}`;
+                    }
                 });
-                gamesContainer.appendChild(gameDiv);
             });
-        }
-       
 
-        function sortGames(order) {
-            if (order === "price_increasing") {
-                gamesOrdered = [...games].sort((a, b) => a.price - b.price);
-            } else if (order === "price_decreasing") {
-                gamesOrdered = [...games].sort((a, b) => b.price - a.price);
-            } else {
-                gamesOrdered = [...games];
-            }
-            renderGames();
-        }
+            gamesContainer.appendChild(gameDiv);
+        });
 
-        orderBySelects.forEach(select => {
+        articlesCount.textContent = `${gamesOrdered.length} articles`;
+        renderPagination();
+    }
+
+    function renderPagination() {
+        paginationContainer.innerHTML = "";
+        const totalPages = Math.ceil(gamesOrdered.length / itemsPerPage);
+
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement("button");
+            pageButton.textContent = i;
+            pageButton.classList.add("page-button");
+            if (i === currentPage) pageButton.classList.add("active");
+
+            pageButton.addEventListener("click", function () {
+                currentPage = i;
+                renderGames();
+            });
+
+            paginationContainer.appendChild(pageButton);
+        }
+    }
+
+    function sortGames(order) {
+        if (order === "price_increasing") {
+            gamesOrdered.sort((a, b) => a.price - b.price);
+        } else if (order === "price_decreasing") {
+            gamesOrdered.sort((a, b) => b.price - a.price);
+        } else {
+            gamesOrdered = [...games];
+        }
+        currentPage = 1; 
+        renderGames();
+    }
+
+    orderBySelects.forEach(select => {
             select.addEventListener("change", function () {
                 sortGames(select.value);
             });
         });
 
-        renderGames();
-    });
+    renderGames();
+});
 </script>
 
 <script>
