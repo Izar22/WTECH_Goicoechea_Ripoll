@@ -220,17 +220,19 @@
             width: 90%;
             padding: 20px;
         }
-
         .swiper-wrapper {
             display: flex;
             align-items: center;
         }
-
         .swiper-slide {
             width: 170px;
             display: flex;
             flex-direction: column;
             align-items: center;
+           
+        }
+        .swiper-slide a{
+            text-decoration: none;
         }
         .game {
             width: 170px;
@@ -242,6 +244,15 @@
             text-align: center;
             color: black;
             margin-top: 5px;
+            text-overflow: ellipsis;
+            
+            overflow: hidden;
+            width: 100%;
+            max-width: 170px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+           
         }
         .swiper-button-next,
         .swiper-button-prev {
@@ -256,12 +267,52 @@
             height: 70px;
             width: auto;
         }
+        .icon{
+            width: 24px;
+            height: 24px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .modal button {
+            margin: 10px;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #confirmLogout {
+            background-color: rgb(4, 194, 4);
+            color: white;
+        }
+
+        #cancelLogout {
+            background-color: rgb(255, 0, 0);
+            color: white;
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="title">
-            <a href="LandingPage.html"> 
+            <a class="nav" href="LandingPage.html"> 
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
@@ -269,20 +320,16 @@
             <input class="search" type="text" placeholder="Search">
         </div>
         <div class="user_actions">
-            <svg width="24px" height="24px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                <path d="m 8 1 c -1.65625 0 -3 1.34375 -3 3 s 1.34375 3 3 3 s 3 -1.34375 3 -3 s -1.34375 -3 -3 -3 z m -1.5 7 c -2.492188 0 -4.5 2.007812 -4.5 4.5 v 0.5 c 0 1.109375 0.890625 2 2 2 h 8 c 1.109375 0 2 -0.890625 2 -2 v -0.5 c 0 -2.492188 -2.007812 -4.5 -4.5 -4.5 z m 0 0" fill="#000000"/>
-            </svg>
-            <a class="action" href="#">Sign In</a>
-            <a href="ShoppingCart.html">
-                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>               
+            <a href="LoginPage.html">
+                <img src="./Images/avatar-default-svgrepo-com.svg" alt="Menu" class="icon"> 
             </a>
-            <a class="action" href="ShoppingCart.html">Cart</a>
+            <a class="action" href="LoginPage.html">Sign In</a>
+            <a class="nav" href="ShoppingCart.html">
+                <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
+            </a>
+            <a class="action nav" href="ShoppingCart.html">Cart</a>
             <div class="menu">
-                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 6H20M4 12H20M4 18H20" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
             </div>
         </div>
         
@@ -293,21 +340,21 @@
             <input class="search" type="text" placeholder="Search">
         </div>   
         <nav class="navegation_mobile">
-            <a href="CategorizedGames.html?category=PC%20Games">PC Games</a>
-            <a href="CategorizedGames.html?category=Console%20Games">Console Games</a>
-            <a href="CategorizedGames.html?category=Virtual%20Reality">Virtual reality</a>
-            <a href="CategorizedGames.html?category=Most%20Popular">Most Popular</a>
-            <a href="CategorizedGames.html?category=Recently%20Added">Recently Added</a>
+            <a class="nav" href="CategorizedGames.html?category=PC%20Games">PC Games</a>
+            <a class="nav" href="CategorizedGames.html?category=Console%20Games">Console Games</a>
+            <a class="nav" href="CategorizedGames.html?category=Virtual%20Reality">Virtual reality</a>
+            <a class="nav" href="CategorizedGames.html?category=Most%20Popular">Most Popular</a>
+            <a class="nav" href="CategorizedGames.html?category=Recently%20Added">Recently Added</a>
         </nav>
         
     </div>
     <main>
         <nav class="navegation">
-            <a href="CategorizedGames.html?category=PC%20Games">PC Games</a>
-            <a href="CategorizedGames.html?category=Console%20Games">Console Games</a>
-            <a href="CategorizedGames.html?category=Virtual%20Reality">Virtual reality</a>
-            <a href="CategorizedGames.html?category=Most%20Popular">Most Popular</a>
-            <a href="CategorizedGames.html?category=Recently%20Added">Recently Added</a>
+            <a class="nav" href="CategorizedGames.html?category=PC%20Games">PC Games</a>
+            <a class="nav" href="CategorizedGames.html?category=Console%20Games">Console Games</a>
+            <a class="nav" href="CategorizedGames.html?category=Virtual%20Reality">Virtual reality</a>
+            <a class="nav" href="CategorizedGames.html?category=Most%20Popular">Most Popular</a>
+            <a class="nav" href="CategorizedGames.html?category=Recently%20Added">Recently Added</a>
         </nav>
         <section class="banner">
             <h2 class="CTA_first">Play More,</h2>
@@ -316,44 +363,17 @@
         </section>       
         <h3 class="section_title">Our recommendations</h3>
         <div class="swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                <div class="swiper-slide">
-                    <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
-                    <h4 class="game_name">Overwatch 2</h4>
-                </div>
-                
+            <div class="swiper-wrapper" id="swiper-wrapper">
             </div>
-            <!-- Botones de navegación -->
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
+        </div>
+        <div id="logoutModal" class="modal">
+            <div class="modal-content">
+                <p>Are you sure you want to log out?</p>
+                <button id="confirmLogout">Yes</button>
+                <button id="cancelLogout">No</button>
+            </div>
         </div>
     </main>
     <footer>
@@ -377,6 +397,42 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const games = [
+        { name: "Overwatch 2", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "League of Legends", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Valorant", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Apex Legends", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Minecraft", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Fortnite", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Call of Duty", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "PUBG", image: "./Images/Overwatch_2_Steam_artwork.jpg" }
+        ];
+
+        const swiperWrapper = document.getElementById('swiper-wrapper');
+
+        games.forEach(game => {
+
+            const swiperSlide = document.createElement('div');
+            swiperSlide.classList.add('swiper-slide');
+            swiperSlide.innerHTML = `
+            <a class="nav" href="gameDetails.html?name=${encodeURIComponent(game.name)}">
+                <img class="game" src="${game.image}" alt="${game.name}">
+                <h4 class="game_name">${game.name}</h4>
+            </a>
+            `;
+            swiperWrapper.appendChild(swiperSlide);
+        });
+
+        var swiper = new Swiper('.swiper', {
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
+        });
+    });
+</script>
+<script>
     document.addEventListener("DOMContentLoaded", function () {
         new Swiper(".swiper", {
             slidesPerView: 1,
@@ -393,6 +449,55 @@
                 1024: { slidesPerView: 5 }
             }
         });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const isLoggedIn = urlParams.get("login") === "valid";
+    
+        const userIconLink = document.querySelector(".user_actions a[href='LoginPage.html']");
+        const userTextLink = document.querySelector(".user_actions .action[href='LoginPage.html']");
+        const userIcon = userIconLink.querySelector("img"); 
+        const logoutModal = document.getElementById("logoutModal");
+        const confirmLogoutBtn = document.getElementById("confirmLogout");
+        const cancelLogoutBtn = document.getElementById("cancelLogout");
+    
+        if (isLoggedIn) {
+            userIcon.src = "./Images/log-out-svgrepo-com.svg"; 
+            userTextLink.textContent = "Sign Out";
+
+            function openLogoutModal(event) {
+                event.preventDefault();
+                logoutModal.style.display = "flex";
+            }
+
+            userIconLink.addEventListener("click", openLogoutModal);
+            userTextLink.addEventListener("click", openLogoutModal);
+
+            confirmLogoutBtn.addEventListener("click", function () {
+                window.location.href = window.location.pathname; 
+            });
+
+            cancelLogoutBtn.addEventListener("click", function () {
+                logoutModal.style.display = "none"; 
+            });
+        }
+    });
+</script> 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const loginParam = urlParams.get("login");
+        if (loginParam) {
+            const navLinks = document.querySelectorAll('.nav');
+            navLinks.forEach(link => {
+                const currentHref = link.getAttribute('href');
+                if (!currentHref.includes('login=')) {
+                    link.setAttribute('href', `${currentHref}${currentHref.includes('?') ? '&' : '?'}login=${loginParam}`);
+                }
+            });
+        }
     });
 </script>
 </html>

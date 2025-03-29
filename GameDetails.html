@@ -193,6 +193,57 @@
         .price{
             margin-top: 10px;
         }
+        .back{
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .back p{
+            margin: 0;
+            margin-left: 5px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .modal button {
+            margin: 10px;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #confirmLogout {
+            background-color: rgb(4, 194, 4);
+            color: white;
+        }
+
+        #cancelLogout {
+            background-color: rgb(255, 0, 0);
+            color: white;
+        }
+        .icon{
+            width: 24px;
+            height: 24px;
+        }
         footer {
             position: fixed;
             left: 0;
@@ -211,7 +262,7 @@
 <body>
     <header>
         <div class="title">
-            <a href="LandingPage.html"> 
+            <a class="nav" href="LandingPage.html"> 
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
@@ -219,23 +270,18 @@
             <input class="search" type="text" placeholder="Search">
         </div>
         <div class="user_actions">
-            <svg width="24px" height="24px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                <path d="m 8 1 c -1.65625 0 -3 1.34375 -3 3 s 1.34375 3 3 3 s 3 -1.34375 3 -3 s -1.34375 -3 -3 -3 z m -1.5 7 c -2.492188 0 -4.5 2.007812 -4.5 4.5 v 0.5 c 0 1.109375 0.890625 2 2 2 h 8 c 1.109375 0 2 -0.890625 2 -2 v -0.5 c 0 -2.492188 -2.007812 -4.5 -4.5 -4.5 z m 0 0" fill="#000000"/>
-            </svg>
-            <a class="action" href="#">Sign In</a>
-            <a href="ShoppingCart.html">
-                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>               
+            <a href="LoginPage.html">
+                <img src="./Images/avatar-default-svgrepo-com.svg" alt="Menu" class="icon"> 
             </a>
-            <a class="action" href="ShoppingCart.html">Cart</a>
+            <a class="action" href="LoginPage.html">Sign In</a>
+            <a class="nav" href="ShoppingCart.html">
+                <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
+            </a>
+            <a class="action nav" href="ShoppingCart.html">Cart</a>
             <div class="menu">
-                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 6H20M4 12H20M4 18H20" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
             </div>
-        </div>
-        
+        </div>         
     </header>
     <div class="sidebar">
         <button class="close-btn">&times;</button> 
@@ -244,12 +290,15 @@
         </div>         
     </div>
     <main>
+        <div class="back" onclick="customBack(); return false;">
+            <img src="./Images/arrow-narrow-left-svgrepo-com.svg" alt="Arrow" class="icon">
+            <p>Back</p>
+        </div>
+
         <div class="game_name">
-            <h2>Game Name</h2>
+            <h2 id="game_name"></h2>
             <div id="heartIcon" class="heart">
-                <svg  width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8.96173 18.9109L9.42605 18.3219L8.96173 18.9109ZM12 5.50063L11.4596 6.02073C11.601 6.16763 11.7961 6.25063 12 6.25063C12.2039 6.25063 12.399 6.16763 12.5404 6.02073L12 5.50063ZM15.0383 18.9109L15.5026 19.4999L15.0383 18.9109ZM9.42605 18.3219C7.91039 17.1271 6.25307 15.9603 4.93829 14.4798C3.64922 13.0282 2.75 11.3345 2.75 9.1371H1.25C1.25 11.8026 2.3605 13.8361 3.81672 15.4758C5.24723 17.0866 7.07077 18.3752 8.49742 19.4999L9.42605 18.3219ZM2.75 9.1371C2.75 6.98623 3.96537 5.18252 5.62436 4.42419C7.23607 3.68748 9.40166 3.88258 11.4596 6.02073L12.5404 4.98053C10.0985 2.44352 7.26409 2.02539 5.00076 3.05996C2.78471 4.07292 1.25 6.42503 1.25 9.1371H2.75ZM8.49742 19.4999C9.00965 19.9037 9.55954 20.3343 10.1168 20.6599C10.6739 20.9854 11.3096 21.25 12 21.25V19.75C11.6904 19.75 11.3261 19.6293 10.8736 19.3648C10.4213 19.1005 9.95208 18.7366 9.42605 18.3219L8.49742 19.4999ZM15.5026 19.4999C16.9292 18.3752 18.7528 17.0866 20.1833 15.4758C21.6395 13.8361 22.75 11.8026 22.75 9.1371H21.25C21.25 11.3345 20.3508 13.0282 19.0617 14.4798C17.7469 15.9603 16.0896 17.1271 14.574 18.3219L15.5026 19.4999ZM22.75 9.1371C22.75 6.42503 21.2153 4.07292 18.9992 3.05996C16.7359 2.02539 13.9015 2.44352 11.4596 4.98053L12.5404 6.02073C14.5983 3.88258 16.7639 3.68748 18.3756 4.42419C20.0346 5.18252 21.25 6.98623 21.25 9.1371H22.75ZM14.574 18.3219C14.0479 18.7366 13.5787 19.1005 13.1264 19.3648C12.6739 19.6293 12.3096 19.75 12 19.75V21.25C12.6904 21.25 13.3261 20.9854 13.8832 20.6599C14.4405 20.3343 14.9903 19.9037 15.5026 19.4999L14.574 18.3219Z" fill="#1C274C"/>
-                </svg>
+                <img src="./Images/heart-svgrepo-com.svg" alt="Heart" class="icon">
             </div>
         </div>
         <div class="container">
@@ -267,7 +316,14 @@
                 <h3 class="price">Price</h3>
                 <p><strong>XX €</strong></p>
                 <button class="button">Add to cart</button>
-                <button class="button">Buy now</button>
+                <button class="button" onclick="customBack(); return false;">Buy now</button>
+            </div>
+        </div>
+        <div id="logoutModal" class="modal">
+            <div class="modal-content">
+                <p>Are you sure you want to log out?</p>
+                <button id="confirmLogout">Yes</button>
+                <button id="cancelLogout">No</button>
             </div>
         </div>
     </main>
@@ -295,18 +351,108 @@
         const heartIcon = document.getElementById("heartIcon");
         let isFavorite = false;
         
-        const heartFilled = `<svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#1C274C"/>
-</svg>`;
+        const heartFilled = `<img src="./Images/heart-svgrepo-com (1).svg" alt="Heart" class="icon">`;
         
-        const heartOutline = `<svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8.96173 18.9109L9.42605 18.3219L8.96173 18.9109ZM12 5.50063L11.4596 6.02073C11.601 6.16763 11.7961 6.25063 12 6.25063C12.2039 6.25063 12.399 6.16763 12.5404 6.02073L12 5.50063ZM15.0383 18.9109L15.5026 19.4999L15.0383 18.9109ZM9.42605 18.3219C7.91039 17.1271 6.25307 15.9603 4.93829 14.4798C3.64922 13.0282 2.75 11.3345 2.75 9.1371H1.25C1.25 11.8026 2.3605 13.8361 3.81672 15.4758C5.24723 17.0866 7.07077 18.3752 8.49742 19.4999L9.42605 18.3219ZM2.75 9.1371C2.75 6.98623 3.96537 5.18252 5.62436 4.42419C7.23607 3.68748 9.40166 3.88258 11.4596 6.02073L12.5404 4.98053C10.0985 2.44352 7.26409 2.02539 5.00076 3.05996C2.78471 4.07292 1.25 6.42503 1.25 9.1371H2.75ZM8.49742 19.4999C9.00965 19.9037 9.55954 20.3343 10.1168 20.6599C10.6739 20.9854 11.3096 21.25 12 21.25V19.75C11.6904 19.75 11.3261 19.6293 10.8736 19.3648C10.4213 19.1005 9.95208 18.7366 9.42605 18.3219L8.49742 19.4999ZM15.5026 19.4999C16.9292 18.3752 18.7528 17.0866 20.1833 15.4758C21.6395 13.8361 22.75 11.8026 22.75 9.1371H21.25C21.25 11.3345 20.3508 13.0282 19.0617 14.4798C17.7469 15.9603 16.0896 17.1271 14.574 18.3219L15.5026 19.4999ZM22.75 9.1371C22.75 6.42503 21.2153 4.07292 18.9992 3.05996C16.7359 2.02539 13.9015 2.44352 11.4596 4.98053L12.5404 6.02073C14.5983 3.88258 16.7639 3.68748 18.3756 4.42419C20.0346 5.18252 21.25 6.98623 21.25 9.1371H22.75ZM14.574 18.3219C14.0479 18.7366 13.5787 19.1005 13.1264 19.3648C12.6739 19.6293 12.3096 19.75 12 19.75V21.25C12.6904 21.25 13.3261 20.9854 13.8832 20.6599C14.4405 20.3343 14.9903 19.9037 15.5026 19.4999L14.574 18.3219Z" fill="#1C274C"/>
-                </svg>`;
+        const heartOutline = `<img src="./Images/heart-svgrepo-com.svg" alt="Heart" class="icon">`;
         
         heartIcon.addEventListener("click", function () {
             isFavorite = !isFavorite;
             heartIcon.innerHTML = isFavorite ? heartFilled : heartOutline;
         });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        function getCategoryFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('name'); 
+        }
+
+        const categoryName = getCategoryFromURL();
+        
+        const categoryElement = document.getElementById("game_name");
+        categoryElement.textContent = categoryName;
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const isLoggedIn = urlParams.get("login") === "valid";
+    
+        const userIconLink = document.querySelector(".user_actions a[href='LoginPage.html']");
+        const userTextLink = document.querySelector(".user_actions .action[href='LoginPage.html']");
+        const userIcon = userIconLink.querySelector("img"); 
+        const logoutModal = document.getElementById("logoutModal");
+        const confirmLogoutBtn = document.getElementById("confirmLogout");
+        const cancelLogoutBtn = document.getElementById("cancelLogout");
+    
+        if (isLoggedIn) {
+            userIcon.src = "./Images/log-out-svgrepo-com.svg"; 
+            userTextLink.textContent = "Sign Out";
+
+            function openLogoutModal(event) {
+                event.preventDefault();
+                logoutModal.style.display = "flex";
+            }
+
+            userIconLink.addEventListener("click", openLogoutModal);
+            userTextLink.addEventListener("click", openLogoutModal);
+
+            confirmLogoutBtn.addEventListener("click", function () {
+                const urlParams = new URLSearchParams(window.location.search);
+
+                urlParams.delete("login");
+
+                const newUrl = window.location.pathname + (urlParams.toString() ? "?" + urlParams.toString() : "");
+
+                window.location.href = newUrl;
+            });
+
+
+            cancelLogoutBtn.addEventListener("click", function () {
+                logoutModal.style.display = "none"; 
+            });
+        }
+    });
+</script> 
+<script>
+    function customBack() {
+        const previousPage = document.referrer;
+        const currentPage = window.location.href;
+
+        if (!previousPage || previousPage.includes("LoginPage.html") || previousPage === currentPage) {
+            window.location.href = "LandingPage.html";  
+        } else {
+            window.location.href = previousPage;
+        }
+    }
+</script>
+<script>
+    function customBack() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const loginParam = urlParams.get("login");  
+
+        if (loginParam){
+            window.location.href = "ShoppingCart.html?login=valid";
+        }
+        else{
+            window.location.href = "ShoppingCart.html";
+        }
+    } 
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const loginParam = urlParams.get("login");
+        if (loginParam) {
+            const navLinks = document.querySelectorAll('.nav');
+            navLinks.forEach(link => {
+                const currentHref = link.getAttribute('href');
+                if (!currentHref.includes('login=')) {
+                    link.setAttribute('href', `${currentHref}${currentHref.includes('?') ? '&' : '?'}login=${loginParam}`);
+                }
+            });
+        }
     });
 </script>
 </html>
