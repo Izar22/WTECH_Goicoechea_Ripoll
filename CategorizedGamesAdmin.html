@@ -564,7 +564,7 @@
                 gameDiv.innerHTML = `
                     <div class="game_image_container">
                         <img class="image_game" src="${game.image}" alt="${game.name}" />
-                        <img src="images/trash-full-svgrepo-com-v2.svg" alt="Trash Icon" class="trash_icon" id="openModal"/>
+                        <img src="images/trash-full-svgrepo-com-v2.svg" alt="Trash Icon" class="trash_icon" id="openModal" onclick="openModal();"/>
                     </div>
                     <div class="game-link" >
                         <p>${game.name}</p>
@@ -735,14 +735,9 @@
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const openModalBtn = document.getElementById("openModal");
         const modal = document.getElementById("deleteModal");
         const cancelBtn = document.getElementById("cancelDelete");
         const confirmBtn = document.getElementById("confirmDelete");
-        
-        openModalBtn.addEventListener("click", function () {
-            modal.style.display = "flex";
-        });
 
         cancelBtn.addEventListener("click", function () {
             modal.style.display = "none";
@@ -752,5 +747,11 @@
             modal.style.display = "none";
         });
     });
+
+    function openModal() {
+        const modal = document.getElementById("deleteModal");
+        console.log("Modal abierto");
+        modal.style.display = "flex";
+    }
 </script>
 </html>
