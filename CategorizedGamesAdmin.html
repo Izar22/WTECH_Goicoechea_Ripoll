@@ -65,6 +65,10 @@
         .user_actions{
             display: flex;  
         }
+        .add_product{
+            display: flex;
+            justify-content: end;
+        }
         .action{
             margin: 0 15px;
             text-decoration: none;
@@ -329,7 +333,7 @@
 <body>
     <header>
         <div class="title">
-            <a href="LandingPage.html"> 
+            <a href="CategorizedGamesAdmin.html"> 
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
@@ -402,7 +406,14 @@
         </div>         
     </div>
     <main>
+        <div class="add_product">
+            <a href="AddProduct.html">
+                <img src="./Images/add-ellipse-svgrepo-com.svg" alt="Add" class="icon"> 
+            </a>
+            <a class="action" href="AddProduct.html">Add new product</a>           
+        </div> 
         <div class="top_section">
+            
             <div>
                 <h2 id="category_name"></h2>
                 <div class="articles_pills">
