@@ -220,12 +220,10 @@
             width: 90%;
             padding: 20px;
         }
-
         .swiper-wrapper {
             display: flex;
             align-items: center;
         }
-
         .swiper-slide {
             width: 170px;
             display: flex;
@@ -314,7 +312,7 @@
 <body>
     <header>
         <div class="title">
-            <a href="LandingPage.html"> 
+            <a class="nav" href="LandingPage.html"> 
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
@@ -326,10 +324,10 @@
                 <img src="./Images/avatar-default-svgrepo-com.svg" alt="Menu" class="icon"> 
             </a>
             <a class="action" href="LoginPage.html">Sign In</a>
-            <a href="ShoppingCart.html">
+            <a class="nav" href="ShoppingCart.html">
                 <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
             </a>
-            <a class="action" href="ShoppingCart.html">Cart</a>
+            <a class="action nav" href="ShoppingCart.html">Cart</a>
             <div class="menu">
                 <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
             </div>
@@ -342,21 +340,21 @@
             <input class="search" type="text" placeholder="Search">
         </div>   
         <nav class="navegation_mobile">
-            <a href="CategorizedGames.html?category=PC%20Games">PC Games</a>
-            <a href="CategorizedGames.html?category=Console%20Games">Console Games</a>
-            <a href="CategorizedGames.html?category=Virtual%20Reality">Virtual reality</a>
-            <a href="CategorizedGames.html?category=Most%20Popular">Most Popular</a>
-            <a href="CategorizedGames.html?category=Recently%20Added">Recently Added</a>
+            <a class="nav" href="CategorizedGames.html?category=PC%20Games">PC Games</a>
+            <a class="nav" href="CategorizedGames.html?category=Console%20Games">Console Games</a>
+            <a class="nav" href="CategorizedGames.html?category=Virtual%20Reality">Virtual reality</a>
+            <a class="nav" href="CategorizedGames.html?category=Most%20Popular">Most Popular</a>
+            <a class="nav" href="CategorizedGames.html?category=Recently%20Added">Recently Added</a>
         </nav>
         
     </div>
     <main>
         <nav class="navegation">
-            <a href="CategorizedGames.html?category=PC%20Games">PC Games</a>
-            <a href="CategorizedGames.html?category=Console%20Games">Console Games</a>
-            <a href="CategorizedGames.html?category=Virtual%20Reality">Virtual reality</a>
-            <a href="CategorizedGames.html?category=Most%20Popular">Most Popular</a>
-            <a href="CategorizedGames.html?category=Recently%20Added">Recently Added</a>
+            <a class="nav" href="CategorizedGames.html?category=PC%20Games">PC Games</a>
+            <a class="nav" href="CategorizedGames.html?category=Console%20Games">Console Games</a>
+            <a class="nav" href="CategorizedGames.html?category=Virtual%20Reality">Virtual reality</a>
+            <a class="nav" href="CategorizedGames.html?category=Most%20Popular">Most Popular</a>
+            <a class="nav" href="CategorizedGames.html?category=Recently%20Added">Recently Added</a>
         </nav>
         <section class="banner">
             <h2 class="CTA_first">Play More,</h2>
@@ -418,7 +416,7 @@
             const swiperSlide = document.createElement('div');
             swiperSlide.classList.add('swiper-slide');
             swiperSlide.innerHTML = `
-            <a href="gameDetails.html?name=${encodeURIComponent(game.name)}">
+            <a class="nav" href="gameDetails.html?name=${encodeURIComponent(game.name)}">
                 <img class="game" src="${game.image}" alt="${game.name}">
                 <h4 class="game_name">${game.name}</h4>
             </a>
@@ -487,4 +485,19 @@
         }
     });
 </script> 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const loginParam = urlParams.get("login");
+        if (loginParam) {
+            const navLinks = document.querySelectorAll('.nav');
+            navLinks.forEach(link => {
+                const currentHref = link.getAttribute('href');
+                if (!currentHref.includes('login=')) {
+                    link.setAttribute('href', `${currentHref}${currentHref.includes('?') ? '&' : '?'}login=${loginParam}`);
+                }
+            });
+        }
+    });
+</script>
 </html>

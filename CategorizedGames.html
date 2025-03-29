@@ -320,7 +320,7 @@
 <body>
     <header>
         <div class="title">
-            <a href="LandingPage.html"> 
+            <a class="nav" href="LandingPage.html"> 
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
@@ -332,10 +332,10 @@
                 <img src="./Images/avatar-default-svgrepo-com.svg" alt="Menu" class="icon"> 
             </a>
             <a class="action" href="LoginPage.html">Sign In</a>
-            <a href="ShoppingCart.html">
+            <a class="nav" href="ShoppingCart.html">
                 <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
             </a>
-            <a class="action" href="ShoppingCart.html">Cart</a>
+            <a class="action nav" href="ShoppingCart.html">Cart</a>
             <div class="menu">
                 <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
             </div>
@@ -515,14 +515,20 @@
                 `;
                 articlesCount.textContent = `${gamesOrdered.length} articles`;
 
+                const urlParams = new URLSearchParams(window.location.search);
+                const loginParam = urlParams.get("login");
+
                 gameDiv.querySelectorAll(".game_link").forEach(link => {
                     link.addEventListener("click", function () {
                         const gameName = this.getAttribute("data-game-name");
-                        window.location.href = `gameDetails.html?name=${encodeURIComponent(game.name)}`;
+                        if (loginParam) {
+                            window.location.href = `gameDetails.html?name=${encodeURIComponent(game.name)}&login=valid`;
+                        }
+                        else{
+                            window.location.href = `gameDetails.html?name=${encodeURIComponent(game.name)}`;
+                        }
                     });
-                });;
-                
-
+                });
                 gamesContainer.appendChild(gameDiv);
             });
         }
@@ -727,4 +733,19 @@
         }
     });
 </script> 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const loginParam = urlParams.get("login");
+        if (loginParam) {
+            const navLinks = document.querySelectorAll('.nav');
+            navLinks.forEach(link => {
+                const currentHref = link.getAttribute('href');
+                if (!currentHref.includes('login=')) {
+                    link.setAttribute('href', `${currentHref}${currentHref.includes('?') ? '&' : '?'}login=${loginParam}`);
+                }
+            });
+        }
+    });
+</script>
 </html>

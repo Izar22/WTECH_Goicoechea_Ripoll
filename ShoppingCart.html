@@ -455,7 +455,7 @@
 <body>
     <header>
         <div class="title">
-            <a href="LandingPage.html"> 
+            <a class="nav" href="LandingPage.html"> 
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
@@ -467,10 +467,10 @@
                 <img src="./Images/avatar-default-svgrepo-com.svg" alt="Menu" class="icon"> 
             </a>
             <a class="action" href="LoginPage.html">Sign In</a>
-            <a href="ShoppingCart.html">
+            <a class="nav" href="ShoppingCart.html">
                 <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
             </a>
-            <a class="action" href="ShoppingCart.html">Cart</a>
+            <a class="action nav" href="ShoppingCart.html">Cart</a>
             <div class="menu">
                 <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
             </div>
@@ -773,13 +773,44 @@
 </script>
 <script>
     function customBack() {
-        const previousPage = document.referrer;
-        const currentPage = window.location.href;
+        const urlParams = new URLSearchParams(window.location.search);
+        const loginParam = urlParams.get("login");  
+        const previousPage = document.referrer;  
+        const currentPage = window.location.href; 
 
-        if (!previousPage || previousPage.includes("LoginPage.html") || previousPage === currentPage) {
-            window.location.href = "LandingPage.html";  
+        const previousPageWithLogin = previousPage.includes("?") ? previousPage + "&login=" + loginParam : previousPage + "?login=" + loginParam;
+        const previousPageWithoutLogin = previousPage.replace(/([&?])login=[^&]*/g, '');  
+
+        if (!previousPage || previousPage.includes("LoginPage.html") || previousPage === currentPage || previousPageWithLogin === currentPage || previousPageWithoutLogin === currentPage) {
+            if (loginParam){
+                window.location.href = "LandingPage.html?login=valid";
+            } 
+            else{
+                window.location.href = "LandingPage.html";
+            } 
         } else {
-            window.location.href = previousPage;
+            if (loginParam){
+                if (previousPage.includes("login=")) {
+                    window.location.href = previousPage;
+                }
+                else{
+                    if (previousPage.includes("?")) {
+                        window.location.href = `${previousPage}&login=${loginParam}`;
+                    } else {
+                        window.location.href = `${previousPage}?login=${loginParam}`;
+                    }
+                }
+            }
+            else{
+                if (previousPage.includes("login=")) {
+                    const url = new URL(previousPage);
+                    url.searchParams.delete("login");
+                    window.location.href = url.toString();
+                }
+                else{
+                    window.location.href = previousPage;
+                }
+            }
         }
     }
 </script>
@@ -817,4 +848,19 @@
         }
     });
 </script> 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const loginParam = urlParams.get("login");
+        if (loginParam) {
+            const navLinks = document.querySelectorAll('.nav');
+            navLinks.forEach(link => {
+                const currentHref = link.getAttribute('href');
+                if (!currentHref.includes('login=')) {
+                    link.setAttribute('href', `${currentHref}${currentHref.includes('?') ? '&' : '?'}login=${loginParam}`);
+                }
+            });
+        }
+    });
+</script>
 </html>
