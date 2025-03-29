@@ -27,6 +27,7 @@
             justify-content: space-between;
             align-items: center;
             box-sizing: border-box;
+            z-index: 100;
             @media (max-width: 768px) {
                 padding-right: 15px;
             }
@@ -89,8 +90,12 @@
             display: flex;
             flex-wrap: wrap;
             padding: 20px;
-            gap: 20px;;
+            gap: 20px;
             justify-content: space-around;
+            @media (max-width: 768px) {
+                flex-direction: column;
+                align-items: center;
+            }
         }
         .back{
             display: flex;
@@ -137,16 +142,29 @@
                 height: auto;
             }
         }
-        .delete_button{
-            justify-self: end;
+
+        .image_upload_container {
+            background-color: #275DAD;
             display: flex;
+            width: 258px;
+            height: 100%;
             align-items: center;
-            font-size: 20px;
+            justify-content: center;
+            position: relative;
+            flex-direction: column;
+            @media (max-width: 768px) {
+                min-height: 50vh;
+                width: 80%;
+                height: 100%;
+            }
         }
-        .trash_icon{
-            width: 50px;
-            height: 50px;
+
+        #image_list {
+            list-style: none; 
+            padding: 0;
+            width: 80%; 
         }
+
         .game_details{
             display: flex;
             flex-direction: row;
@@ -155,13 +173,14 @@
             @media (max-width: 768px) {
                 gap: 10px; 
                 justify-content: center;
+                width: 100%;
             }
         }
         .details {
             margin-top: 10px;
             width: 25vw;
             @media (max-width: 768px) {
-                width: 100%;  
+                width: 80%;  
                 padding: 5px;
             }
         }
@@ -183,7 +202,8 @@
             padding: 5px;
             font-size: 16px;
             @media (max-width: 768px) {
-                width: 99%;  
+                width: 99%; 
+                min-height: 40vh; 
             }
         }
 
@@ -197,6 +217,7 @@
             @media (max-width: 768px) {
                 width: 100%;
                 padding: 0;
+                min-width: 100px;
                 justify-content: center;
             }
         }
@@ -228,7 +249,7 @@
             @media (max-width: 768px) {
                 justify-content: center;
                 margin-top: 10px;
-                width: 100%;  
+                width: 80%;  
                 padding: 5px;
             }
         }
@@ -340,14 +361,13 @@
                 <h2>Game Name:</h2>
                 <input type="text" id="genre" value="xxxxxxxxxx"></p>
             </div>
-            <div class="delete_button" >
-                <strong onclick="" style="cursor: pointer;">Delete</strong>
-                <img src="images/trash-full-svgrepo-com.svg" alt="Trash Icon" class="trash_icon" onclick="" style="cursor: pointer;"/>
-            </div>
         </div>
         <div class="container">
             <div class="game_details">
-                <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
+                <div id="image_upload_container" class="image_upload_container">
+                    <ul id="image_list"></ul>
+                    <img src="Images/plus-circle-1427-svgrepo-com.svg" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
+                </div>
                 <div class="details">
                     <p><strong>Platform:</strong> <input type="text" id="platform" value="xxxxxxxxxx"></p>
                     <p><strong>Region:</strong> <input type="text" id="region" value="xxxxxxxxxx"></p>
@@ -402,5 +422,52 @@
             console.log("Saving game data:", gameData); 
         });
     });
-    </script>
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const addImageBtn = document.getElementById("add_image");
+        const imageList = document.getElementById("image_list");
+        const uploadContainer = document.getElementById("image_upload_container");
+
+        // Establecer estilos para el contenedor de la lista
+        imageList.style.maxHeight = "calc(100% - 100px)"; // Ajusta la altura máxima según sea necesario
+        imageList.style.overflowY = "auto"; // Permite el scroll cuando la lista es muy grande
+        
+        addImageBtn.addEventListener("click", function () {
+            const fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.accept = "image/*";
+            
+            fileInput.addEventListener("change", function () {
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const listItem = document.createElement("li");
+                    listItem.textContent = file.name;
+                    
+                    const removeBtn = document.createElement("span");
+                    removeBtn.textContent = " X";
+                    removeBtn.style.cursor = "pointer";
+                    removeBtn.style.color = "red";
+                    removeBtn.addEventListener("click", function () {
+                        imageList.removeChild(listItem);
+                        if (imageList.children.length === 0) {
+                            uploadContainer.style.justifyContent = "center";
+                        }
+                    });
+                    
+                    listItem.appendChild(removeBtn);
+                    imageList.appendChild(listItem);
+                    // Si es la primera imagen, cambiar align a top
+                    if (imageList.children.length >= 1) {
+                        uploadContainer.style.justifyContent = "start";
+                    }
+                }
+            });
+            
+            fileInput.click();
+        });
+    });
+</script>
+
 </html>
