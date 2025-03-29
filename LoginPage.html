@@ -202,10 +202,10 @@
         <div class="form_container">
             <div class="form_section_login">
                 <h2>Log In</h2>
-                <form>
+                <form id="login_form">
                     <label for="email_login">E-mail</label>
                     <input type="email" id="email_login" required>
-                    <label for="password-login">Password</label>
+                    <label for="password_login">Password</label>
                     <input type="password" id="password_login" required>
                     <button type="submit">Log In</button>
                 </form>
@@ -216,7 +216,7 @@
             <div class="divider"></div>
             <div class="form_section_register">
                 <h2>Create Account</h2>
-                <form>
+                <form id="singIn_form">
                     <label for="name">Name</label>
                     <input type="text" id="name" required>
                     <label for="email_register">E-mail</label>
@@ -232,4 +232,31 @@
     </div>
     <footer>&copy; 2024 8-Bit Market. All rights reserved. 🎮❤️</footer>
 </body>
+<script>
+document.getElementById("login_form").addEventListener("submit", function (event) {
+    event.preventDefault(); 
+
+    const currentPage = window.location.href; 
+    let previousPage = document.referrer || "index.html";
+
+    if (previousPage === currentPage) {
+        previousPage = "index.html"; 
+    }
+
+    window.location.href = previousPage + (previousPage.includes("?") ? "&" : "?") + "login=valid";
+});
+
+document.getElementById("singIn_form").addEventListener("submit", function (event) {
+    event.preventDefault(); 
+
+    const currentPage = window.location.href; 
+    let previousPage = document.referrer || "index.html";
+
+    if (previousPage === currentPage) {
+        previousPage = "index.html"; 
+    }
+
+    window.location.href = previousPage + (previousPage.includes("?") ? "&" : "?") + "login=valid";
+});
+</script>
 </html>
