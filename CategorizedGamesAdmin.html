@@ -381,7 +381,7 @@
             <div>
                 <h2 id="category_name"></h2>
                 <div class="articles_pills">
-                    <p>XXXX articles</p>
+                    <p id="articles_count">XXXX articles</p>
                     <div class="applied_filters"></div>
                 </div>                
             </div>           
@@ -460,35 +460,63 @@
             { name: "Elden Ring", price: "40", image: "./Images/Overwatch_2_Steam_artwork.jpg" }
         ];
 
+        let gamesOrdered = [...games];
+
         const gamesContainer = document.getElementById("gamesContainer");
+        const orderBySelects = document.querySelectorAll("#order_by");
+        const articlesCount = document.getElementById("articles_count");
 
-        games.forEach(game => {
-            const gameDiv = document.createElement("div");
-            gameDiv.classList.add("game");
-            
-            gameDiv.innerHTML = `
-                <div class="game_image_container">
-                    <img class="image_game" src="${game.image}" alt="${game.name}" />
-                    <img src="images/trash-full-svgrepo-com-v2.svg" alt="Trash Icon" class="trash_icon"/>
-                </div>
-                <div class="game-link" >
-                    <p>${game.name}</p>
-                </div>
-                <div class="price_icon">
-                    <p>${game.price} €</p>
-                    <img class="edit_icon" src="images/edit-3-svgrepo-com.svg" alt="Edit" width="24px" height="24px" style="cursor: pointer;">
-                </div>
-            `;
+        function renderGames() {
+            gamesContainer.innerHTML = "";
+            gamesOrdered.forEach(game => {
+                const gameDiv = document.createElement("div");
+                gameDiv.classList.add("game");
+                
+                gameDiv.innerHTML = `
+                    <div class="game_image_container">
+                        <img class="image_game" src="${game.image}" alt="${game.name}" />
+                        <img src="images/trash-full-svgrepo-com-v2.svg" alt="Trash Icon" class="trash_icon"/>
+                    </div>
+                    <div class="game-link" >
+                        <p>${game.name}</p>
+                    </div>
+                    <div class="price_icon">
+                        <p>${game.price} €</p>
+                        <img class="edit_icon" src="images/edit-3-svgrepo-com.svg" alt="Edit" width="24px" height="24px" style="cursor: pointer;">
+                    </div>
+                `;
+                articlesCount.textContent = `${gamesOrdered.length} articles`;
 
-            const gameLinks = gameDiv.querySelectorAll('.edit_icon'); 
-            gameLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    window.location.href = `EditGameDetails.html?name=${encodeURIComponent(game.name)}`;
+                const gameLinks = gameDiv.querySelectorAll('.edit_icon'); 
+                gameLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        window.location.href = `EditGameDetails.html?name=${encodeURIComponent(game.name)}`;
+                    });
                 });
-            });
 
-            gamesContainer.appendChild(gameDiv);
+                gamesContainer.appendChild(gameDiv);
+            });
+        }
+       
+
+        function sortGames(order) {
+            if (order === "price_increasing") {
+                gamesOrdered = [...games].sort((a, b) => a.price - b.price);
+            } else if (order === "price_decreasing") {
+                gamesOrdered = [...games].sort((a, b) => b.price - a.price);
+            } else {
+                gamesOrdered = [...games];
+            }
+            renderGames();
+        }
+
+        orderBySelects.forEach(select => {
+            select.addEventListener("change", function () {
+                sortGames(select.value);
+            });
         });
+
+        renderGames();
     });
 </script>
 <script>
