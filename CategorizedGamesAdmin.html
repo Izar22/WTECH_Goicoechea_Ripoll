@@ -77,6 +77,11 @@
                 display: none;
             } 
         }
+        .add_text{
+            margin: 0 15px;
+            text-decoration: none;
+            color: #000000;
+        }
         main {
             background: #FBFFFE;
             height: auto;
@@ -146,6 +151,7 @@
         .container{
             display: flex;
             gap: 50px;
+            min-height: 477.6px;
         }
         .filters{
             display: flex;
@@ -174,6 +180,7 @@
             gap: 40px;
             overflow-y: scroll;
             max-height: calc(100vh - 280px);
+            width: 100%;
             @media (max-width: 768px) {
                 max-height: calc(100vh - 350px);               
                 margin-left: 15px;
@@ -326,6 +333,34 @@
             width: 24px;
             height: 24px;
         }
+        .game p{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            max-width: 120px;
+            height: 24px;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .page-button {
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            background-color: #ddd;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .page-button.active {
+            background-color: #275DAD;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -408,7 +443,7 @@
             <a href="AddProduct.html">
                 <img src="./Images/add-ellipse-svgrepo-com.svg" alt="Add" class="icon"> 
             </a>
-            <a class="action" href="AddProduct.html">Add new product</a>           
+            <a class="add_text" href="AddProduct.html">Add new product</a>           
         </div> 
         <div class="top_section">
             
@@ -482,6 +517,7 @@
                 </div>
             </div>
         </div> 
+        <div id="pagination" class="pagination"></div>
     </main>
     <footer>
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
@@ -490,26 +526,38 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const games = [
-            { name: "Overwatch 2", price: "29", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Cyberpunk 2077", price: "39", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Elden Ring", price: "40", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Overwatch 2", price: "29", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Cyberpunk 2077", price: "39", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Elden Ring", price: "40", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Overwatch 2", price: "29", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Cyberpunk 2077", price: "39", image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Elden Ring", price: "40", image: "./Images/Overwatch_2_Steam_artwork.jpg" }
+        { name: "Overwatch 2", price: 29, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Cyberpunk 2077", price: 39, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Elden Ring", price: 40, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Halo Infinite", price: 50, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "FIFA 23", price: 30, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Minecraft", price: 20, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Resident Evil 4", price: 45, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "The Witcher 3", price: 35, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "GTA V", price: 25, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Red Dead Redemption 2", price: 50, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Overwatch 2", price: 29, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Cyberpunk 2077", price: 39, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Elden Ring", price: 40, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
+        { name: "Halo Infinite", price: 50, image: "./Images/Overwatch_2_Steam_artwork.jpg" }
         ];
 
         let gamesOrdered = [...games];
+        let currentPage = 1;
+        const itemsPerPage = 10;
 
         const gamesContainer = document.getElementById("gamesContainer");
-        const orderBySelects = document.querySelectorAll("#order_by");
         const articlesCount = document.getElementById("articles_count");
+        const paginationContainer = document.getElementById("pagination");
+        const orderBySelects = document.querySelectorAll("#order_by");
 
         function renderGames() {
             gamesContainer.innerHTML = "";
-            gamesOrdered.forEach(game => {
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const gamesToShow = gamesOrdered.slice(start, end);
+            
+            gamesToShow.forEach(game => {
                 const gameDiv = document.createElement("div");
                 gameDiv.classList.add("game");
                 
@@ -537,17 +585,38 @@
 
                 gamesContainer.appendChild(gameDiv);
             });
+            renderPagination();
+        }
+
+        function renderPagination() {
+            paginationContainer.innerHTML = "";
+            const totalPages = Math.ceil(gamesOrdered.length / itemsPerPage);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement("button");
+                pageButton.textContent = i;
+                pageButton.classList.add("page-button");
+                if (i === currentPage) pageButton.classList.add("active");
+
+                pageButton.addEventListener("click", function () {
+                    currentPage = i;
+                    renderGames();
+                });
+
+                paginationContainer.appendChild(pageButton);
+            }
         }
        
 
         function sortGames(order) {
             if (order === "price_increasing") {
-                gamesOrdered = [...games].sort((a, b) => a.price - b.price);
+                gamesOrdered.sort((a, b) => a.price - b.price);
             } else if (order === "price_decreasing") {
-                gamesOrdered = [...games].sort((a, b) => b.price - a.price);
+                gamesOrdered.sort((a, b) => b.price - a.price);
             } else {
                 gamesOrdered = [...games];
             }
+            currentPage = 1; 
             renderGames();
         }
 
@@ -559,21 +628,6 @@
 
         renderGames();
     });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const menuIcon = document.querySelector(".menu");
-    const sidebar = document.querySelector(".sidebar");
-    const closeButton = document.querySelector(".close_btn");
-
-    menuIcon.addEventListener("click", function () {
-        sidebar.classList.toggle("open");
-    });
-
-    closeButton.addEventListener("click", function () {
-        sidebar.classList.remove("open");
-    });
-});
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
