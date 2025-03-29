@@ -142,7 +142,6 @@
                 height: auto;
             }
         }
-
         .image_upload_container {
             background-color: #275DAD;
             display: flex;
@@ -158,13 +157,11 @@
                 height: 100%;
             }
         }
-
         #image_list {
             list-style: none; 
             padding: 0;
             width: 80%; 
         }
-
         .game_details{
             display: flex;
             flex-direction: row;
@@ -206,8 +203,7 @@
                 min-height: 40vh; 
             }
         }
-
-        .price-box { 
+        .price_box { 
             padding: 20px;
             border: 1px solid black;
             border-radius: 12px;
@@ -221,13 +217,12 @@
                 justify-content: center;
             }
         }
-        .price-box input {
+        .price_box input {
             font-family: "Kanit", sans-serif;
             width: 100px;
             font-size: 18px;
             text-align: center;
-        }
-        
+        }       
         .button {
             font-family: "Kanit", sans-serif;
             display: block;
@@ -253,7 +248,7 @@
                 padding: 5px;
             }
         }
-        .close-btn {
+        .close_btn {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -315,7 +310,7 @@
 <body>
     <header>
         <div class="title">
-            <a href="LandingPage.html"> 
+            <a href="CategorizedGamesAdmin.html"> 
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
@@ -334,7 +329,7 @@
         
     </header>
     <div class="sidebar">
-        <button class="close-btn">&times;</button> 
+        <button class="close_btn">&times;</button> 
         <div>
             <input class="search" type="text" placeholder="Search">
         </div>         
@@ -367,7 +362,7 @@
                 </div>
             </div>
             <div class="right_part">
-                <div class="price-box">
+                <div class="price_box">
                     <h3 class="price">Price</h3>
                     <input type="number" id="price" value="15" min="1">
                 </div>
@@ -385,7 +380,7 @@
     document.addEventListener("DOMContentLoaded", function () {
     const menuIcon = document.querySelector(".menu");
     const sidebar = document.querySelector(".sidebar");
-    const closeButton = document.querySelector(".close-btn");
+    const closeButton = document.querySelector(".close_btn");
 
     menuIcon.addEventListener("click", function () {
         sidebar.classList.toggle("open");
@@ -420,9 +415,9 @@
         const imageList = document.getElementById("image_list");
         const uploadContainer = document.getElementById("image_upload_container");
 
-        // Establecer estilos para el contenedor de la lista
-        imageList.style.maxHeight = "calc(100% - 100px)"; // Ajusta la altura máxima según sea necesario
-        imageList.style.overflowY = "auto"; // Permite el scroll cuando la lista es muy grande
+
+        imageList.style.maxHeight = "calc(100% - 100px)"; 
+        imageList.style.overflowY = "auto";
         
         addImageBtn.addEventListener("click", function () {
             const fileInput = document.createElement("input");
@@ -448,7 +443,7 @@
                     
                     listItem.appendChild(removeBtn);
                     imageList.appendChild(listItem);
-                    // Si es la primera imagen, cambiar align a top
+
                     if (imageList.children.length >= 1) {
                         uploadContainer.style.justifyContent = "start";
                     }

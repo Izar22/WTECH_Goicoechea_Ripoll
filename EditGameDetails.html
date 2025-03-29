@@ -64,8 +64,6 @@
         }
         .user_actions{
             display: flex;
-            justify-content: center;  
-            align-items: center;
         }
         .action{
             margin: 0 15px;
@@ -189,7 +187,6 @@
                 min-height: 200px;
             }
         }
-
         .price-box { 
             padding: 20px;
             border: 1px solid black;
@@ -208,8 +205,7 @@
             width: 100px;
             font-size: 18px;
             text-align: center;
-        }
-        
+        }       
         .button {
             font-family: "Kanit", sans-serif;
             display: block;
@@ -235,7 +231,7 @@
                 padding: 5px;
             }
         }
-        .close-btn {
+        .close_btn {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -279,6 +275,42 @@
         .price{
             margin-top: 10px;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal_content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .modal button {
+            margin: 10px;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+        }
+        #confirmDelete {
+            background-color: rgb(4, 194, 4);
+            color: white;
+        }
+        #cancelDelete {
+            background-color: rgb(255, 0, 0);
+            color: white;
+        }
+        .icon{
+            width: 24px;
+            height: 24px;
+        }
         footer {
             position: fixed;
             left: 0;
@@ -297,7 +329,7 @@
 <body>
     <header>
         <div class="title">
-            <a href="LandingPage.html"> 
+            <a href="CategorizedGamesAdmin.html"> 
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
@@ -306,26 +338,21 @@
         </div>
         <div class="user_actions">
             <a href="LandingPage.html">
-                <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8.51465 20H4.51465C3.41008 20 2.51465 19.1046 2.51465 18V6C2.51465 4.89543 3.41008 4 4.51465 4H8.51465V6H4.51465V18H8.51465V20Z" fill="#000000"/>
-                    <path d="M13.8422 17.385L15.2624 15.9768L11.3432 12.0242L20.4861 12.0242C21.0384 12.0242 21.4861 11.5765 21.4861 11.0242C21.4861 10.4719 21.0384 10.0242 20.4861 10.0242L11.3239 10.0242L15.3044 6.0774L13.8962 4.6572L7.50527 10.9941L13.8422 17.385Z" fill="#000000"/>
-                </svg>
+                <img src="./Images/log-out-svgrepo-com.svg" alt="LogOut" class="icon"> 
             </a>
             <a class="action" href="LandingPage.html">Log Out</a>
         </div>
         
     </header>
     <div class="sidebar">
-        <button class="close-btn">&times;</button> 
+        <button class="close_btn">&times;</button> 
         <div>
             <input class="search" type="text" placeholder="Search">
         </div>         
     </div>
     <main>
         <div class="back" onclick="history.back(); return false;">
-            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 12H20M4 12L8 8M4 12L8 16" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <img src="./Images/arrow-narrow-left-svgrepo-com.svg" alt="Arrow" class="icon">
             <p>Back</p>
         </div>
         <div class="game_name">
@@ -335,7 +362,7 @@
             </div>
             <div class="delete_button" >
                 <strong onclick="" style="cursor: pointer;">Delete</strong>
-                <img src="images/trash-full-svgrepo-com.svg" alt="Trash Icon" class="trash_icon" onclick="" style="cursor: pointer;"/>
+                <img src="images/trash-full-svgrepo-com.svg" alt="Trash Icon" class="trash_icon" onclick="" style="cursor: pointer;" id="openModal"/>
             </div>
         </div>
         <div class="container">
@@ -359,6 +386,13 @@
                 </div>
             </div>
         </div>
+        <div id="deleteModal" class="modal">
+            <div class="modal_content">
+                <p>Are you sure you want to delete this product?</p>
+                <button id="confirmDelete">Yes</button>
+                <button id="cancelDelete">No</button>
+            </div>
+        </div>
     </main>
     <footer>
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
@@ -368,7 +402,7 @@
     document.addEventListener("DOMContentLoaded", function () {
     const menuIcon = document.querySelector(".menu");
     const sidebar = document.querySelector(".sidebar");
-    const closeButton = document.querySelector(".close-btn");
+    const closeButton = document.querySelector(".close_btn");
 
     menuIcon.addEventListener("click", function () {
         sidebar.classList.toggle("open");
@@ -379,7 +413,6 @@
     });
 });
 </script>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(".button").addEventListener("click", function () {
@@ -395,5 +428,26 @@
             console.log("Saving game data:", gameData); 
         });
     });
-    </script>
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const openModalBtn = document.getElementById("openModal");
+        const modal = document.getElementById("deleteModal");
+        const cancelBtn = document.getElementById("cancelDelete");
+        const confirmBtn = document.getElementById("confirmDelete");
+        
+        openModalBtn.addEventListener("click", function () {
+            modal.style.display = "flex";
+        });
+
+        cancelBtn.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+
+        confirmBtn.addEventListener("click", function () {
+            modal.style.display = "none";
+            window.location.href = `CategorizedGamesAdmin.html`;
+        });
+    });
+</script>
 </html>
