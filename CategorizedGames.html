@@ -503,10 +503,10 @@
                 gameDiv.classList.add("game");
                 
                 gameDiv.innerHTML = `
-                    <div class="game-link" style="cursor: pointer;">
+                    <div class="game_link" style="cursor: pointer;">
                         <img class="image_game" src="${game.image}" alt="${game.name}" />
                     </div>
-                    <div class="game-link" style="cursor: pointer;">
+                    <div class="game_link" style="cursor: pointer;">
                         <p>${game.name}</p>
                     </div>
                     <div class="price_icon">
@@ -514,9 +514,19 @@
                     </div>
                 `;
                 articlesCount.textContent = `${gamesOrdered.length} articles`;
+
+                gameDiv.querySelectorAll(".game_link").forEach(link => {
+                    link.addEventListener("click", function () {
+                        const gameName = this.getAttribute("data-game-name");
+                        window.location.href = `gameDetails.html?name=${encodeURIComponent(game.name)}`;
+                    });
+                });;
+                
+
                 gamesContainer.appendChild(gameDiv);
             });
         }
+       
 
         function sortGames(order) {
             if (order === "price_increasing") {
@@ -702,7 +712,13 @@
             userTextLink.addEventListener("click", openLogoutModal);
 
             confirmLogoutBtn.addEventListener("click", function () {
-                window.location.href = window.location.pathname; 
+                const urlParams = new URLSearchParams(window.location.search);
+
+                urlParams.delete("login");
+
+                const newUrl = window.location.pathname + (urlParams.toString() ? "?" + urlParams.toString() : "");
+
+                window.location.href = newUrl;
             });
 
             cancelLogoutBtn.addEventListener("click", function () {
