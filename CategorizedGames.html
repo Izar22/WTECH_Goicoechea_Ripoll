@@ -88,7 +88,7 @@
                 max-height: calc(100vh - 108.4px);
             }
         }
-        .close-btn {
+        .close_btn {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -298,26 +298,22 @@
             justify-content: center;
             align-items: center;
         }
-
-        .modal-content {
+        .modal_content {
             background: white;
             padding: 20px;
             border-radius: 8px;
             text-align: center;
         }
-
         .modal button {
             margin: 10px;
             padding: 8px 16px;
             border: none;
             cursor: pointer;
         }
-
         #confirmLogout {
             background-color: rgb(4, 194, 4);
             color: white;
         }
-
         #cancelLogout {
             background-color: rgb(255, 0, 0);
             color: white;
@@ -331,8 +327,7 @@
             justify-content: center;
             margin-top: 20px;
         }
-
-        .page-button {
+        .page_button {
             padding: 10px;
             margin: 5px;
             border: none;
@@ -340,8 +335,7 @@
             cursor: pointer;
             border-radius: 5px;
         }
-
-        .page-button.active {
+        .page_button.active {
             background-color: #275DAD;
             color: white;
         }
@@ -354,9 +348,9 @@
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
-        <div class="search_bar">
+        <form class="search_bar" action="#" method="GET">
             <input class="search" type="text" placeholder="Search">
-        </div>
+        </form>
         <div class="user_actions">
             <a href="LoginPage.html">
                 <img src="./Images/avatar-default-svgrepo-com.svg" alt="Menu" class="icon"> 
@@ -371,8 +365,8 @@
             </div>
         </div>       
     </header>
-    <div class="sidebar">
-        <button class="close-btn">&times;</button> 
+    <aside class="sidebar">
+        <button class="close_btn">&times;</button> 
         <div>
             <input class="search" type="text" placeholder="Search">
             <div class="mobile_filters">
@@ -428,7 +422,7 @@
                 </div>
             </div>         
         </div>         
-    </div>
+    </aside>
     <main>
         <div class="top_section">
             <div>
@@ -492,11 +486,13 @@
                     </select>
                 </div>         
             </div>
-            <div class="games" id="gamesContainer"></div>   
+            <section class="games_section">
+                <div class="games" id="gamesContainer"></div>   
+            </section>   
         </div> 
         <div id="pagination" class="pagination"></div>
         <div id="logoutModal" class="modal">
-            <div class="modal-content">
+            <div class="modal_content">
                 <p>Are you sure you want to log out?</p>
                 <button id="confirmLogout">Yes</button>
                 <button id="cancelLogout">No</button>
@@ -586,7 +582,7 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let i = 1; i <= totalPages; i++) {
             const pageButton = document.createElement("button");
             pageButton.textContent = i;
-            pageButton.classList.add("page-button");
+            pageButton.classList.add("page_button");
             if (i === currentPage) pageButton.classList.add("active");
 
             pageButton.addEventListener("click", function () {
@@ -619,12 +615,11 @@ document.addEventListener("DOMContentLoaded", function () {
     renderGames();
 });
 </script>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
     const menuIcon = document.querySelector(".menu");
     const sidebar = document.querySelector(".sidebar");
-    const closeButton = document.querySelector(".close-btn");
+    const closeButton = document.querySelector(".close_btn");
 
     menuIcon.addEventListener("click", function () {
         sidebar.classList.toggle("open");

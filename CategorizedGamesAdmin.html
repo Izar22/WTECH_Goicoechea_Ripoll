@@ -346,9 +346,8 @@
             display: flex;
             justify-content: center;
             margin-top: 20px;
-        }
-
-        .page-button {
+        } 
+        .page_button {
             padding: 10px;
             margin: 5px;
             border: none;
@@ -356,8 +355,7 @@
             cursor: pointer;
             border-radius: 5px;
         }
-
-        .page-button.active {
+        .page_button.active {
             background-color: #275DAD;
             color: white;
         }
@@ -370,17 +368,20 @@
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
-        <div class="search_bar">
+        <form class="search_bar" action="#" method="GET">
             <input class="search" type="text" placeholder="Search">
-        </div>
+        </form>
         <div class="user_actions">
             <a href="LandingPage.html">
                 <img src="./Images/log-out-svgrepo-com.svg" alt="LogOut" class="icon"> 
             </a>
             <a class="action" href="LandingPage.html">Log Out</a>
+            <div class="menu">
+                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
+            </div>
         </div>       
     </header>
-    <div class="sidebar">
+    <aside class="sidebar">
         <button class="close_btn">&times;</button> 
         <div>
             <input class="search" type="text" placeholder="Search">
@@ -437,7 +438,7 @@
                 </div>
             </div>         
         </div>         
-    </div>
+    </aside>
     <main>
         <div class="add_product">
             <a href="AddProduct.html">
@@ -508,7 +509,9 @@
                     </select>
                 </div>         
             </div>
-            <div class="games" id="gamesContainer"></div>
+            <section class="games_section">
+                <div class="games" id="gamesContainer"></div>   
+            </section>
             <div id="deleteModal" class="modal">
                 <div class="modal_content">
                     <p>Are you sure you want to delete this product?</p>
@@ -523,6 +526,21 @@
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
     </footer>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const menuIcon = document.querySelector(".menu");
+    const sidebar = document.querySelector(".sidebar");
+    const closeButton = document.querySelector(".close_btn");
+
+    menuIcon.addEventListener("click", function () {
+        sidebar.classList.toggle("open");
+    });
+
+    closeButton.addEventListener("click", function () {
+        sidebar.classList.remove("open");
+    });
+});
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const games = [
@@ -595,7 +613,7 @@
             for (let i = 1; i <= totalPages; i++) {
                 const pageButton = document.createElement("button");
                 pageButton.textContent = i;
-                pageButton.classList.add("page-button");
+                pageButton.classList.add("page_button");
                 if (i === currentPage) pageButton.classList.add("active");
 
                 pageButton.addEventListener("click", function () {

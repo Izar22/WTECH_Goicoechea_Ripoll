@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
    <style>
         body {
             font-family: "Kanit", sans-serif;
@@ -177,7 +178,7 @@
             box-sizing: border-box;
             height: 38.4px;
         }
-        .close-btn {
+        .close_btn {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -282,26 +283,22 @@
             justify-content: center;
             align-items: center;
         }
-
-        .modal-content {
+        .modal_content {
             background: white;
             padding: 20px;
             border-radius: 8px;
             text-align: center;
         }
-
         .modal button {
             margin: 10px;
             padding: 8px 16px;
             border: none;
             cursor: pointer;
         }
-
         #confirmLogout {
             background-color: rgb(4, 194, 4);
             color: white;
         }
-
         #cancelLogout {
             background-color: rgb(255, 0, 0);
             color: white;
@@ -315,9 +312,9 @@
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
-        <div class="search_bar">
+        <form class="search_bar" action="#" method="GET">
             <input class="search" type="text" placeholder="Search">
-        </div>
+        </form>
         <div class="user_actions">
             <a href="LoginPage.html">
                 <img src="./Images/avatar-default-svgrepo-com.svg" alt="Menu" class="icon"> 
@@ -333,8 +330,8 @@
         </div>
         
     </header>
-    <div class="sidebar">
-        <button class="close-btn">&times;</button> 
+    <aside class="sidebar">
+        <button class="close_btn">&times;</button> 
         <div>
             <input class="search" type="text" placeholder="Search">
         </div>   
@@ -346,7 +343,7 @@
             <a class="nav" href="CategorizedGames.html?category=Recently%20Added">Recently Added</a>
         </nav>
         
-    </div>
+    </aside>
     <main>
         <nav class="navegation">
             <a class="nav" href="CategorizedGames.html?category=PC%20Games">PC Games</a>
@@ -361,14 +358,14 @@
             <p class="CTA_third">Find the Best Games at the Best Prices</p>
         </section>       
         <h3 class="section_title">Our recommendations</h3>
-        <div class="swiper">
+        <section class="swiper">
             <div class="swiper-wrapper" id="swiper-wrapper">
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
-        </div>
+        </section>
         <div id="logoutModal" class="modal">
-            <div class="modal-content">
+            <div class="modal_content">
                 <p>Are you sure you want to log out?</p>
                 <button id="confirmLogout">Yes</button>
                 <button id="cancelLogout">No</button>
@@ -383,7 +380,7 @@
     document.addEventListener("DOMContentLoaded", function () {
     const menuIcon = document.querySelector(".menu");
     const sidebar = document.querySelector(".sidebar");
-    const closeButton = document.querySelector(".close-btn");
+    const closeButton = document.querySelector(".close_btn");
 
     menuIcon.addEventListener("click", function () {
         sidebar.classList.toggle("open");
@@ -394,7 +391,6 @@
     });
 });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const games = [
