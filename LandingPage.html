@@ -29,6 +29,7 @@
             justify-content: space-between;
             align-items: center;
             box-sizing: border-box;
+            z-index: 100;
             @media (max-width: 768px) {
                 padding-right: 15px;
             }
@@ -336,21 +337,21 @@
             <input class="search" type="text" placeholder="Search">
         </div>   
         <nav class="navegation_mobile">
-            <a class="nav" href="CategorizedGames.html?category=PC%20Games">PC Games</a>
-            <a class="nav" href="CategorizedGames.html?category=Console%20Games">Console Games</a>
-            <a class="nav" href="CategorizedGames.html?category=Virtual%20Reality">Virtual reality</a>
-            <a class="nav" href="CategorizedGames.html?category=Most%20Popular">Most Popular</a>
-            <a class="nav" href="CategorizedGames.html?category=Recently%20Added">Recently Added</a>
+            <a class="nav" href="CategorizedGames.html?category=Category%201">Category 1</a>
+            <a class="nav" href="CategorizedGames.html?category=Category%202">Category 2</a>
+            <a class="nav" href="CategorizedGames.html?category=Category%203">Category 3</a>
+            <a class="nav" href="CategorizedGames.html?category=Category%204">Category 4</a>
+            <a class="nav" href="CategorizedGames.html?category=Category%205">Category 5</a>
         </nav>
         
     </aside>
     <main>
         <nav class="navegation">
-            <a class="nav" href="CategorizedGames.html?category=PC%20Games">PC Games</a>
-            <a class="nav" href="CategorizedGames.html?category=Console%20Games">Console Games</a>
-            <a class="nav" href="CategorizedGames.html?category=Virtual%20Reality">Virtual reality</a>
-            <a class="nav" href="CategorizedGames.html?category=Most%20Popular">Most Popular</a>
-            <a class="nav" href="CategorizedGames.html?category=Recently%20Added">Recently Added</a>
+            <a class="nav" href="CategorizedGames.html?category=Category%201">Category 1</a>
+            <a class="nav" href="CategorizedGames.html?category=Category%202">Category 2</a>
+            <a class="nav" href="CategorizedGames.html?category=Category%203">Category 3</a>
+            <a class="nav" href="CategorizedGames.html?category=Category%204">Category 4</a>
+            <a class="nav" href="CategorizedGames.html?category=Category%205">Category 5</a>
         </nav>
         <section class="banner">
             <h2 class="CTA_first">Play More,</h2>
@@ -360,6 +361,13 @@
         <h3 class="section_title">Our recommendations</h3>
         <section class="swiper">
             <div class="swiper-wrapper" id="swiper-wrapper">
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </section>
+        <h3 class="section_title">Most Popular</h3>
+        <section class="swiper swiper-container-2">
+            <div class="swiper-wrapper" id="swiper-wrapper-2">
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
@@ -425,8 +433,46 @@
                 prevEl: '.swiper-button-prev'
             }
         });
+
+    });
+ 
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const games = [
+            { name: "Minecraft", image: "./Images/Minecraft/1e95962d-7296-4667-baba-8b58979bd754.avif" },
+            { name: "Fortnite", image: "./Images/Fortnite/MV5BMTZlMmIxM2EtN2Y4Zi00M2ZhLTk3NzgtNjJmZTU0MTQ3YjcwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+            { name: "Call of Duty", image: "./Images/Call of Duty/1654282726-call-of-duty-modern-warfare-2-xbox-series-pre-orden-0.jpg" },
+            { name: "PUBG", image: "./Images/PUBG/pubg-battlegrounds-41bcl.png" },
+            { name: "Overwatch 2", image: "./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" },
+            { name: "League of Legends", image: "./Images/League of Legends/league-of-legends.avif" },
+            { name: "Valorant", image: "./Images/Valorant/MV5BZmQwMjQ2ZTUtZmM5MC00MTdkLWIxYzgtODU1NzQ4Zjg4NmMxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+            { name: "Apex Legends", image: "./Images/Apex Legends/Apex_legends_cover.jpg" }
+        ];
+
+        function populateSwiper(swiperId) {
+            const swiperWrapper = document.getElementById(swiperId);
+            games.forEach(game => {
+                const swiperSlide = document.createElement('div');
+                swiperSlide.classList.add('swiper-slide');
+                swiperSlide.innerHTML = `
+                    <a class="nav" href="gameDetails.html?name=${encodeURIComponent(game.name)}">
+                        <img class="game" src="${game.image}" alt="${game.name}">
+                        <h4 class="game_name">${game.name}</h4>
+                    </a>
+                `;
+                swiperWrapper.appendChild(swiperSlide);
+            });
+        }
+        populateSwiper("swiper-wrapper-2");
+
+        new Swiper(".swiper-container-2", {
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
+        });
     });
 </script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         new Swiper(".swiper", {
