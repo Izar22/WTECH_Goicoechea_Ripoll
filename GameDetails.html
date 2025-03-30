@@ -306,6 +306,9 @@
             width: 24px;
             height: 24px;
         }
+        .input-group{
+            margin: 16px 0;
+        }
         footer {
             position: fixed;
             left: 0;
@@ -392,11 +395,23 @@
                 </div>
 
                 <div class="details">
-                    <p><strong>Platform:</strong> xxxxxxxxxx</p>
-                    <p><strong>Region:</strong> xxxxxxxxxx</p>
-                    <p><strong>Genre:</strong> xxxxxxxxxx</p>
-                    <p><strong>Date of release:</strong> xx/xx/xxxx</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus condimentum maximus lorem, a luctus lacus sodales nec. Donec ac mauris eu sem congue mattis vel id mi.</p>
+                    <div class="input-group">
+                        <label for="platform"><strong>Platform:</strong></label>
+                        <input type="text" id="platform" value="xxxxxxxxxx">
+                    </div>
+                    <div class="input-group">
+                        <label for="region"><strong>Region:</strong></label>
+                        <input type="text" id="region" value="xxxxxxxxxx">
+                    </div>
+                    <div class="input-group">
+                        <label for="genre"><strong>Genre:</strong></label>
+                        <input type="text" id="genre" value="xxxxxxxxxx">
+                    </div>
+                    <div class="input-group">
+                        <label for="release_date"><strong>Date of release:</strong></label>
+                        <input type="date" id="release_date"  value="xx/xx/xxxx">
+                    </div>
+                    <textarea id="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</textarea>
                 </div>
             </div>
             <div class="price_box">

@@ -337,6 +337,9 @@
             width: 24px;
             height: 24px;
         }
+        .input-group{
+            margin: 16px 0;
+        }
         footer {
             position: fixed;
             left: 0;
@@ -377,7 +380,7 @@
         </div>         
     </aside>
     <main>
-        <div class="back" onclick="history.back(); return false;">
+        <div class="back" onclick="customBack(); return false;">
             <img src="./Images/arrow-narrow-left-svgrepo-com.svg" alt="Arrow" class="icon">
             <p>Back</p>
         </div>
@@ -398,10 +401,22 @@
                     <img src="Images/plus-circle-1427-svgrepo-com.svg" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
                 </div>
                 <div class="details">
-                    <p><strong>Platform:</strong> <input type="text" id="platform" value="xxxxxxxxxx"></p>
-                    <p><strong>Region:</strong> <input type="text" id="region" value="xxxxxxxxxx"></p>
-                    <p><strong>Genre:</strong> <input type="text" id="genre" value="xxxxxxxxxx"></p>
-                    <p><strong>Date of release:</strong> <input type="date" id="release_date" value="xx/xx/xxxx"></p>
+                    <div class="input-group">
+                        <label for="platform"><strong>Platform:</strong></label>
+                        <input type="text" id="platform" value="xxxxxxxxxx">
+                    </div>
+                    <div class="input-group">
+                        <label for="region"><strong>Region:</strong></label>
+                        <input type="text" id="region" value="xxxxxxxxxx">
+                    </div>
+                    <div class="input-group">
+                        <label for="genre"><strong>Genre:</strong></label>
+                        <input type="text" id="genre" value="xxxxxxxxxx">
+                    </div>
+                    <div class="input-group">
+                        <label for="release_date"><strong>Date of release:</strong></label>
+                        <input type="date" id="release_date"  value="xx/xx/xxxx">
+                    </div>
                     <textarea id="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</textarea>
                 </div>
             </section >
@@ -544,5 +559,17 @@
             fileInput.click();
         });
     });
+</script>
+<script>
+    function customBack() {
+        const previousPage = document.referrer;
+        const currentPage = window.location.href;
+
+        if (previousPage === currentPage) {
+            window.location.href = "CategorizedGamesAdmin.html";  
+        } else {
+            window.location.href = previousPage;
+        }
+    }
 </script>
 </html>

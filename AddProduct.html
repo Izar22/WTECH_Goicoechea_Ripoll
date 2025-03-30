@@ -433,6 +433,8 @@
 
         imageList.style.maxHeight = "calc(100% - 100px)"; 
         imageList.style.overflowY = "auto";
+        imageList.style.overflowX = "hidden";
+        imageList.style.textOverflow = "ellipsis";
         
         addImageBtn.addEventListener("click", function () {
             const fileInput = document.createElement("input");
