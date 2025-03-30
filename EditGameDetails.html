@@ -26,6 +26,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            z-index: 100;
             box-sizing: border-box;
             @media (max-width: 768px) {
                 padding-right: 15px;
@@ -89,8 +90,12 @@
             display: flex;
             flex-wrap: wrap;
             padding: 20px;
-            gap: 20px;;
+            gap: 20px;
             justify-content: space-around;
+            @media (max-width: 768px) {
+                flex-direction: column;
+                align-items: center;
+            }
         }
         .back{
             display: flex;
@@ -155,6 +160,7 @@
             @media (max-width: 768px) {
                 gap: 10px; 
                 justify-content: center;
+                width: 100%;
             }
         }
         .details {
@@ -164,6 +170,26 @@
                 width: 100%;  
                 padding: 5px;
             }
+        }
+        .image_upload_container {
+            background-color: #275DAD;
+            display: flex;
+            width: 258px;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-direction: column;
+            @media (max-width: 768px) {
+                min-height: 50vh;
+                width: 80%;
+                height: 100%;
+            }
+        }
+        #image_list {
+            list-style: none; 
+            padding: 0;
+            width: 80%; 
         }
         .details input{
             font-family: "Kanit", sans-serif;
@@ -187,7 +213,7 @@
                 min-height: 200px;
             }
         }
-        .price-box { 
+        .price_box { 
             padding: 20px;
             border: 1px solid black;
             border-radius: 12px;
@@ -200,7 +226,7 @@
                 justify-content: center;
             }
         }
-        .price-box input {
+        .price_box input {
             font-family: "Kanit", sans-serif;
             width: 100px;
             font-size: 18px;
@@ -344,12 +370,12 @@
         </div>
         
     </header>
-    <div class="sidebar">
+    <aside class="sidebar">
         <button class="close_btn">&times;</button> 
         <div>
             <input class="search" type="text" placeholder="Search">
         </div>         
-    </div>
+    </aside>
     <main>
         <div class="back" onclick="history.back(); return false;">
             <img src="./Images/arrow-narrow-left-svgrepo-com.svg" alt="Arrow" class="icon">
@@ -366,8 +392,11 @@
             </div>
         </div>
         <div class="container">
-            <div class="game_details">
-                <img class="game" src="./Images/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2">
+            <section  class="game_details">
+                <div id="image_upload_container" class="image_upload_container">
+                    <ul id="image_list"></ul>
+                    <img src="Images/plus-circle-1427-svgrepo-com.svg" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
+                </div>
                 <div class="details">
                     <p><strong>Platform:</strong> <input type="text" id="platform" value="xxxxxxxxxx"></p>
                     <p><strong>Region:</strong> <input type="text" id="region" value="xxxxxxxxxx"></p>
@@ -375,16 +404,16 @@
                     <p><strong>Date of release:</strong> <input type="date" id="release_date" value="xx/xx/xxxx"></p>
                     <textarea id="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</textarea>
                 </div>
-            </div>
-            <div class="right_part">
-                <div class="price-box">
+            </section >
+            <section  class="right_part">
+                <div class="price_box">
                     <h3 class="price">Price</h3>
                     <input type="number" id="price" value="15" min="1">
                 </div>
                 <div class="button_save">
                     <button class="button">Save Changes</button>
                 </div>
-            </div>
+            </section >
         </div>
         <div id="deleteModal" class="modal">
             <div class="modal_content">
@@ -447,6 +476,72 @@
         confirmBtn.addEventListener("click", function () {
             modal.style.display = "none";
             window.location.href = `CategorizedGamesAdmin.html`;
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const addImageBtn = document.getElementById("add_image");
+        const imageList = document.getElementById("image_list");
+        const uploadContainer = document.getElementById("image_upload_container");
+
+        imageList.style.maxHeight = "calc(100% - 100px)"; 
+        imageList.style.overflowY = "auto";
+        imageList.style.overflowX = "hidden";
+        imageList.style.textOverflow = "ellipsis";
+
+        const initialImages = ["Images/Overwatch 2/images.jpeg", "Images/Overwatch 2/MV5BOGMxODVmNDgtZGE1Yy00Y2VlLTk3ZTMtYzU5YTcxODhiNzMxXkEyXkFqcGc@._V1_.jpg", "Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg"];
+        initialImages.forEach(imageName => {
+            const listItem = document.createElement("li");
+            listItem.textContent = imageName;
+            
+            const removeBtn = document.createElement("span");
+            removeBtn.textContent = " X";
+            removeBtn.style.cursor = "pointer";
+            removeBtn.style.color = "red";
+            removeBtn.addEventListener("click", function () {
+                imageList.removeChild(listItem);
+                if (imageList.children.length === 0) {
+                    uploadContainer.style.justifyContent = "center";
+                }
+            });
+            
+            listItem.appendChild(removeBtn);
+            imageList.appendChild(listItem);
+        });
+        
+        addImageBtn.addEventListener("click", function () {
+            const fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.accept = "image/*";
+            
+            fileInput.addEventListener("change", function () {
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const listItem = document.createElement("li");
+                    listItem.textContent = file.name;
+                    
+                    const removeBtn = document.createElement("span");
+                    removeBtn.textContent = " X";
+                    removeBtn.style.cursor = "pointer";
+                    removeBtn.style.color = "red";
+                    removeBtn.addEventListener("click", function () {
+                        imageList.removeChild(listItem);
+                        if (imageList.children.length === 0) {
+                            uploadContainer.style.justifyContent = "center";
+                        }
+                    });
+                    
+                    listItem.appendChild(removeBtn);
+                    imageList.appendChild(listItem);
+
+                    if (imageList.children.length >= 1) {
+                        uploadContainer.style.justifyContent = "start";
+                    }
+                }
+            });
+            
+            fileInput.click();
         });
     });
 </script>

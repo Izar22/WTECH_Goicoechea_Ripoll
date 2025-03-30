@@ -88,7 +88,7 @@
                 min-height: calc(100vh - 108.4px);
             }
         }
-        .close-btn {
+        .close_btn {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -302,18 +302,16 @@
         .right_section button:hover{
             background-color: #7ca6e4;
         }
-        .delete-button{
+        .delete_button{
             width: 24px;
             height: 24px;
         }
         .container_shipping, .container_payment, .container_cart {
             display: none; 
         }
-
         .container_shipping.visible, .container_payment.visible, .container_cart.visible {
             display: flex; 
         }
-
         .section_title {
             font-weight: bold;
             margin-top: 20px;
@@ -368,8 +366,7 @@
             background-color: rgba(0, 0, 0, 0.5); 
             overflow: auto;
         }
-
-        .modal-content {
+        .modal_content {
             background-color: white;
             padding: 20px;
             padding-top: 5%;
@@ -383,8 +380,7 @@
                 height: auto;
             }
         }
-
-        .modal-content button{
+        .modal_content button{
             font-size: 20px;
             font-family: "Kanit", sans-serif;
             background-color: #275DAD;
@@ -394,7 +390,7 @@
             width: 100%;
             border: solid 1px black;
         }
-        .modal-content button:hover{
+        .modal_content button:hover{
             background-color: #7ca6e4;
         }
         .modal_logOut {
@@ -409,14 +405,12 @@
             justify-content: center;
             align-items: center;
         }
-
-        .modal-content_logOut {
+        .modal_content_logOut {
             background: white;
             padding: 20px;
             border-radius: 8px;
             text-align: center;
         }
-
         .modal_logOut button {
             margin: 10px;
             padding: 8px 16px;
@@ -476,12 +470,12 @@
             </div>
         </div>      
     </header>
-    <div class="sidebar">
-        <button class="close-btn">&times;</button> 
+    <aside class="sidebar">
+        <button class="close_btn">&times;</button> 
         <div>
             <input class="search" type="text" placeholder="Search">
         </div>         
-    </div>
+    </aside>
     <main>
         <div class="selector_page">
             <div class="circle selected">
@@ -502,7 +496,7 @@
                 </svg>
             </div>
         </div>
-        <div class="container_cart">
+        <section class="container_cart">
             <div class="left_section_cart">
                 <h2>Shopping Cart</h2>
                 <div class="games">
@@ -519,7 +513,7 @@
                             </div>
                         </div>
                         <div class="price_game">
-                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete-button">
+                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete_button">
                             <p>XX,XX €</p>
                         </div>
                     </div>
@@ -536,7 +530,7 @@
                             </div>
                         </div>
                         <div class="price_game">
-                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete-button">
+                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete_button">
                             <p>XX,XX €</p>
                         </div>
                     </div>
@@ -553,7 +547,7 @@
                             </div>
                         </div>
                         <div class="price_game">
-                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete-button">
+                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete_button">
                             <p>XX,XX €</p>
                         </div>
                     </div>
@@ -570,7 +564,7 @@
                             </div>
                         </div>
                         <div class="price_game">
-                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete-button">
+                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete_button">
                             <p>XX,XX €</p>
                         </div>
                     </div>
@@ -582,8 +576,8 @@
                 <button id="continue_shipping">Continue to shipping</button>
                 <button onclick="customBack(); return false;">Keep shopping</button>
             </div>
-        </div>
-        <div class="container_shipping">
+        </section>
+        <section class="container_shipping">
             <div class="left_section">
                 <div class="section_title">Contact Information</div>
                 <div class="form_group">
@@ -616,8 +610,8 @@
                 <p class="total_price_shipping">XX,XX €</p>
                 <button class="total_price_button" id="continue_payment">Continue to payment</button>
             </div>
-        </div>
-        <div class="container_payment">
+        </section>
+        <section class="container_payment">
             <div class="left_section">
                 <div class="section_title">Payment Details</div>
                 <div class="double_width">
@@ -641,9 +635,9 @@
                 <button class="total_price_button" id="finish_payment">Complete payment</button>
             </div>
             
-        </div>
+        </section>
         <div id="paymentModal" class="modal">
-            <div class="modal-content">
+            <div class="modal_content">
                 <h2>Thanks for ordering with us!</h2>
                 <p>Your payment was successfully processed</p>
                 <a class="nav" href="LandingPage.html">
@@ -652,7 +646,7 @@
             </div>
         </div>
         <div id="logoutModal" class="modal_logOut">
-            <div class="modal-content_logOut">
+            <div class="modal_content_logOut">
                 <p>Are you sure you want to log out?</p>
                 <button id="confirmLogout">Yes</button>
                 <button id="cancelLogout">No</button>
@@ -667,7 +661,7 @@
     document.addEventListener("DOMContentLoaded", function () {
     const menuIcon = document.querySelector(".menu");
     const sidebar = document.querySelector(".sidebar");
-    const closeButton = document.querySelector(".close-btn");
+    const closeButton = document.querySelector(".close_btn");
 
     menuIcon.addEventListener("click", function () {
         sidebar.classList.toggle("open");
@@ -702,7 +696,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-        const deleteButtons = document.querySelectorAll('.delete-button');
+        const deleteButtons = document.querySelectorAll('.delete_button');
 
         deleteButtons.forEach(function(button) {
             button.addEventListener('click', function() {
