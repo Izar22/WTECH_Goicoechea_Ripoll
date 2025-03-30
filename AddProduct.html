@@ -212,7 +212,7 @@
             min-width: 300px;
             @media (max-width: 768px) {
                 width: 100%;
-                padding: 0;
+                padding: 10px 0;
                 min-width: 100px;
                 justify-content: center;
             }
@@ -292,6 +292,13 @@
         .price{
             margin-top: 10px;
         }
+        .icon{
+            width: 24px;
+            height: 24px;
+        }
+        .input-group{
+            margin: 16px 0;
+        }
         footer {
             position: fixed;
             left: 0;
@@ -314,50 +321,60 @@
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
-        <div class="search_bar">
+        <form class="search_bar" action="#" method="GET">
             <input class="search" type="text" placeholder="Search">
-        </div>
+        </form>
         <div class="user_actions">
             <a href="LandingPage.html">
-                <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8.51465 20H4.51465C3.41008 20 2.51465 19.1046 2.51465 18V6C2.51465 4.89543 3.41008 4 4.51465 4H8.51465V6H4.51465V18H8.51465V20Z" fill="#000000"/>
-                    <path d="M13.8422 17.385L15.2624 15.9768L11.3432 12.0242L20.4861 12.0242C21.0384 12.0242 21.4861 11.5765 21.4861 11.0242C21.4861 10.4719 21.0384 10.0242 20.4861 10.0242L11.3239 10.0242L15.3044 6.0774L13.8962 4.6572L7.50527 10.9941L13.8422 17.385Z" fill="#000000"/>
-                </svg>
+                <img src="./Images/log-out-svgrepo-com.svg" alt="LogOut" class="icon"> 
             </a>
             <a class="action" href="LandingPage.html">Log Out</a>
+            <div class="menu">
+                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
+            </div>
         </div>
         
     </header>
-    <div class="sidebar">
+    <aside class="sidebar">
         <button class="close_btn">&times;</button> 
         <div>
             <input class="search" type="text" placeholder="Search">
         </div>         
-    </div>
+    </aside>
     <main>
-        <div class="back" onclick="history.back(); return false;">
-            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 12H20M4 12L8 8M4 12L8 16" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+        <div class="back" onclick="customBack(); return false;">
+            <img src="./Images/arrow-narrow-left-svgrepo-com.svg" alt="Arrow Back" class="icon"> 
             <p>Back</p>
         </div>
         <div class="game_name">
             <div class="game_name_field">
-                <h2>Game Name:</h2>
-                <input type="text" id="genre" value="xxxxxxxxxx"></p>
+                <label for="game_name"><h2>Game Name:</h2></label>
+                <input type="text" id="genre" value="xxxxxxxxxx">
             </div>
         </div>
-        <div class="container">
+        <section class="container">
             <div class="game_details">
                 <div id="image_upload_container" class="image_upload_container">
                     <ul id="image_list"></ul>
                     <img src="Images/plus-circle-1427-svgrepo-com.svg" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
                 </div>
                 <div class="details">
-                    <p><strong>Platform:</strong> <input type="text" id="platform" value="xxxxxxxxxx"></p>
-                    <p><strong>Region:</strong> <input type="text" id="region" value="xxxxxxxxxx"></p>
-                    <p><strong>Genre:</strong> <input type="text" id="genre" value="xxxxxxxxxx"></p>
-                    <p><strong>Date of release:</strong> <input type="date" id="release_date" value="xx/xx/xxxx"></p>
+                    <div class="input-group">
+                        <label for="platform"><strong>Platform:</strong></label>
+                        <input type="text" id="platform" value="xxxxxxxxxx">
+                    </div>
+                    <div class="input-group">
+                        <label for="region"><strong>Region:</strong></label>
+                        <input type="text" id="region" value="xxxxxxxxxx">
+                    </div>
+                    <div class="input-group">
+                        <label for="genre"><strong>Genre:</strong></label>
+                        <input type="text" id="genre" value="xxxxxxxxxx">
+                    </div>
+                    <div class="input-group">
+                        <label for="release_date"><strong>Date of release:</strong></label>
+                        <input type="date" id="release_date"  value="xx/xx/xxxx">
+                    </div>
                     <textarea id="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</textarea>
                 </div>
             </div>
@@ -370,7 +387,7 @@
                     <button class="button">Save Changes</button>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
     <footer>
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
@@ -391,7 +408,6 @@
     });
 });
 </script>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(".button").addEventListener("click", function () {
@@ -408,7 +424,6 @@
         });
     });
 </script>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const addImageBtn = document.getElementById("add_image");
@@ -454,5 +469,16 @@
         });
     });
 </script>
+<script>
+    function customBack() {
+        const previousPage = document.referrer;
+        const currentPage = window.location.href;
 
+        if (previousPage === currentPage) {
+            window.location.href = "CategorizedGamesAdmin.html";  
+        } else {
+            window.location.href = previousPage;
+        }
+    }
+</script>
 </html>
