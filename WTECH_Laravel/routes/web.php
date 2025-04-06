@@ -22,6 +22,10 @@ Route::get('/game_details', function (Request $request) {
     return view('GameDetails', ['name' => $name]);
 })->name('game_details');
 
+Route::get('/shopping_cart', function () {
+    return view('ShoppingCart');
+})->name('shopping_cart');
+
 Route::post("/log_in", [UserController::class, "logIn"]);
 
 Route::post("/sign_up", [UserController::class, "signUp"]);
