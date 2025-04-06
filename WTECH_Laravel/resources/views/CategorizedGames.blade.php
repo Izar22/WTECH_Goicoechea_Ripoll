@@ -370,10 +370,10 @@
                 <img src="./Images/log-out-svgrepo-com.svg" alt="LogOut" class="icon"> 
             </a>
             <a class="action nav open-logout" href="#">Log Out</a>
-            <a class="nav" href="ShoppingCart.html">
+            <a class="nav" href="{{ route('shopping_cart') }}">
                 <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
             </a>
-            <a class="action nav" href="ShoppingCart.html">Cart</a>
+            <a class="action nav" href="{{ route('shopping_cart') }}">Cart</a>
             <div class="menu">
                 <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
             </div>
@@ -394,10 +394,10 @@
                 <img src="./Images/avatar-default-svgrepo-com.svg" alt="SignIn" class="icon"> 
             </a>
             <a class="action" href="{{ route('sign_in') }}">Sign In</a>
-            <a class="nav" href="ShoppingCart.html">
+            <a class="nav" href="{{ route('shopping_cart') }}">
                 <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
             </a>
-            <a class="action nav" href="ShoppingCart.html">Cart</a>
+            <a class="action nav" href="{{ route('shopping_cart') }}">Cart</a>
             <div class="menu">
                 <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
             </div>
