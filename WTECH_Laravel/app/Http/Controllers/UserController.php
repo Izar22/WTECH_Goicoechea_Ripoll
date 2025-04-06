@@ -43,6 +43,6 @@ class UserController extends Controller
 
     public function logOut(){
         auth()->logout();
-        return redirect("/");
+        return redirect()->back();
     }
 }
