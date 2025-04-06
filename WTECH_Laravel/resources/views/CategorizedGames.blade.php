@@ -598,18 +598,12 @@
                     </div>
                 `;
 
-                const urlParams = new URLSearchParams(window.location.search);
-                const loginParam = urlParams.get("login");
-
                 gameDiv.querySelectorAll(".game_link").forEach(link => {
                     link.addEventListener("click", function () {
                         const gameName = this.getAttribute("data-game-name");
-                        if (loginParam) {
-                            window.location.href = `gameDetails.html?name=${encodeURIComponent(game.name)}&login=valid`;
-                        }
-                        else{
-                            window.location.href = `gameDetails.html?name=${encodeURIComponent(game.name)}`;
-                        }
+                        const gameUrl = `{{ url('/game_details') }}?name=${encodeURIComponent(game.name)}`;
+                        window.location.href = gameUrl;
+
                     });
                 });
 
