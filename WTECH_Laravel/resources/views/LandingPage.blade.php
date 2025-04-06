@@ -354,7 +354,6 @@
                 <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
             </div>
         </div>
-        
     </header>
     @endauth
     <aside class="sidebar">
@@ -457,12 +456,12 @@
 
             const swiperSlide = document.createElement('div');
             swiperSlide.classList.add('swiper-slide');
+            const gameUrl = `{{ url('/game_details') }}?name=${encodeURIComponent(game.name)}`;
             swiperSlide.innerHTML = `
-            <a class="nav" href="gameDetails.html?name=${encodeURIComponent(game.name)}">
+            <a class="nav" href="${gameUrl}">
                 <img class="game" src="${game.image}" alt="${game.name}">
                 <h4 class="game_name">${game.name}</h4>
-            </a>
-            `;
+            </a>`;
             swiperWrapper.appendChild(swiperSlide);
         });
 

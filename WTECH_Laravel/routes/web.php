@@ -17,6 +17,11 @@ Route::get('/categorized_games', function (Request $request) {
     return view('CategorizedGames', ['category' => $category]);
 })->name('categorized_games');
 
+Route::get('/game_details', function (Request $request) {
+    $name = $request->query('name');
+    return view('GameDetails', ['name' => $name]);
+})->name('game_details');
+
 Route::post("/log_in", [UserController::class, "logIn"]);
 
 Route::post("/sign_up", [UserController::class, "signUp"]);
