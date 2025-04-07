@@ -430,18 +430,18 @@
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    const menuIcon = document.querySelector(".menu");
-    const sidebar = document.querySelector(".sidebar");
-    const closeButton = document.querySelector(".close_btn");
+        const menuIcon = document.querySelector(".menu");
+        const sidebar = document.querySelector(".sidebar");
+        const closeButton = document.querySelector(".close_btn");
 
-    menuIcon.addEventListener("click", function () {
-        sidebar.classList.toggle("open");
-    });
+        menuIcon.addEventListener("click", function () {
+            sidebar.classList.toggle("open");
+        });
 
-    closeButton.addEventListener("click", function () {
-        sidebar.classList.remove("open");
+        closeButton.addEventListener("click", function () {
+            sidebar.classList.remove("open");
+        });
     });
-});
 </script>
 <script>
    document.addEventListener("DOMContentLoaded", function () {

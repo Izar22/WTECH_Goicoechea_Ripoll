@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('favourites', function (Blueprint $table) {
             $table->unsignedBigInteger('game_id');
             $table->unsignedBigInteger('customer_id');
+
+            $table->primary(['game_id', 'customer_id']);
         
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
             $table->foreign('customer_id')->references('id')->on('users')->onDelete('cascade');
