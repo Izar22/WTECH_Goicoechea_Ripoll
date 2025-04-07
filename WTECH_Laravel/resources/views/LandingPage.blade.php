@@ -386,6 +386,14 @@
         <h3 class="section_title">Our recommendations</h3>
         <section class="swiper">
             <div class="swiper-wrapper" id="swiper-wrapper">
+                @foreach ($games_recomended as $game)
+                    <div class="swiper-slide">
+                        <a class="nav" href="{{ url('/game_details', ['id' => $game->id]) }}">
+                            <img class="game" src="./Images/Minecraft/1e95962d-7296-4667-baba-8b58979bd754.avif" alt="{{ $game->title }}">
+                            <h4 class="game_name">{{ $game->title }}</h4>
+                        </a>
+                    </div>
+                @endforeach
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
@@ -393,6 +401,14 @@
         <h3 class="section_title">Most Popular</h3>
         <section class="swiper swiper-container-2">
             <div class="swiper-wrapper" id="swiper-wrapper-2">
+                @foreach ($games_popular as $game)
+                    <div class="swiper-slide">
+                        <a class="nav" href="{{ url('/game_details', ['id' => $game->id]) }}">
+                            <img class="game" src="./Images/Minecraft/1e95962d-7296-4667-baba-8b58979bd754.avif" alt="{{ $game->title }}">
+                            <h4 class="game_name">{{ $game->title }}</h4>
+                        </a>
+                    </div>
+                @endforeach
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
@@ -438,74 +454,22 @@
     });
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const games = [
-        { name: "Overwatch 2", image: "./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" },
-        { name: "League of Legends", image: "./Images/League of Legends/league-of-legends.avif" },
-        { name: "Valorant", image: "./Images/Valorant/MV5BZmQwMjQ2ZTUtZmM5MC00MTdkLWIxYzgtODU1NzQ4Zjg4NmMxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-        { name: "Apex Legends", image: "./Images/Apex Legends/Apex_legends_cover.jpg" },
-        { name: "Minecraft", image: "./Images/Minecraft/1e95962d-7296-4667-baba-8b58979bd754.avif" },
-        { name: "Fortnite", image: "./Images/Fortnite/MV5BMTZlMmIxM2EtN2Y4Zi00M2ZhLTk3NzgtNjJmZTU0MTQ3YjcwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-        { name: "Call of Duty", image: "./Images/Call of Duty/1654282726-call-of-duty-modern-warfare-2-xbox-series-pre-orden-0.jpg" },
-        { name: "PUBG", image: "./Images/PUBG/pubg-battlegrounds-41bcl.png" }
-        ];
-
-        const swiperWrapper = document.getElementById('swiper-wrapper');
-
-        games.forEach(game => {
-
-            const swiperSlide = document.createElement('div');
-            swiperSlide.classList.add('swiper-slide');
-            const gameUrl = `{{ url('/game_details') }}?name=${encodeURIComponent(game.name)}`;
-            swiperSlide.innerHTML = `
-            <a class="nav" href="${gameUrl}">
-                <img class="game" src="${game.image}" alt="${game.name}">
-                <h4 class="game_name">${game.name}</h4>
-            </a>`;
-            swiperWrapper.appendChild(swiperSlide);
-        });
-
-        var swiper = new Swiper('.swiper', {
+    document.addEventListener("DOMContentLoaded", function () {
+        new Swiper('.swiper', {
             navigation: {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev'
             }
         });
-
     });
- 
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const games = [
-            { name: "Minecraft", image: "./Images/Minecraft/1e95962d-7296-4667-baba-8b58979bd754.avif" },
-            { name: "Fortnite", image: "./Images/Fortnite/MV5BMTZlMmIxM2EtN2Y4Zi00M2ZhLTk3NzgtNjJmZTU0MTQ3YjcwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-            { name: "Call of Duty", image: "./Images/Call of Duty/1654282726-call-of-duty-modern-warfare-2-xbox-series-pre-orden-0.jpg" },
-            { name: "PUBG", image: "./Images/PUBG/pubg-battlegrounds-41bcl.png" },
-            { name: "Overwatch 2", image: "./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" },
-            { name: "League of Legends", image: "./Images/League of Legends/league-of-legends.avif" },
-            { name: "Valorant", image: "./Images/Valorant/MV5BZmQwMjQ2ZTUtZmM5MC00MTdkLWIxYzgtODU1NzQ4Zjg4NmMxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-            { name: "Apex Legends", image: "./Images/Apex Legends/Apex_legends_cover.jpg" }
-        ];
-
-        function populateSwiper(swiperId) {
-            const swiperWrapper = document.getElementById(swiperId);
-            games.forEach(game => {
-                const swiperSlide = document.createElement('div');
-                swiperSlide.classList.add('swiper-slide');
-                swiperSlide.innerHTML = `
-                    <a class="nav" href="gameDetails.html?name=${encodeURIComponent(game.name)}">
-                        <img class="game" src="${game.image}" alt="${game.name}">
-                        <h4 class="game_name">${game.name}</h4>
-                    </a>
-                `;
-                swiperWrapper.appendChild(swiperSlide);
-            });
-        }
-        populateSwiper("swiper-wrapper-2");
-
-        new Swiper(".swiper-container-2", {
-            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
+    document.addEventListener("DOMContentLoaded", function () {
+        new Swiper('.swiper-container-2', {
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
         });
     });
 </script>
