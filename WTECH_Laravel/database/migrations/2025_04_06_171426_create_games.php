@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id(); // GameID
             $table->string('title', 50);
-            $table->time('release_date');
+            $table->date('release_date');
             $table->string('publisher_name', 50);
             $table->decimal('price', 3, 2);
             $table->string('platform', 50);
