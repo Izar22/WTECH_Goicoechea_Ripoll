@@ -429,6 +429,21 @@
     </footer>
 </body>
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const menuIcon = document.querySelector(".menu");
+    const sidebar = document.querySelector(".sidebar");
+    const closeButton = document.querySelector(".close_btn");
+
+    menuIcon.addEventListener("click", function () {
+        sidebar.classList.toggle("open");
+    });
+
+    closeButton.addEventListener("click", function () {
+        sidebar.classList.remove("open");
+    });
+});
+</script>
+<script>
    document.addEventListener("DOMContentLoaded", function () {
         const logoutModal = document.getElementById("logoutModal");
         const confirmLogoutBtn = document.getElementById("confirmLogout");
