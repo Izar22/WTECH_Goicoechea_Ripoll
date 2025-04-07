@@ -310,7 +310,7 @@
     @auth
     <header>
         <div class="title">
-            <a class="nav" href="LandingPage.html"> 
+            <a class="nav" href="{{ route('landing_page') }}"> 
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
@@ -322,10 +322,10 @@
                 <img src="./Images/log-out-svgrepo-com.svg" alt="LogOut" class="icon"> 
             </a>
             <a class="action nav open-logout" href="#">Log Out</a>
-            <a class="nav" href="ShoppingCart.html">
+            <a class="nav" href="{{ route('shopping_cart') }}">
                 <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
             </a>
-            <a class="action nav" href="ShoppingCart.html">Cart</a>
+            <a class="action nav" href="{{ route('shopping_cart') }}">Cart</a>
             <div class="menu">
                 <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
             </div>
@@ -334,7 +334,7 @@
     @else
     <header>
         <div class="title">
-            <a class="nav" href="LandingPage.html"> 
+            <a class="nav" href="{{ route('landing_page') }}"> 
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
@@ -342,19 +342,18 @@
             <input class="search" type="text" placeholder="Search">
         </form>
         <div class="user_actions">
-            <a href="LoginPage.html">
-                <img src="./Images/avatar-default-svgrepo-com.svg" alt="Menu" class="icon"> 
+            <a href="{{ route('sign_in') }}">
+                <img src="./Images/avatar-default-svgrepo-com.svg" alt="SignIn" class="icon"> 
             </a>
-            <a class="action" href="LoginPage.html">Sign In</a>
-            <a class="nav" href="ShoppingCart.html">
+            <a class="action" href="{{ route('sign_in') }}">Sign In</a>
+            <a class="nav" href="{{ route('shopping_cart') }}">
                 <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
             </a>
-            <a class="action nav" href="ShoppingCart.html">Cart</a>
+            <a class="action nav" href="{{ route('shopping_cart') }}">Cart</a>
             <div class="menu">
                 <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
             </div>
         </div>
-        
     </header>
     @endauth
     <aside class="sidebar">
@@ -363,21 +362,21 @@
             <input class="search" type="text" placeholder="Search">
         </div>   
         <nav class="navegation_mobile">
-            <a class="nav" href="CategorizedGames.html?category=Category%201">Category 1</a>
-            <a class="nav" href="CategorizedGames.html?category=Category%202">Category 2</a>
-            <a class="nav" href="CategorizedGames.html?category=Category%203">Category 3</a>
-            <a class="nav" href="CategorizedGames.html?category=Category%204">Category 4</a>
-            <a class="nav" href="CategorizedGames.html?category=Category%205">Category 5</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 1']) }}">Category 1</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 2']) }}">Category 2</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 3']) }}">Category 3</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 4']) }}">Category 4</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 5']) }}">Category 5</a>
         </nav>
         
     </aside>
     <main>
         <nav class="navegation">
-            <a class="nav" href="CategorizedGames.html?category=Category%201">Category 1</a>
-            <a class="nav" href="CategorizedGames.html?category=Category%202">Category 2</a>
-            <a class="nav" href="CategorizedGames.html?category=Category%203">Category 3</a>
-            <a class="nav" href="CategorizedGames.html?category=Category%204">Category 4</a>
-            <a class="nav" href="CategorizedGames.html?category=Category%205">Category 5</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 1']) }}">Category 1</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 2']) }}">Category 2</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 3']) }}">Category 3</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 4']) }}">Category 4</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 5']) }}">Category 5</a>
         </nav>
         <section class="banner">
             <h2 class="CTA_first">Play More,</h2>
@@ -457,12 +456,12 @@
 
             const swiperSlide = document.createElement('div');
             swiperSlide.classList.add('swiper-slide');
+            const gameUrl = `{{ url('/game_details') }}?name=${encodeURIComponent(game.name)}`;
             swiperSlide.innerHTML = `
-            <a class="nav" href="gameDetails.html?name=${encodeURIComponent(game.name)}">
+            <a class="nav" href="${gameUrl}">
                 <img class="game" src="${game.image}" alt="${game.name}">
                 <h4 class="game_name">${game.name}</h4>
-            </a>
-            `;
+            </a>`;
             swiperWrapper.appendChild(swiperSlide);
         });
 
@@ -476,7 +475,6 @@
     });
  
 </script>
-
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const games = [
@@ -511,7 +509,6 @@
         });
     });
 </script>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         new Swiper(".swiper", {
@@ -531,28 +528,6 @@
         });
     });
 </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const logoutModal = document.getElementById("logoutModal");
-        const confirmLogoutBtn = document.getElementById("confirmLogout");
-        const cancelLogoutBtn = document.getElementById("cancelLogout");
-    
-        function openLogoutModal(event) {
-            event.preventDefault();
-            logoutModal.style.display = "flex";
-        }
-
-        confirmLogoutBtn.addEventListener("click", function () {
-
-            window.location.href = window.location.pathname; 
-        });
-
-        cancelLogoutBtn.addEventListener("click", function () {
-            logoutModal.style.display = "none"; 
-        });
-        
-    });
-</script> 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const urlParams = new URLSearchParams(window.location.search);
