@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
 
@@ -18,9 +19,9 @@ Route::get('/categorized_games', function (Request $request) {
 
 Route::get('/game_details/{id}', [GameController::class, 'gameDetails'])->name('game_details');
 
-Route::get('/shopping_cart', function () {
-    return view('ShoppingCart');
-})->name('shopping_cart');
+Route::get('/shopping_cart', [CartController::class, 'showCart'])->name('shopping_cart');
+
+Route::post('/shopping_cart', [CartController::class, 'addToCart'])->name('shopping_cart_post');
 
 Route::post("/log_in", [UserController::class, "logIn"]);
 

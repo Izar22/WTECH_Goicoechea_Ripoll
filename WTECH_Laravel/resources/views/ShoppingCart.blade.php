@@ -526,74 +526,25 @@
             <div class="left_section_cart">
                 <h2>Shopping Cart</h2>
                 <div class="games">
-                    <div class="game">
-                        <div class="img_game">
-                            <img class="image_game" alt="Game" src="./Images/Overwatch_2_Steam_artwork.jpg"/>
-                            <div class="number_game">
-                                <p>Videogame Name</p>
-                                <div class="less_more">
-                                    <button id="button_less" class="button">-</button>
-                                    <p>1</p>
-                                    <button id="button_more" class="button">+</button>
+                    @foreach ($items as $item)
+                        <div class="game">
+                            <div class="img_game">
+                                <img class="image_game" alt="{{ $item->game->title }}" src="./Images/Overwatch_2_Steam_artwork.jpg"/>
+                                <div class="number_game">
+                                    <p>{{ $item->game->title }}</p>
+                                    <div class="less_more">
+                                        <button id="button_less" class="button">-</button>
+                                        <p>{{ $item->quantity }}</p>
+                                        <button id="button_more" class="button">+</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="price_game">
-                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete_button">
-                            <p>XX,XX €</p>
-                        </div>
-                    </div>
-                    <div class="game">
-                        <div class="img_game">
-                            <img class="image_game" alt="Game" src="./Images/Overwatch_2_Steam_artwork.jpg"/>
-                            <div class="number_game">
-                                <p>Videogame Name</p>
-                                <div class="less_more">
-                                    <button id="button_less" class="button">-</button>
-                                    <p>1</p>
-                                    <button id="button_more" class="button">+</button>
-                                </div>
+                            <div class="price_game">
+                                <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete_button">
+                                <p>{{ number_format($item->quantity * $item->game->price, 2) }}€</p>
                             </div>
                         </div>
-                        <div class="price_game">
-                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete_button">
-                            <p>XX,XX €</p>
-                        </div>
-                    </div>
-                    <div class="game">
-                        <div class="img_game">
-                            <img class="image_game" alt="Game" src="./Images/Overwatch_2_Steam_artwork.jpg"/>
-                            <div class="number_game">
-                                <p>Videogame Name</p>
-                                <div class="less_more">
-                                    <button id="button_less" class="button">-</button>
-                                    <p>1</p>
-                                    <button id="button_more" class="button">+</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="price_game">
-                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete_button">
-                            <p>XX,XX €</p>
-                        </div>
-                    </div>
-                    <div class="game">
-                        <div class="img_game">
-                            <img class="image_game" alt="Game" src="./Images/Overwatch_2_Steam_artwork.jpg"/>
-                            <div class="number_game">
-                                <p>Videogame Name</p>
-                                <div class="less_more">
-                                    <button id="button_less" class="button">-</button>
-                                    <p>1</p>
-                                    <button id="button_more" class="button">+</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="price_game">
-                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete_button">
-                            <p>XX,XX €</p>
-                        </div>
-                    </div>
+                    @endforeach    
                 </div>
             </div>
             <div class="right_section">

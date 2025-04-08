@@ -468,8 +468,12 @@
             <div class="price_box">
                 <h3 class="price">Price</h3>
                 <p><strong>{{ $game->price }} €</strong></p>
-                <input type="number" id="quantity" min="1" value="1">
-                <button class="button">Add to cart</button>
+                <form action="{{ route('shopping_cart_post') }}" method="POST">
+                    @csrf
+                    <input type="number" name="quantity" id="quantity" min="1" value="1">        
+                    <input type="hidden" name="game_id" value="{{ $game->id }}">  
+                    <button type="submit" class="button">Add to cart</button>
+                </form>
                 <button class="button" onclick="customBackCart(); return false;">Buy now</button>
             </div>
         </div>

@@ -12,12 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('game_order', function (Blueprint $table) {
+            $table->id();
             $table->bigInteger('payment_details_card_number');
             $table->unsignedBigInteger('game_id');
             $table->unsignedInteger('quantity');
             $table->decimal('price', 3, 2);
-
-            $table->primary(['payment_details_card_number', 'game_id']);
         
             $table->foreign('payment_details_card_number')->references('card_number')->on('payment_details');
             $table->foreign('game_id')->references('id')->on('games');
