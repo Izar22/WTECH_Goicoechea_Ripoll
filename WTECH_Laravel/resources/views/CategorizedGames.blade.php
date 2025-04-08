@@ -338,9 +338,11 @@
         .pagination {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            @media (max-width: 768px) {
+                margin-top: 15px;
+            }
         }
-        .page_button {
+        .page_button, .page_buttons {
             padding: 10px;
             margin: 5px;
             border: none;
@@ -351,6 +353,9 @@
         .page_button.active {
             background-color: #275DAD;
             color: white;
+        }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -467,17 +472,24 @@
             <div>
                 <h2 id="category_name"></h2>
                 <div class="articles_pills">
-                    <p id="articles_count">XXXX articles</p>
+                    <p id="articles_count">{{ $totalGames }} articles</p>
                     <div class="applied_filters"></div>
                 </div>                
             </div>           
             <div class="order_by">
                 <label for="order_by">Order By</label>
-                <select name="order_by" id="order_by">
-                    <option value="">Choose an option</option>
-                    <option value="price_increasing">Price: from less to more</option>
-                    <option value="price_decreasing">Price: from more to less</option>
-                </select>
+                <form method="GET" action="{{ route('categorized_games') }}">
+                    <input type="hidden" name="platform" value="{{ request('platform') }}">
+                    <input type="hidden" name="genre" value="{{ request('genre') }}">
+                    <input type="hidden" name="category" value="{{ request('category') }}">
+                    <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
+                    <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                    <select name="order_by" id="order_by" onchange="this.form.submit()">
+                        <option value="">Choose an option</option>
+                        <option value="price_increasing" {{ request('order_by') == 'price_increasing' ? 'selected' : '' }}>Price: from less to more</option>
+                        <option value="price_decreasing" {{ request('order_by') == 'price_decreasing' ? 'selected' : '' }}>Price: from more to less</option>
+                    </select>
+                </form>
             </div>
         </div>
         <div class="divider"></div>
@@ -485,51 +497,79 @@
             <div class="filters">
                 <div>
                     <h3>Price range</h3>
-                    <div class="price_range">
-                        <label for="fromPrice">From</label>
-                        <input type="number" id="fromPrice" name="fromPrice" min="0" max="1000" step="1">
-                        <label for="toPrice">To</label>
-                        <input type="number" id="toPrice" name="toPrice" min="0" max="500" step="1">
-                    </div>
-                    <button class="button_apply" disabled>Apply</button>
+                    <form method="GET" action="{{ route('categorized_games') }}">
+                        <!-- Campo oculto para mantener el valor de 'genre' -->
+                        <input type="hidden" name="category" value="{{ request('category') }}">
+                        <input type="hidden" name="genre" value="{{ request('genre') }}">
+                        <input type="hidden" name="platform" value="{{ request('platform') }}">
+                        <input type="hidden" name="order_by" value="{{ request('order_by') }}">
+                        <div class="price_range">
+                            <label for="fromPrice">From</label>
+                            <input type="number" id="fromPrice" name="fromPrice" min="0" max="1000" step="1" value="{{ request('fromPrice') }}">
+                            <label for="toPrice">To</label>
+                            <input type="number" id="toPrice" name="toPrice" min="0" max="500" step="1" value="{{ request('toPrice') }}"> 
+                        </div>
+                        <button type="submit" class="button_apply">Apply</button>
+                    </form>
                 </div>
                 <div class="filter">
                     <label for="genre">Genre</label>
-                    <select name="genre" id="genre">
-                        <option value="">Choose an option</option>
-                        <option value="action">Action</option>
-                        <option value="adventure">Adventure</option>
-                        <option value="rpg">RPG</option>
-                        <option value="shooter">Shooter</option>
-                        <option value="strategy">Strategy</option>
-                        <option value="sports">Sports</option>
-                        <option value="racing">Racing</option>
-                        <option value="simulation">Simulation</option>
-                        <option value="horror">Horror</option>
-                        <option value="platformer">Platformer</option>
-                        <option value="puzzle">Puzzle</option>
-                    </select>
+                    <form method="GET" action="{{ route('categorized_games') }}">
+                        <input type="hidden" name="platform" value="{{ request('platform') }}">
+                        <input type="hidden" name="order_by" value="{{ request('order_by') }}">
+                        <input type="hidden" name="category" value="{{ request('category') }}">
+                        <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
+                        <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                        <select name="genre" id="genre" onchange="this.form.submit()">
+                            <option value="">Choose an option</option>
+                            @foreach($genres as $genre)
+                                <option value="{{ $genre->genre }}" {{ request('genre') == $genre->genre ? 'selected' : '' }}>{{ ucfirst($genre->genre) }}</option>
+                            @endforeach
+                        </select>
+                    </form>
                 </div>
                 
                 <div class="filter">
                     <label for="platform">Platform</label>
-                    <select name="platform" id="platform">
-                        <option value="">Choose an option</option>
-                        <option value="pc">PC</option>
-                        <option value="ps5">PlayStation 5</option>
-                        <option value="ps4">PlayStation 4</option>
-                        <option value="xbox_series">Xbox Series X|S</option>
-                        <option value="xbox_one">Xbox One</option>
-                        <option value="switch">Nintendo Switch</option>
-                        <option value="mobile">Mobile</option>
-                    </select>
+                    <form method="GET" action="{{ route('categorized_games') }}">
+                        <input type="hidden" name="genre" value="{{ request('genre') }}">
+                        <input type="hidden" name="order_by" value="{{ request('order_by') }}">
+                        <input type="hidden" name="category" value="{{ request('category') }}">
+                        <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
+                        <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                        <select name="platform" id="platform" onchange="this.form.submit()">
+                            <option value="">Choose an option</option>
+                            @foreach($platforms as $platform)
+                                <option value="{{ $platform->platform }}" {{ request('platform') == $platform->platform ? 'selected' : '' }}>{{ ucfirst($platform->platform) }}</option>
+                            @endforeach
+                        </select>
+                    </form>
                 </div>         
             </div>
             <section class="games_section">
                 <div class="games" id="gamesContainer"></div>   
+                    @foreach ($games as $game)
+                    <div class="game">
+                        <div class="game_link" style="cursor: pointer;" onclick="location.href='{{ url('/game_details?name=' . urlencode($game->name)) }}'">
+                            <!--<img class="image_game" src="{{ asset($game->image) }}" alt="{{ $game->name }}" />-->
+                            <img class="image_game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="{{ $game->name }}" />
+                        </div>
+                        <div class="game_link" style="cursor: pointer;" onclick="location.href='{{ url('/game_details?name=' . urlencode($game->name)) }}'">
+                            <p>{{ $game->title }}</p>
+                        </div>
+                        <div class="price_icon">
+                            <p>{{ $game->price }} €</p>
+                            <div class="heart">
+                                <img src="{{ asset('Images/heart-svgrepo-com.svg') }}" alt="Heart" class="icon">
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </section>   
         </div> 
-        <div id="pagination" class="pagination"></div>
+        <div class="pagination" class="pagination">
+            {{ $games->links('vendor.pagination.custom') }}
+        </div>
         <div id="logoutModal" class="modal">
             <div class="modal_content">
                 <p>Are you sure you want to log out?</p>
@@ -545,6 +585,52 @@
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
     </footer>
 </body>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const updatePagination = () => {
+            const pageButtons = document.querySelectorAll('.page_button');
+            const pageLinks = document.querySelectorAll('.page_button');
+            const screenWidth = window.innerWidth;
+            const pageButtonsContainer = document.querySelector('.pagination');
+            const pageLinksContainer = document.getElementById('page_buttons');
+
+            if (screenWidth < 600) {
+                // Ocultar las páginas numeradas
+                pageLinksContainer.classList.add('hidden');
+                
+                // Mostrar solo "Previous", página actual y "Next"
+                pageButtons.forEach(button => {
+                    if (button.classList.contains('current-page-text') || button.innerText === "Previous" || button.innerText === "Next") {
+                        button.style.display = 'inline-block';
+                    } else {
+                        button.style.display = 'none';
+                    }
+                });
+            } else {
+                // Mostrar todas las páginas numeradas
+                pageLinksContainer.classList.remove('hidden');
+                
+                // Mostrar todos los botones
+                pageButtons.forEach(button => {
+                    button.style.display = 'inline-block';
+                });
+            }
+        };
+
+        // Llama a la función al cargar la página
+        updatePagination();
+
+        // Actualiza la paginación cuando se redimensione la ventana
+        window.addEventListener('resize', updatePagination);
+    });
+</script>
+
+
+
+<!--
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const games = [
@@ -654,6 +740,7 @@
         renderGames();
     });
 </script>
+-->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const menuIcon = document.querySelector(".menu");
@@ -669,6 +756,8 @@
         });
     });
 </script>
+
+<!--
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const genreSelects = document.querySelectorAll("#genre");
@@ -758,7 +847,8 @@
             });
         });
     });
-</script>    
+</script> 
+-->   
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const heartIcons = document.querySelectorAll(".heart");
