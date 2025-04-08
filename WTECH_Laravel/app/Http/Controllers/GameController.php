@@ -67,7 +67,8 @@ class GameController extends Controller
         }
         $totalGames = $games->count();
 
-        $games = $games->paginate(10);
+        //$games = $games->paginate(10);
+        $games = $games->with('images')->paginate(10);
 
         return view('CategorizedGames', compact('games', 'category', 'genres', 'platforms', 'totalGames'));
     }
