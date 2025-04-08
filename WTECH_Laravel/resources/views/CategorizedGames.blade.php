@@ -85,7 +85,7 @@
             flex-direction: column;
             @media (max-width: 768px) {
                 height: auto;
-                max-height: calc(100vh - 108.4px);
+                min-height: calc(100vh - 108.4px);
             }
         }
         .close_btn {
@@ -338,6 +338,7 @@
         .pagination {
             display: flex;
             justify-content: center;
+            padding-left: 0;
             @media (max-width: 768px) {
                 margin-top: 15px;
             }
@@ -614,18 +615,18 @@
     document.addEventListener("DOMContentLoaded", function () {
         const updatePagination = () => {
             const pageButtons = document.querySelectorAll('.page_button');
-            const pageLinks = document.querySelectorAll('.page_button');
             const screenWidth = window.innerWidth;
-            const pageButtonsContainer = document.querySelector('.pagination');
             const pageLinksContainer = document.getElementById('page_buttons');
+            const currentPageContainer = document.getElementById('current_page');
 
             if (screenWidth < 600) {
-                // Ocultar las páginas numeradas
-                pageLinksContainer.classList.add('hidden');
-                
                 // Mostrar solo "Previous", página actual y "Next"
+                currentPageContainer.style.display = 'inline-block'; // Mostrar la página actual
+                pageLinksContainer.classList.add('hidden'); // Ocultar las páginas numeradas
+                
                 pageButtons.forEach(button => {
-                    if (button.classList.contains('current-page-text') || button.innerText === "Previous" || button.innerText === "Next") {
+                    // Mostrar solo los botones relevantes
+                    if (button.classList.contains('active') || button.innerText === "Previous" || button.innerText === "Next" || button === currentPageContainer) {
                         button.style.display = 'inline-block';
                     } else {
                         button.style.display = 'none';
@@ -633,7 +634,8 @@
                 });
             } else {
                 // Mostrar todas las páginas numeradas
-                pageLinksContainer.classList.remove('hidden');
+                currentPageContainer.style.display = 'inline-block'; // Mostrar la página actual
+                pageLinksContainer.classList.remove('hidden'); // Mostrar las páginas numeradas
                 
                 // Mostrar todos los botones
                 pageButtons.forEach(button => {
