@@ -368,8 +368,8 @@
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
-        <form class="search_bar" action="#" method="GET">
-            <input class="search" type="text" placeholder="Search">
+        <form  class="search_bar" action="{{ route('categorized_games') }}" method="GET">
+            <input class="search" type="text" name="search" value="{{ request('search') }}" placeholder="Search games">
         </form>
         <div class="user_actions">
             <a class="nav open-logout" href="#">
@@ -392,8 +392,8 @@
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
-        <form class="search_bar" action="#" method="GET">
-            <input class="search" type="text" placeholder="Search">
+        <form  class="search_bar" action="{{ route('categorized_games') }}" method="GET">
+            <input class="search" type="text" name="search" value="{{ request('search') }}" placeholder="Search games">
         </form>
         <div class="user_actions">
             <a href="{{ route('sign_in') }}">
