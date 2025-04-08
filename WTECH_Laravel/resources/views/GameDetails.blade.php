@@ -474,7 +474,12 @@
                     <input type="hidden" name="game_id" value="{{ $game->id }}">  
                     <button type="submit" class="button">Add to cart</button>
                 </form>
-                <button class="button" onclick="customBackCart(); return false;">Buy now</button>
+                <form action="{{ route('shopping_cart_now') }}" method="POST">
+                    @csrf  
+                    <input type="hidden" name="game_id" value="{{ $game->id }}">
+                    <input type="hidden" name="quantity" id="buy-now-quantity">
+                    <button type="submit" class="button">Buy now</button>
+                </form>
             </div>
         </div>
         <div id="logoutModal" class="modal">
@@ -492,20 +497,30 @@
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
     </footer>
 </body>
+
+<script>
+    const quantityInput = document.getElementById('quantity');
+    const buyNowForm = document.getElementById('buy-now-form');
+    const buyNowQuantityInput = document.getElementById('buy-now-quantity');
+
+    quantityInput.addEventListener('input', function() {
+        buyNowQuantityInput.value = quantityInput.value;
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    const menuIcon = document.querySelector(".menu");
-    const sidebar = document.querySelector(".sidebar");
-    const closeButton = document.querySelector(".close_btn");
+        const menuIcon = document.querySelector(".menu");
+        const sidebar = document.querySelector(".sidebar");
+        const closeButton = document.querySelector(".close_btn");
 
-    menuIcon.addEventListener("click", function () {
-        sidebar.classList.toggle("open");
-    });
+        menuIcon.addEventListener("click", function () {
+            sidebar.classList.toggle("open");
+        });
 
-    closeButton.addEventListener("click", function () {
-        sidebar.classList.remove("open");
+        closeButton.addEventListener("click", function () {
+            sidebar.classList.remove("open");
+        });
     });
-});
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
