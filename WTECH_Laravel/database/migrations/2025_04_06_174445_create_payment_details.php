@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('payment_details', function (Blueprint $table) {
             $table->bigInteger('card_number')->primary();
-            $table->unsignedTinyInteger('exp_month'); // Valores del 1 al 12
-            $table->unsignedSmallInteger('exp_year'); // Ejemplo: 2025
+            $table->unsignedTinyInteger('exp_month'); 
+            $table->unsignedSmallInteger('exp_year'); 
             $table->integer('cvv');
         });
         

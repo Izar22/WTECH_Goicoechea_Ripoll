@@ -362,7 +362,7 @@
         </form>
         <div class="user_actions">
             <a class="nav open-logout" href="#">
-                <img src="./Images/log-out-svgrepo-com.svg" alt="LogOut" class="icon"> 
+                <img src="{{ asset('Images/log-out-svgrepo-com.svg') }}" alt="LogOut" class="icon"> 
             </a>
             <a class="action nav open-logout" href="#">Log Out</a>
             <a class="nav" href="{{ route('shopping_cart') }}">
@@ -412,9 +412,9 @@
         </a>
 
         <div class="game_name">
-            <h2 id="game_name"></h2>
+            <h2 id="game_name">{{ $game->title }}</h2>
             <div id="heartIcon" class="heart">
-                <img src="./Images/heart-svgrepo-com.svg" alt="Heart" class="icon">
+                <img src="{{ asset('Images/heart-svgrepo-com.svg') }}"  alt="Heart" class="icon">
             </div>
         </div>
         <div class="container">
@@ -422,7 +422,7 @@
                 <div class="slideshow_container">
                     <div class="mySlides fade">
                     <div class="numbertext">1 / 3</div>
-                    <img src="Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Overwatch 2 Cover" style="width:100%">
+                    <img src="{{ asset('Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg') }}" alt="Overwatch 2 Cover" style="width:100%">
                     </div>
                 
                     <div class="mySlides fade">
@@ -448,29 +448,38 @@
                 <div class="details">
                     <div class="input-group">
                         <label for="platform"><strong>Platform:</strong></label>
-                        <input type="text" id="platform" value="xxxxxxxxxx">
+                        <input type="text" id="platform" value="{{ $game->platform }}" readonly>
                     </div>
                     <div class="input-group">
                         <label for="region"><strong>Region:</strong></label>
-                        <input type="text" id="region" value="xxxxxxxxxx">
+                        <input type="text" id="region" value="{{ $game->region }}" readonly>
                     </div>
                     <div class="input-group">
                         <label for="genre"><strong>Genre:</strong></label>
-                        <input type="text" id="genre" value="xxxxxxxxxx">
+                        <input type="text" id="genre" value="{{ $game->genre }}" readonly>
                     </div>
                     <div class="input-group">
                         <label for="release_date"><strong>Date of release:</strong></label>
-                        <input type="date" id="release_date"  value="xx/xx/xxxx">
+                        <input type="date" id="release_date"  value="{{ $game->release_date }}" readonly>
                     </div>
-                    <textarea id="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</textarea>
+                    <textarea id="description" readonly>{{ $game->description }}</textarea>
                 </div>
             </div>
             <div class="price_box">
                 <h3 class="price">Price</h3>
-                <p><strong>XX €</strong></p>
-                <input type="number" id="quantity" min="1" value="1">
-                <button class="button">Add to cart</button>
-                <button class="button" onclick="customBackCart(); return false;">Buy now</button>
+                <p><strong>{{ $game->price }} €</strong></p>
+                <form action="{{ route('shopping_cart_post') }}" method="POST">
+                    @csrf
+                    <input type="number" name="quantity" id="quantity" min="1" value="1">        
+                    <input type="hidden" name="game_id" value="{{ $game->id }}">  
+                    <button type="submit" class="button">Add to cart</button>
+                </form>
+                <form action="{{ route('shopping_cart_now') }}" method="POST">
+                    @csrf  
+                    <input type="hidden" name="game_id" value="{{ $game->id }}">
+                    <input type="hidden" name="quantity" id="buy-now-quantity">
+                    <button type="submit" class="button">Buy now</button>
+                </form>
             </div>
         </div>
         <div id="logoutModal" class="modal">
@@ -488,47 +497,44 @@
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
     </footer>
 </body>
+
+<script>
+    const quantityInput = document.getElementById('quantity');
+    const buyNowForm = document.getElementById('buy-now-form');
+    const buyNowQuantityInput = document.getElementById('buy-now-quantity');
+
+    quantityInput.addEventListener('input', function() {
+        buyNowQuantityInput.value = quantityInput.value;
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    const menuIcon = document.querySelector(".menu");
-    const sidebar = document.querySelector(".sidebar");
-    const closeButton = document.querySelector(".close_btn");
+        const menuIcon = document.querySelector(".menu");
+        const sidebar = document.querySelector(".sidebar");
+        const closeButton = document.querySelector(".close_btn");
 
-    menuIcon.addEventListener("click", function () {
-        sidebar.classList.toggle("open");
-    });
+        menuIcon.addEventListener("click", function () {
+            sidebar.classList.toggle("open");
+        });
 
-    closeButton.addEventListener("click", function () {
-        sidebar.classList.remove("open");
+        closeButton.addEventListener("click", function () {
+            sidebar.classList.remove("open");
+        });
     });
-});
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const heartIcon = document.getElementById("heartIcon");
         let isFavorite = false;
         
-        const heartFilled = `<img src="./Images/heart-svgrepo-com (1).svg" alt="Heart" class="icon">`;
+        const heartFilled = `<img src="{{ asset('Images/heart-svgrepo-com (1).svg') }}" alt="Heart" class="icon">`;
         
-        const heartOutline = `<img src="./Images/heart-svgrepo-com.svg" alt="Heart" class="icon">`;
+        const heartOutline = `<img src="{{ asset('Images/heart-svgrepo-com.svg') }}" alt="Heart" class="icon">`;
         
         heartIcon.addEventListener("click", function () {
             isFavorite = !isFavorite;
             heartIcon.innerHTML = isFavorite ? heartFilled : heartOutline;
         });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        function getCategoryFromURL() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get('name'); 
-        }
-
-        const categoryName = getCategoryFromURL();
-        
-        const categoryElement = document.getElementById("game_name");
-        categoryElement.textContent = categoryName;
     });
 </script>
 <script>

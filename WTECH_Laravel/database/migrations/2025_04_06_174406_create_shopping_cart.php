@@ -14,11 +14,8 @@ return new class extends Migration
         Schema::create('shopping_cart', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('customer_id');
-            $table->unsignedBigInteger('game_id');
-            $table->unsignedInteger('quantity');
         
             $table->foreign('customer_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
         });
         
     }
