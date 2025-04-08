@@ -85,7 +85,7 @@
             flex-direction: column;
             @media (max-width: 768px) {
                 height: auto;
-                max-height: calc(100vh - 108.4px);
+                min-height: calc(100vh - 108.4px);
             }
         }
         .close_btn {
@@ -338,6 +338,7 @@
         .pagination {
             display: flex;
             justify-content: center;
+            padding-left: 0;
             @media (max-width: 768px) {
                 margin-top: 15px;
             }
@@ -416,52 +417,68 @@
             <div class="mobile_filters">
                 <div class="order_by_mobile">
                     <label for="order_by">Order By</label>
-                    <select name="order_by" id="order_by">
-                        <option value="">Choose an option</option>
-                        <option value="price_increasing">Price: from less to more</option>
-                        <option value="price_decreasing">Price: from more to less</option>
-                    </select>
+                    <form method="GET" action="{{ route('categorized_games') }}">
+                        <input type="hidden" name="platform" value="{{ request('platform') }}">
+                        <input type="hidden" name="genre" value="{{ request('genre') }}">
+                        <input type="hidden" name="category" value="{{ request('category') }}">
+                        <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
+                        <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                        <select name="order_by" id="order_by" onchange="this.form.submit()">
+                            <option value="">Choose an option</option>
+                            <option value="price_increasing" {{ request('order_by') == 'price_increasing' ? 'selected' : '' }}>Price: from less to more</option>
+                            <option value="price_decreasing" {{ request('order_by') == 'price_decreasing' ? 'selected' : '' }}>Price: from more to less</option>
+                        </select>
+                    </form>
                 </div>
                 <div>
                     <div>
                         <h3>Price range</h3>
-                        <div class="price_range">
-                            <label for="fromPrice">From</label>
-                            <input type="number" id="fromPrice" name="fromPrice" min="0" max="1000" step="1">
-                            <label for="toPrice">To</label>
-                            <input type="number" id="toPrice" name="toPrice" min="0" max="500" step="1">
-                        </div>
+                        <form method="GET" action="{{ route('categorized_games') }}">
+                            <input type="hidden" name="category" value="{{ request('category') }}">
+                            <input type="hidden" name="genre" value="{{ request('genre') }}">
+                            <input type="hidden" name="platform" value="{{ request('platform') }}">
+                            <input type="hidden" name="order_by" value="{{ request('order_by') }}">
+                            <div class="price_range">
+                                <label for="fromPrice">From</label>
+                                <input type="number" id="fromPrice" name="fromPrice" min="0" max="1000" step="1" value="{{ request('fromPrice') }}">
+                                <label for="toPrice">To</label>
+                                <input type="number" id="toPrice" name="toPrice" min="0" max="500" step="1" value="{{ request('toPrice') }}"> 
+                            </div>
+                            <button type="submit" class="button_apply">Apply</button>
+                        </form>
                         <button class="button_apply" disabled>Apply</button>
                     </div>
                     <div class="filter">
                         <label for="genre">Genre</label>
-                        <select name="genre" id="genre">
-                            <option value="">Choose an option</option>
-                            <option value="action">Action</option>
-                            <option value="adventure">Adventure</option>
-                            <option value="rpg">RPG</option>
-                            <option value="shooter">Shooter</option>
-                            <option value="strategy">Strategy</option>
-                            <option value="sports">Sports</option>
-                            <option value="racing">Racing</option>
-                            <option value="simulation">Simulation</option>
-                            <option value="horror">Horror</option>
-                            <option value="platformer">Platformer</option>
-                            <option value="puzzle">Puzzle</option>
-                        </select>
+                        <form method="GET" action="{{ route('categorized_games') }}">
+                            <input type="hidden" name="platform" value="{{ request('platform') }}">
+                            <input type="hidden" name="order_by" value="{{ request('order_by') }}">
+                            <input type="hidden" name="category" value="{{ request('category') }}">
+                            <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
+                            <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                            <select name="genre" id="genre" onchange="this.form.submit()">
+                                <option value="">Choose an option</option>
+                                @foreach($genres as $genre)
+                                    <option value="{{ $genre->genre }}" {{ request('genre') == $genre->genre ? 'selected' : '' }}>{{ ucfirst($genre->genre) }}</option>
+                                @endforeach
+                            </select>
+                        </form>
                     </div>        
                     <div class="filter">
                         <label for="platform">Platform</label>
-                        <select name="platform" id="platform">
-                            <option value="">Choose an option</option>
-                            <option value="pc">PC</option>
-                            <option value="ps5">PlayStation 5</option>
-                            <option value="ps4">PlayStation 4</option>
-                            <option value="xbox_series">Xbox Series X|S</option>
-                            <option value="xbox_one">Xbox One</option>
-                            <option value="switch">Nintendo Switch</option>
-                            <option value="mobile">Mobile</option>
-                        </select>
+                        <form method="GET" action="{{ route('categorized_games') }}">
+                            <input type="hidden" name="genre" value="{{ request('genre') }}">
+                            <input type="hidden" name="order_by" value="{{ request('order_by') }}">
+                            <input type="hidden" name="category" value="{{ request('category') }}">
+                            <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
+                            <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                            <select name="platform" id="platform" onchange="this.form.submit()">
+                                <option value="">Choose an option</option>
+                                @foreach($platforms as $platform)
+                                    <option value="{{ $platform->platform }}" {{ request('platform') == $platform->platform ? 'selected' : '' }}>{{ ucfirst($platform->platform) }}</option>
+                                @endforeach
+                            </select>
+                        </form>
                     </div>          
                 </div>
             </div>         
@@ -473,7 +490,17 @@
                 <h2 id="category_name"></h2>
                 <div class="articles_pills">
                     <p id="articles_count">{{ $totalGames }} articles</p>
-                    <div class="applied_filters"></div>
+                    <div class="applied_filters">
+                        @if(request('fromPrice') && request('toPrice'))
+                            <div class="filter_label">Price: {{ request('fromPrice') }} - {{ request('toPrice') }} €<span class="remove" data-filter="price">✖</span></div>
+                        @endif
+                        @if(request('genre'))
+                            <div class="filter_label">Genre: {{ ucfirst(request('genre')) }}<span class="remove" data-filter="genre">✖</span></div>
+                        @endif
+                        @if(request('platform'))
+                            <div class="filter_label">Platform: {{ ucfirst(request('platform')) }}<span class="remove" data-filter="platform">✖</span></div>
+                        @endif
+                    </div>
                 </div>                
             </div>           
             <div class="order_by">
@@ -498,7 +525,6 @@
                 <div>
                     <h3>Price range</h3>
                     <form method="GET" action="{{ route('categorized_games') }}">
-                        <!-- Campo oculto para mantener el valor de 'genre' -->
                         <input type="hidden" name="category" value="{{ request('category') }}">
                         <input type="hidden" name="genre" value="{{ request('genre') }}">
                         <input type="hidden" name="platform" value="{{ request('platform') }}">
@@ -585,25 +611,22 @@
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
     </footer>
 </body>
-
-
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const updatePagination = () => {
             const pageButtons = document.querySelectorAll('.page_button');
-            const pageLinks = document.querySelectorAll('.page_button');
             const screenWidth = window.innerWidth;
-            const pageButtonsContainer = document.querySelector('.pagination');
             const pageLinksContainer = document.getElementById('page_buttons');
+            const currentPageContainer = document.getElementById('current_page');
 
             if (screenWidth < 600) {
-                // Ocultar las páginas numeradas
-                pageLinksContainer.classList.add('hidden');
-                
                 // Mostrar solo "Previous", página actual y "Next"
+                currentPageContainer.style.display = 'inline-block'; // Mostrar la página actual
+                pageLinksContainer.classList.add('hidden'); // Ocultar las páginas numeradas
+                
                 pageButtons.forEach(button => {
-                    if (button.classList.contains('current-page-text') || button.innerText === "Previous" || button.innerText === "Next") {
+                    // Mostrar solo los botones relevantes
+                    if (button.classList.contains('active') || button.innerText === "Previous" || button.innerText === "Next" || button === currentPageContainer) {
                         button.style.display = 'inline-block';
                     } else {
                         button.style.display = 'none';
@@ -611,7 +634,8 @@
                 });
             } else {
                 // Mostrar todas las páginas numeradas
-                pageLinksContainer.classList.remove('hidden');
+                currentPageContainer.style.display = 'inline-block'; // Mostrar la página actual
+                pageLinksContainer.classList.remove('hidden'); // Mostrar las páginas numeradas
                 
                 // Mostrar todos los botones
                 pageButtons.forEach(button => {
@@ -627,120 +651,6 @@
         window.addEventListener('resize', updatePagination);
     });
 </script>
-
-
-
-<!--
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const games = [
-            { name: "Overwatch 2", price: 29, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Leage of legends", price: 39, image: "./Images/League of Legends/league-of-legends.avif" },
-            { name: "Valorant", price: 40, image: "./Images/Valorant/MV5BZmQwMjQ2ZTUtZmM5MC00MTdkLWIxYzgtODU1NzQ4Zjg4NmMxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-            { name: "Apex Legends", price: 50, image: "./Images/Apex Legends/Apex_legends_cover.jpg" },
-            { name: "FIFA 23", price: 30, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Minecraft", price: 20, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Resident Evil 4", price: 45, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "The Witcher 3", price: 35, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "GTA V", price: 25, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Red Dead Redemption 2", price: 50, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Overwatch 2", price: 29, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Cyberpunk 2077", price: 39, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Elden Ring", price: 40, image: "./Images/Overwatch_2_Steam_artwork.jpg" },
-            { name: "Halo Infinite", price: 50, image: "./Images/Overwatch_2_Steam_artwork.jpg" }
-        ];
-
-        let gamesOrdered = [...games];
-        let currentPage = 1;
-        const itemsPerPage = 10;
-
-        const gamesContainer = document.getElementById("gamesContainer");
-        const articlesCount = document.getElementById("articles_count");
-        const paginationContainer = document.getElementById("pagination");
-        const orderBySelects = document.querySelectorAll("#order_by");
-
-        function renderGames() {
-            gamesContainer.innerHTML = "";
-            const start = (currentPage - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            const gamesToShow = gamesOrdered.slice(start, end);
-
-            gamesToShow.forEach(game => {
-                const gameDiv = document.createElement("div");
-                gameDiv.classList.add("game");
-
-                gameDiv.innerHTML = `
-                    <div class="game_link" style="cursor: pointer;">
-                        <img class="image_game" src="${game.image}" alt="${game.name}" />
-                    </div>
-                    <div class="game_link" style="cursor: pointer;">
-                        <p>${game.name}</p>
-                    </div>
-                    <div class="price_icon">
-                        <p>${game.price} €</p>
-                        <div class="heart">
-                            <img src="./Images/heart-svgrepo-com.svg" alt="Heart" class="icon">
-                        </div>
-                    </div>
-                `;
-
-                gameDiv.querySelectorAll(".game_link").forEach(link => {
-                    link.addEventListener("click", function () {
-                        const gameName = this.getAttribute("data-game-name");
-                        const gameUrl = `{{ url('/game_details') }}?name=${encodeURIComponent(game.name)}`;
-                        window.location.href = gameUrl;
-
-                    });
-                });
-
-                gamesContainer.appendChild(gameDiv);
-            });
-
-            articlesCount.textContent = `${gamesOrdered.length} articles`;
-            renderPagination();
-        }
-
-        function renderPagination() {
-            paginationContainer.innerHTML = "";
-            const totalPages = Math.ceil(gamesOrdered.length / itemsPerPage);
-
-            for (let i = 1; i <= totalPages; i++) {
-                const pageButton = document.createElement("button");
-                pageButton.textContent = i;
-                pageButton.classList.add("page_button");
-                if (i === currentPage) pageButton.classList.add("active");
-
-                pageButton.addEventListener("click", function () {
-                    currentPage = i;
-                    renderGames();
-                });
-
-                paginationContainer.appendChild(pageButton);
-            }
-        }
-
-        function sortGames(order) {
-            if (order === "price_increasing") {
-                gamesOrdered.sort((a, b) => a.price - b.price);
-            } else if (order === "price_decreasing") {
-                gamesOrdered.sort((a, b) => b.price - a.price);
-            } else {
-                gamesOrdered = [...games];
-            }
-            currentPage = 1; 
-            renderGames();
-        }
-
-        orderBySelects.forEach(select => {
-                select.addEventListener("change", function () {
-                    sortGames(select.value);
-                });
-            });
-
-        renderGames();
-    });
-</script>
--->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const menuIcon = document.querySelector(".menu");
@@ -756,99 +666,32 @@
         });
     });
 </script>
-
-<!--
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const genreSelects = document.querySelectorAll("#genre");
-        const platformSelects = document.querySelectorAll("#platform");
-        const fromPrices = document.querySelectorAll("#fromPrice");
-        const toPrices = document.querySelectorAll("#toPrice");
-        const applyButtons = document.querySelectorAll(".button_apply");
-        const filterContainer = document.querySelector(".applied_filters");
+    document.addEventListener('DOMContentLoaded', function() {
+        const removeButtons = document.querySelectorAll('.remove');
 
-        const filterOrder = ["Price", "Genre", "Platform"];
-        const filters = {};
+        removeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const filterType = button.getAttribute('data-filter');
 
-        function updateFilterDisplay() {
-            filterContainer.innerHTML = "";
-            filterOrder.forEach(type => {
-                if (filters[type]) {
-                    filterContainer.appendChild(filters[type]);
-                }
-            });
-        }
-
-        function addFilterLabel(type, value) {
-            if (filters[type]) filters[type].remove();
-
-            const filterLabel = document.createElement("div");
-            filterLabel.classList.add("filter_label");
-            filterLabel.dataset.type = type;
-            filterLabel.innerHTML = `${type}: ${value} <span class="remove">✖</span>`;
-
-            filterLabel.querySelector(".remove").addEventListener("click", function () {
-                filterLabel.remove();
-                delete filters[type];
-
-                if (type === "Genre") genreSelects.forEach(select => (select.value = ""));
-                if (type === "Platform") platformSelects.forEach(select => (select.value = ""));
-                if (type === "Price") {
-                    fromPrices.forEach(input => (input.value = ""));
-                    toPrices.forEach(input => (input.value = ""));
-                    toggleApplyButton(0);
-                    toggleApplyButton(1);
+                let form;
+                if (filterType === 'price') {
+                    form = document.querySelector('form[action="{{ route('categorized_games') }}"]'); 
+                    form.querySelector('[name="fromPrice"]').value = '';
+                    form.querySelector('[name="toPrice"]').value = '';
+                } else if (filterType === 'genre') {
+                    form = document.querySelector('form[action="{{ route('categorized_games') }}"]'); 
+                    form.querySelector('[name="genre"]').value = '';
+                } else if (filterType === 'platform') {
+                    form = document.querySelector('form[action="{{ route('categorized_games') }}"]');
+                    form.querySelector('[name="platform"]').value = '';
                 }
 
-                updateFilterDisplay();
-            });
-
-            filters[type] = filterLabel;
-            updateFilterDisplay();
-        }
-
-        function toggleApplyButton(index) {
-            const fromValue = fromPrices[index].value.trim();
-            const toValue = toPrices[index].value.trim();
-            applyButtons[index].disabled = !(fromValue !== "" && toValue !== "");
-        }
-
-        genreSelects.forEach(select => {
-            select.addEventListener("change", function () {
-                if (select.value !== "") {
-                    addFilterLabel("Genre", select.options[select.selectedIndex].text);
-                }
-            });
-        });
-
-        platformSelects.forEach(select => {
-            select.addEventListener("change", function () {
-                if (select.value !== "") {
-                    addFilterLabel("Platform", select.options[select.selectedIndex].text);
-                }
-            });
-        });
-
-        fromPrices.forEach((input, index) => {
-            input.addEventListener("input", () => toggleApplyButton(index));
-        });
-
-        toPrices.forEach((input, index) => {
-            input.addEventListener("input", () => toggleApplyButton(index));
-        });
-
-        applyButtons.forEach((button, index) => {
-            button.addEventListener("click", function () {
-                const fromValue = fromPrices[index].value.trim();
-                const toValue = toPrices[index].value.trim();
-                if (fromValue !== "" && toValue !== "") {
-                    addFilterLabel("Price", `${fromValue} - ${toValue} €`);
-                }
+                form.submit();
             });
         });
     });
 </script> 
--->   
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const heartIcons = document.querySelectorAll(".heart");

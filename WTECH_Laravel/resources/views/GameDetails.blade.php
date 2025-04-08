@@ -354,7 +354,7 @@
     <header>
         <div class="title">
             <a class="nav" href="{{ route('landing_page') }}"> 
-                <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
+                <img class="logo" src="{{ asset('./Images/LOGO V2 horizontal.png') }}" alt="8-Bit Market Logo"/>
             </a>
         </div>
         <form class="search_bar" action="#" method="GET">
@@ -366,11 +366,11 @@
             </a>
             <a class="action nav open-logout" href="#">Log Out</a>
             <a class="nav" href="{{ route('shopping_cart') }}">
-                <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
+                <img src="{{ asset('./Images/cart-shopping-svgrepo-com.svg') }}" alt="Menu" class="icon">               
             </a>
             <a class="action nav" href="{{ route('shopping_cart') }}">Cart</a>
             <div class="menu">
-                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
+                <img src="{{ asset('./Images/menu-svgrepo-com.svg') }}" alt="Menu" class="icon">
             </div>
         </div>    
     </header>             
@@ -378,7 +378,7 @@
     <header>
         <div class="title">
             <a class="nav" href="{{ route('landing_page') }}"> 
-                <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
+                <img class="logo" src="{{ asset('./Images/LOGO V2 horizontal.png') }}" alt="8-Bit Market Logo"/>
             </a>
         </div>
         <form class="search_bar" action="#" method="GET">
@@ -386,15 +386,15 @@
         </form>
         <div class="user_actions">
             <a href="{{ route('sign_in') }}">
-                <img src="./Images/avatar-default-svgrepo-com.svg" alt="SignIn" class="icon"> 
+                <img src="{{ asset('./Images/avatar-default-svgrepo-com.svg') }}" alt="SignIn" class="icon"> 
             </a>
             <a class="action" href="{{ route('sign_in') }}">Sign In</a>
             <a class="nav" href="{{ route('shopping_cart') }}">
-                <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
+                <img src="{{ asset('./Images/cart-shopping-svgrepo-com.svg') }}" alt="Menu" class="icon">               
             </a>
             <a class="action nav" href="{{ route('shopping_cart') }}">Cart</a>
             <div class="menu">
-                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
+                <img src="{{ asset('./Images/menu-svgrepo-com.svg') }}" alt="Menu" class="icon">
             </div>
         </div> 
     </header>
@@ -407,14 +407,14 @@
     </aside>
     <main>
         <a href="{{ url()->previous() }}" class="back">
-            <img src="{{ asset('Images/arrow-narrow-left-svgrepo-com.svg') }}" alt="Arrow" class="icon">
+            <img src="{{ asset('./Images/arrow-narrow-left-svgrepo-com.svg') }}" alt="Arrow" class="icon">
             <p>Back</p>
         </a>
 
         <div class="game_name">
             <h2 id="game_name">{{ $game->title }}</h2>
             <div id="heartIcon" class="heart">
-                <img src="{{ asset('Images/heart-svgrepo-com.svg') }}"  alt="Heart" class="icon">
+                <img src="{{ asset('./Images/heart-svgrepo-com.svg') }}"  alt="Heart" class="icon">
             </div>
         </div>
         <div class="container">
@@ -422,17 +422,17 @@
                 <div class="slideshow_container">
                     <div class="mySlides fade">
                     <div class="numbertext">1 / 3</div>
-                    <img src="{{ asset('Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg') }}" alt="Overwatch 2 Cover" style="width:100%">
+                    <img src="{{ asset('./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg') }}" alt="Overwatch 2 Cover" style="width:100%">
                     </div>
                 
                     <div class="mySlides fade">
                     <div class="numbertext">2 / 3</div>
-                    <img src="Images/Overwatch 2/images.jpeg" alt="Overwatch 2 Cover" style="width:100%">
+                    <img src="{{ asset('./Images/Overwatch 2/images.jpeg') }}" alt="Overwatch 2 Cover" style="width:100%">
                     </div>
                 
                     <div class="mySlides fade">
                     <div class="numbertext">3 / 3</div>
-                    <img src="Images/Overwatch 2/MV5BOGMxODVmNDgtZGE1Yy00Y2VlLTk3ZTMtYzU5YTcxODhiNzMxXkEyXkFqcGc@._V1_.jpg" alt="Overwatch 2 Cover" style="width:100%">
+                    <img src="{{ asset('./Images/Overwatch 2/MV5BOGMxODVmNDgtZGE1Yy00Y2VlLTk3ZTMtYzU5YTcxODhiNzMxXkEyXkFqcGc@._V1_.jpg') }}" alt="Overwatch 2 Cover" style="width:100%">
                     </div>
                 
                     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
