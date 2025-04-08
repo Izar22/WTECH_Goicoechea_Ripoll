@@ -29,12 +29,17 @@ class GameController extends Controller
         $platform = $request->query('platform');
         $fromPrice = $request->query('fromPrice');
         $toPrice = $request->query('toPrice');
+        $search = $request->query('search');
+
 
         // Obtener valores únicos de género y plataforma
         $genres = Game::select('genre')->distinct()->get();
         $platforms = Game::select('platform')->distinct()->get();
 
         $games = Game::query();
+        if ($search) {
+            $games = $games->where('title', 'LIKE', '%' . $search . '%');
+        }
 
         // Aplicar filtros de género
         if ($genre) {
