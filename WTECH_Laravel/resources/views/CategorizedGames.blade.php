@@ -358,6 +358,9 @@
         .hidden {
             display: none;
         }
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -620,28 +623,29 @@
             const currentPageContainer = document.getElementById('current_page');
 
             if (screenWidth < 600) {
-                // Mostrar solo "Previous", página actual y "Next"
-                currentPageContainer.style.display = 'inline-block'; // Mostrar la página actual
+                // En pantallas pequeñas (<600px), mostrar la página actual
+                currentPageContainer.classList.remove('hidden'); // Asegurar que se muestre
                 pageLinksContainer.classList.add('hidden'); // Ocultar las páginas numeradas
-                
-                pageButtons.forEach(button => {
-                    // Mostrar solo los botones relevantes
+            } else {
+                // En pantallas grandes (>600px), ocultar la página actual
+                currentPageContainer.classList.add('hidden'); // Ocultar la página actual
+                pageLinksContainer.classList.remove('hidden'); // Mostrar las páginas numeradas
+            }
+
+            // Mostrar u ocultar los botones de paginación
+            pageButtons.forEach(button => {
+                if (screenWidth < 600) {
+                    // En pantallas pequeñas, solo mostrar "Previous", "Next" y la página actual
                     if (button.classList.contains('active') || button.innerText === "Previous" || button.innerText === "Next" || button === currentPageContainer) {
                         button.style.display = 'inline-block';
                     } else {
                         button.style.display = 'none';
                     }
-                });
-            } else {
-                // Mostrar todas las páginas numeradas
-                currentPageContainer.style.display = 'inline-block'; // Mostrar la página actual
-                pageLinksContainer.classList.remove('hidden'); // Mostrar las páginas numeradas
-                
-                // Mostrar todos los botones
-                pageButtons.forEach(button => {
+                } else {
+                    // En pantallas grandes, mostrar todos los botones
                     button.style.display = 'inline-block';
-                });
-            }
+                }
+            });
         };
 
         // Llama a la función al cargar la página
