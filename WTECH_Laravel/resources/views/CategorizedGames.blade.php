@@ -580,8 +580,11 @@
                     @foreach ($games as $game)
                     <div class="game">
                         <div class="game_link" style="cursor: pointer;" onclick="location.href='{{ url('/game_details?name=' . urlencode($game->name)) }}'">
-                            <!--<img class="image_game" src="{{ asset($game->image) }}" alt="{{ $game->name }}" />-->
-                            <img class="image_game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="{{ $game->name }}" />
+                            @if ($game->images->isNotEmpty())
+                                <img class="image_game" src="{{ asset($game->images->first()->path) }}" alt="{{ $game->images->first()->path }}" />
+                            @else
+                                <img class="image_game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Imagen por defecto" />
+                            @endif
                         </div>
                         <div class="game_link" style="cursor: pointer;" onclick="location.href='{{ url('/game_details?name=' . urlencode($game->name)) }}'">
                             <p>{{ $game->title }}</p>
