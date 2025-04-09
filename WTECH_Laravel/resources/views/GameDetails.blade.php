@@ -77,7 +77,7 @@
         main {
             background: #FBFFFE;
             margin-top: 70px;
-            height: calc(100vh - 108.4px);
+            min-height: calc(100vh - 108.4px);
             margin-bottom: 35px;
             padding: 20px;
             box-sizing: border-box;
