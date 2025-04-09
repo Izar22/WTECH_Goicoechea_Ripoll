@@ -19,7 +19,6 @@ class CartController extends Controller
         $shoppingCart = null;
 
         if ($user) {
-            // Usuario logueado: buscar su carrito
             $shoppingCart = ShoppingCart::where('customer_id', $user->id)->first();
 
             if (!$shoppingCart) {
@@ -28,7 +27,6 @@ class CartController extends Controller
                 ]);
             }
         } else {
-            // Invitado: buscar carrito por sesión
             $cartId = session()->get('cart_id');
             
             if ($cartId) {
@@ -43,7 +41,6 @@ class CartController extends Controller
             }
         }
 
-        // Verificar si el juego ya está en el carrito
         $existingItem = GameShoppingCart::where('cart_id', $shoppingCart->id)
                                 ->where('game_id', $gameId)
                                 ->first();
@@ -72,7 +69,6 @@ class CartController extends Controller
         $shoppingCart = null;
 
         if ($user) {
-            // Si el usuario está logueado, buscamos su carrito
             $shoppingCart = ShoppingCart::where('customer_id', $user->id)->first();
 
             if (!$shoppingCart) {
@@ -81,7 +77,6 @@ class CartController extends Controller
                 ]);
             }
         } else {
-            // Si no está logueado, buscamos carrito por sesión
             $cartId = session()->get('cart_id');
             
             if ($cartId) {
@@ -142,5 +137,33 @@ class CartController extends Controller
             ->get();
 
         return view('ShoppingCart', ['items' => $items]);
+    }
+
+    public function updateQuantity(Request $request)
+    {
+        $itemId = $request->input('item_id');
+        $action = $request->input('action'); 
+
+        $item = GameShoppingCart::find($itemId);
+
+        if (!$item) {
+            return response()->json(['error' => 'Item no encontrado'], 404);
+        }
+
+        if ($action === 'increase') {
+            $item->quantity += 1;
+        } elseif ($action === 'decrease' && $item->quantity > 1) {
+            $item->quantity -= 1;
+        }
+
+        $item->save();
+
+        $item->load('game');
+
+        return response()->json([
+            'success' => true,
+            'new_quantity' => $item->quantity,
+            'total_price' => number_format($item->quantity * $item->game->price, 2)
+        ]);
     }
 }

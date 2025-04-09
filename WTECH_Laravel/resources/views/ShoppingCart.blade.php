@@ -532,16 +532,16 @@
                                 <img class="image_game" alt="{{ $item->game->title }}" src="./Images/Overwatch_2_Steam_artwork.jpg"/>
                                 <div class="number_game">
                                     <p>{{ $item->game->title }}</p>
-                                    <div class="less_more">
-                                        <button id="button_less" class="button">-</button>
-                                        <p>{{ $item->quantity }}</p>
-                                        <button id="button_more" class="button">+</button>
+                                    <div class="less_more" data-item-id="{{ $item->id }}">
+                                        <button class="button button-less">-</button>
+                                        <p class="quantity-display">{{ $item->quantity }}</p>
+                                        <button class="button button-more">+</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="price_game">
+                            <div class="price_game" data-item-id="{{ $item->id }}" data-unit-price="{{ $item->game->price }}">
                                 <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete_button">
-                                <p>{{ number_format($item->quantity * $item->game->price, 2) }}€</p>
+                                <p class="total-price">{{ number_format($item->quantity * $item->game->price, 2) }}€</p>
                             </div>
                         </div>
                     @endforeach    
@@ -653,24 +653,40 @@
 });
 </script>
 <script>
-    const buttonsLess = document.querySelectorAll('.button'); 
-
-    buttonsLess.forEach(button => {
-        button.addEventListener('click', (event) => {
-            const buttonClicked = event.target;
-            const quantityElement = buttonClicked.parentElement.querySelector('p'); 
-            let currentQuantity = parseInt(quantityElement.innerText);
-
-            if (buttonClicked.innerText === '-') {
-                if (currentQuantity > 1) { 
-                    quantityElement.innerText = currentQuantity - 1;
+    document.querySelectorAll('.less_more').forEach(container => {
+        const itemId = container.dataset.itemId;
+        const lessBtn = container.querySelector('.button-less');
+        const moreBtn = container.querySelector('.button-more');
+        const quantityDisplay = container.querySelector('.quantity-display');
+    
+        const priceContainer = document.querySelector(`.price_game[data-item-id="${itemId}"]`);
+        const totalPriceEl = priceContainer.querySelector('.total-price');
+    
+        const updateQuantity = (action) => {
+            fetch("{{ route('cart_updateQuantity') }}", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    item_id: itemId,
+                    action: action
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    quantityDisplay.textContent = data.new_quantity;
+                    totalPriceEl.textContent = data.total_price + '€';
+                } else {
+                    alert('Ocurrió un error al actualizar el carrito');
                 }
-            }
-
-            if (buttonClicked.innerText === '+') {
-                quantityElement.innerText = currentQuantity + 1;
-            }
-        });
+            });
+        };
+    
+        lessBtn.addEventListener('click', () => updateQuantity('decrease'));
+        moreBtn.addEventListener('click', () => updateQuantity('increase'));
     });
 </script>
 <script>

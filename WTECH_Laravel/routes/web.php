@@ -23,6 +23,8 @@ Route::post('/shopping_cart', [CartController::class, 'addToCart'])->name('shopp
 
 Route::post('/shopping_cart_now', [CartController::class, 'shopNow'])->name('shopping_cart_now');
 
+Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart_updateQuantity');
+
 Route::post("/log_in", [UserController::class, "logIn"]);
 
 Route::post("/sign_up", [UserController::class, "signUp"]);
