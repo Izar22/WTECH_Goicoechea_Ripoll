@@ -16,4 +16,9 @@ class Game extends Model
         'genre',
         'description',
     ];
+
+    public function images()
+    {
+        return $this->belongsToMany(Image::class, 'image_game');
+    }
 }

@@ -24,11 +24,10 @@ class ImagesTableSeeder extends Seeder
 
         // Iterar sobre cada imagen en la carpeta
         foreach ($images as $image) {
-            $filename = Str::random(20) . '.' . $image->getExtension();
+            $filename = $image->getFilename();
             $relativePath = 'images/games/' . $filename;
-        
-            // Copy the image to storage/app/public/images/games/
-            Storage::disk('public')->put($relativePath, file_get_contents($image));
+
+            $this->command->info("Guardando imagen: {$relativePath}");
         
             Image::create([
                 'path' => $relativePath,
