@@ -13,4 +13,9 @@ class Image extends Model
     ];
 
     public $timestamps = false; 
+
+    public function games()
+    {
+        return $this->belongsToMany(Game::class, 'image_game');
+    }
 }
