@@ -468,7 +468,7 @@
                 <form action="{{ route('shopping_cart_now') }}" method="POST">
                     @csrf  
                     <input type="hidden" name="game_id" value="{{ $game->id }}">
-                    <input type="hidden" name="quantity" id="buy-now-quantity">
+                    <input type="hidden" name="quantity" id="buy-now-quantity" value="1">
                     <button type="submit" class="button">Buy now</button>
                 </form>
             </div>
@@ -488,14 +488,14 @@
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
     </footer>
 </body>
-
 <script>
-    const quantityInput = document.getElementById('quantity');
-    const buyNowForm = document.getElementById('buy-now-form');
-    const buyNowQuantityInput = document.getElementById('buy-now-quantity');
+    document.addEventListener('DOMContentLoaded', function () {
+        const quantityInput = document.getElementById('quantity');
+        const buyNowQuantityInput = document.getElementById('buy-now-quantity');
 
-    quantityInput.addEventListener('input', function() {
-        buyNowQuantityInput.value = quantityInput.value;
+        quantityInput.addEventListener('input', function () {
+            buyNowQuantityInput.value = quantityInput.value;
+        });
     });
 </script>
 <script>
