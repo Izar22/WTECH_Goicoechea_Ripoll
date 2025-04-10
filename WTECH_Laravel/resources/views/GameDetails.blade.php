@@ -77,7 +77,7 @@
         main {
             background: #FBFFFE;
             margin-top: 70px;
-            height: calc(100vh - 108.4px);
+            min-height: calc(100vh - 108.4px);
             margin-bottom: 35px;
             padding: 20px;
             box-sizing: border-box;
@@ -420,49 +420,40 @@
         <div class="container">
             <div class="game_details">
                 <div class="slideshow_container">
-                    <div class="mySlides fade">
-                    <div class="numbertext">1 / 3</div>
-                    <img src="{{ asset('./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg') }}" alt="Overwatch 2 Cover" style="width:100%">
-                    </div>
-                
-                    <div class="mySlides fade">
-                    <div class="numbertext">2 / 3</div>
-                    <img src="{{ asset('./Images/Overwatch 2/images.jpeg') }}" alt="Overwatch 2 Cover" style="width:100%">
-                    </div>
-                
-                    <div class="mySlides fade">
-                    <div class="numbertext">3 / 3</div>
-                    <img src="{{ asset('./Images/Overwatch 2/MV5BOGMxODVmNDgtZGE1Yy00Y2VlLTk3ZTMtYzU5YTcxODhiNzMxXkEyXkFqcGc@._V1_.jpg') }}" alt="Overwatch 2 Cover" style="width:100%">
-                    </div>
+
+                    @foreach ($game->images as $index => $image)
+                        <div class="mySlides fade">
+                            <div class="numbertext">{{ $index + 1 }} / {{ $game->images->count() }}</div>
+                            <img src="{{ asset($image->path) }}" alt="Game Image {{ $index + 1 }}" style="width:100%">
+                        </div>
+                    @endforeach
                 
                     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                     <a class="next" onclick="plusSlides(1)">&#10095;</a>
                 
                     <div style="text-align:center">
-                        <span class="dot" onclick="currentSlide(1)"></span>
-                        <span class="dot" onclick="currentSlide(2)"></span>
-                        <span class="dot" onclick="currentSlide(3)"></span>
+                        @foreach ($game->images as $index => $image)
+                            <span class="dot" onclick="currentSlide({{ $index + 1 }})"></span>
+                        @endforeach
                     </div>
                 </div>
 
                 <div class="details">
                     <div class="input-group">
-                        <label for="platform"><strong>Platform:</strong></label>
-                        <input type="text" id="platform" value="{{ $game->platform }}" readonly>
+                        <p><strong>Platform:</strong> <span>{{ $game->platform }}</span></p>
                     </div>
                     <div class="input-group">
-                        <label for="region"><strong>Region:</strong></label>
-                        <input type="text" id="region" value="{{ $game->region }}" readonly>
+                        <p><strong>Region:</strong> <span>{{ $game->region }}</span></p>
                     </div>
                     <div class="input-group">
-                        <label for="genre"><strong>Genre:</strong></label>
-                        <input type="text" id="genre" value="{{ $game->genre }}" readonly>
+                        <p><strong>Genre:</strong> <span>{{ $game->genre }}</span></p>
                     </div>
                     <div class="input-group">
-                        <label for="release_date"><strong>Date of release:</strong></label>
-                        <input type="date" id="release_date"  value="{{ $game->release_date }}" readonly>
+                        <p><strong>Date of release:</strong> <span>{{ $game->release_date }}</span></p>
                     </div>
-                    <textarea id="description" readonly>{{ $game->description }}</textarea>
+                    <div class="input-group">
+                        <p><strong>Description:</strong> <span>{{ $game->description }}</span></p>
+                    </div>
                 </div>
             </div>
             <div class="price_box">

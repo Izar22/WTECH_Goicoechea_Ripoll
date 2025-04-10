@@ -16,7 +16,7 @@ class GameController extends Controller
 
     public function gameDetails($id)
     {
-        $game = Game::findOrFail($id);
+        $game = Game::with('images')->findOrFail($id);
 
         return view('GameDetails', compact('game'));
     }

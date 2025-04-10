@@ -579,14 +579,14 @@
                 <div class="games" id="gamesContainer"></div>   
                     @foreach ($games as $game)
                     <div class="game">
-                        <div class="game_link" style="cursor: pointer;" onclick="location.href='{{ url('/game_details?name=' . urlencode($game->name)) }}'">
+                        <div class="game_link" style="cursor: pointer;" onclick="location.href='{{ url('/game_details', ['id' => $game->id]) }}'">
                             @if ($game->images->isNotEmpty())
                                 <img class="image_game" src="{{ asset($game->images->first()->path) }}" alt="{{ $game->images->first()->path }}" />
                             @else
                                 <img class="image_game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Imagen por defecto" />
                             @endif
                         </div>
-                        <div class="game_link" style="cursor: pointer;" onclick="location.href='{{ url('/game_details?name=' . urlencode($game->name)) }}'">
+                        <div class="game_link" style="cursor: pointer;" onclick="location.href='{{ url('/game_details', ['id' => $game->id]) }}'">
                             <p>{{ $game->title }}</p>
                         </div>
                         <div class="price_icon">
