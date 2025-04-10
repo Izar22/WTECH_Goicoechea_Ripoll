@@ -305,6 +305,7 @@
         .delete_button{
             width: 24px;
             height: 24px;
+            cursor: pointer;
         }
         .container_shipping, .container_payment, .container_cart {
             display: none; 
@@ -540,7 +541,12 @@
                                 </div>
                             </div>
                             <div class="price_game" data-item-id="{{ $item->id }}" data-unit-price="{{ $item->game->price }}">
-                                <img src="./Images/trash-svgrepo-com.svg" alt="Delete" class="delete_button">
+                                <form action="{{ route('cart_delete', $item->id) }}" method="POST" class="delete-form">
+                                    @csrf
+                                    <button type="submit" class="delete_button" style="background: none; border: none; padding: 0;">
+                                        <img src="./Images/trash-svgrepo-com.svg" alt="Delete"  class="delete_button">
+                                    </button>
+                                </form>
                                 <p class="total-price">{{ number_format($item->quantity * $item->game->price, 2) }}€</p>
                             </div>
                         </div>
@@ -690,19 +696,6 @@
     });
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-
-        const deleteButtons = document.querySelectorAll('.delete_button');
-
-        deleteButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                const gameCard = button.closest('.game');
-                gameCard.remove();
-            });
-        });
-    });
-</script>
-<script>
     document.addEventListener("DOMContentLoaded", () => {
         const containers = document.querySelectorAll(".container_cart, .container_shipping, .container_payment");
         containers[0].classList.add("visible"); 
@@ -763,46 +756,10 @@
 </script>
 <script>
     function customBack() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const loginParam = urlParams.get("login");  
-        const previousPage = document.referrer;  
-        const currentPage = window.location.href; 
-
-        const previousPageWithLogin = previousPage.includes("?") ? previousPage + "&login=" + loginParam : previousPage + "?login=" + loginParam;
-        const previousPageWithoutLogin = previousPage.replace(/([&?])login=[^&]*/g, '');  
-
-        if (!previousPage || previousPage.includes("LoginPage.html") || previousPage === currentPage || previousPageWithLogin === currentPage || previousPageWithoutLogin === currentPage) {
-            if (loginParam){
-                window.location.href = "LandingPage.html?login=valid";
-            } 
-            else{
-                window.location.href = "LandingPage.html";
-            } 
-        } else {
-            if (loginParam){
-                if (previousPage.includes("login=")) {
-                    window.location.href = previousPage;
-                }
-                else{
-                    if (previousPage.includes("?")) {
-                        window.location.href = `${previousPage}&login=${loginParam}`;
-                    } else {
-                        window.location.href = `${previousPage}?login=${loginParam}`;
-                    }
-                }
-            }
-            else{
-                if (previousPage.includes("login=")) {
-                    const url = new URL(previousPage);
-                    url.searchParams.delete("login");
-                    window.location.href = url.toString();
-                }
-                else{
-                    window.location.href = previousPage;
-                }
-            }
-        }
+ 
+        window.location.href = "{{ url()->previous() }}";
     }
+
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {

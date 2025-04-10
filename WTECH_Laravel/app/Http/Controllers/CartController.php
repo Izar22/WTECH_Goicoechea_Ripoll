@@ -166,4 +166,12 @@ class CartController extends Controller
             'total_price' => number_format($item->quantity * $item->game->price, 2)
         ]);
     }
+
+    public function delete($id)
+    {
+        $item = GameShoppingCart::findOrFail($id);
+        $item->delete();
+
+        return redirect()->back()->with('success', 'Item removed from cart.');
+    }
 }
