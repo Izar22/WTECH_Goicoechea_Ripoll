@@ -203,6 +203,7 @@
         .image_game{
             width: 120px;
             height: 180px;
+            object-fit: cover;
         }
         .order_by{
             align-self: end;

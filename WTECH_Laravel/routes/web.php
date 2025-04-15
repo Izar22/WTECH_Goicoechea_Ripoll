@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CheckoutController;
 
 Route::get('/sign_in', function () {
     return view('LoginPage');
@@ -28,6 +29,8 @@ Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])-
 Route::post('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart_delete');
 
 Route::post('/process_shipping', [CartController::class, 'process'])->name('process_shipping');
+
+Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout_store');
 
 Route::post("/log_in", [UserController::class, "logIn"]);
 

@@ -38,6 +38,15 @@ class GameController extends Controller
         if ($search) {
             $games = $games->where('title', 'LIKE', '%' . $search . '%');
         }
+        else{
+            if ($category) {
+                $games = $games->where('category', $category);
+            }
+    
+            if ($category === "All games") {
+                $games = Game::query();
+            }
+        }
 
         if ($genre) {
             $games = $games->where('genre', $genre);
