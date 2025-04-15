@@ -113,24 +113,33 @@ class CartController extends Controller
     public function showCart()
     {
         $user = Auth::user();
+        $shoppingCart = null;
 
         if ($user) {
             $shoppingCart = ShoppingCart::where('customer_id', $user->id)->first();
 
             if (!$shoppingCart) {
-                return view('ShoppingCart', ['items' => []]);
+                $shoppingCart = ShoppingCart::create([
+                    'customer_id' => $user->id
+                ]);
             }
         } else {
             $cartId = session()->get('cart_id');
 
             if ($cartId) {
                 $shoppingCart = ShoppingCart::where('id', $cartId)->first();
-            } else {
+            }
+
+            if (!$shoppingCart) {
                 $shoppingCart = ShoppingCart::create([
-                    'customer_id' => null, 
+                    'customer_id' => null
                 ]);
                 session()->put('cart_id', $shoppingCart->id);
             }
+        }
+
+        if (!$shoppingCart) {
+            return view('ShoppingCart', ['items' => []]);
         }
 
         $items = GameShoppingCart::with('game')

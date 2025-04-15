@@ -536,57 +536,57 @@
                 </svg>
             </div>
         </div>
-        <form id="checkout-form" method="POST" action="">
-            @csrf
-            <section class="container_cart">
-                <div class="left_section_cart">
-                    <h2>Shopping Cart</h2>
-                    <div class="games">
-                        @php
-                            $total = 0;
-                            foreach ($items as $item) {
-                                $total += $item->quantity * $item->game->price;
-                            }
-                            $shippingPrice = $total * 0.10;
-                            $totalPrice = $total + $shippingPrice;
-                        @endphp
-                        @foreach ($items as $item)
-                            <div class="game">
-                                <div class="img_game">
-                                    @if ($item->game->images->isNotEmpty())
-                                        <img class="image_game" src="{{ asset($item->game->images->first()->path) }}" alt="{{ $item->game->images->first()->path }}" />
-                                    @else
-                                        <img class="image_game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Imagen por defecto" />
-                                    @endif
-                                    <div class="number_game">
-                                        <p>{{ $item->game->title }}</p>
-                                        <div class="less_more" data-item-id="{{ $item->id }}">
-                                            <button class="button button-less">-</button>
-                                            <p class="quantity-display">{{ $item->quantity }}</p>
-                                            <button class="button button-more">+</button>
-                                        </div>
+        <section class="container_cart">
+            <div class="left_section_cart">
+                <h2>Shopping Cart</h2>
+                <div class="games">
+                    @php
+                        $total = 0;
+                        foreach ($items as $item) {
+                            $total += $item->quantity * $item->game->price;
+                        }
+                        $shippingPrice = $total * 0.10;
+                        $totalPrice = $total + $shippingPrice;
+                    @endphp
+                    @foreach ($items as $item)
+                        <div class="game">
+                            <div class="img_game">
+                                @if ($item->game->images->isNotEmpty())
+                                    <img class="image_game" src="{{ asset($item->game->images->first()->path) }}" alt="{{ $item->game->images->first()->path }}" />
+                                @else
+                                    <img class="image_game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Imagen por defecto" />
+                                @endif
+                                <div class="number_game">
+                                    <p>{{ $item->game->title }}</p>
+                                    <div class="less_more" data-item-id="{{ $item->id }}">
+                                        <button class="button button-less">-</button>
+                                        <p class="quantity-display">{{ $item->quantity }}</p>
+                                        <button class="button button-more">+</button>
                                     </div>
                                 </div>
-                                <div class="price_game" data-item-id="{{ $item->id }}" data-unit-price="{{ $item->game->price }}">
-                                    <form action="{{ route('cart_delete', $item->id) }}" method="POST" class="delete-form">
-                                        @csrf
-                                        <button type="submit" class="delete_button" style="background: none; border: none; padding: 0;">
-                                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete"  class="delete_button">
-                                        </button>
-                                    </form>
-                                    <p class="total-price">{{ number_format($item->quantity * $item->game->price, 2) }}€</p>
-                                </div>
                             </div>
-                        @endforeach    
-                    </div>
+                            <div class="price_game" data-item-id="{{ $item->id }}" data-unit-price="{{ $item->game->price }}">
+                                <form action="{{ route('cart_delete', $item->id) }}" method="POST" class="delete-form">
+                                    @csrf
+                                    <button type="submit" class="delete_button" style="background: none; border: none; padding: 0;">
+                                        <img src="./Images/trash-svgrepo-com.svg" alt="Delete"  class="delete_button">
+                                    </button>
+                                </form>
+                                <p class="total-price">{{ number_format($item->quantity * $item->game->price, 2) }}€</p>
+                            </div>
+                        </div>
+                    @endforeach    
                 </div>
-                <div class="right_section">
-                    <h2 class="total_price_title">Order Price:</h2>
-                    <p class="total_price_cart">{{ number_format($total, 2) }} €</p>
-                    <button id="continue_shipping">Continue to shipping</button>
-                    <button onclick="customBack(); return false;">Keep shopping</button>
-                </div>
-            </section>
+            </div>
+            <div class="right_section">
+                <h2 class="total_price_title">Order Price:</h2>
+                <p class="total_price_cart">{{ number_format($total, 2) }} €</p>
+                <button type="button" id="continue_shipping">Continue to shipping</button>
+                <button onclick="customBack(); return false;">Keep shopping</button>
+            </div>
+        </section>
+        <form id="checkout-form" method="POST" action="{{ route('checkout_store') }}">
+            @csrf
             <section class="container_shipping">
                 <div class="left_section">
                     <div class="section_title">Contact Information</div>
@@ -649,20 +649,29 @@
                     <p class="total_price_shipping_small">{{ number_format($shippingPrice, 2) }} €</p>
                     <h2 class="total_price_title">Total price:</h2>
                     <p class="total_price_shipping">{{ number_format($totalPrice, 2) }} €</p>
-                    <button class="total_price_button" id="finish_payment">Complete payment</button>
+                    <button class="total_price_button" id="finish_payment" type="submit">Complete payment</button>
                 </div>
-                
             </section>
         </form>
         <div id="paymentModal" class="modal">
             <div class="modal_content">
                 <h2>Thanks for ordering with us!</h2>
                 <p>Your payment was successfully processed</p>
-                <a class="nav" href="LandingPage.html">
+                <a class="nav" href="{{ route('landing_page') }}">
                     <button>Back to homepage</button>
                 </a>
             </div>
         </div>
+        @if(session('order_completed'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const paymentModal = document.getElementById("paymentModal");
+                if (paymentModal) {
+                    paymentModal.style.display = "flex"; 
+                }
+            });
+        </script>
+    @endif
         <div id="logoutModal" class="modal_logOut">
             <div class="modal_content_logOut">
                 <p>Are you sure you want to log out?</p>
@@ -813,7 +822,7 @@
         });
     });
 </script>
-<script>
+<!--<script>
     document.addEventListener("DOMContentLoaded", function () {
         const completePaymentButton = document.querySelector("#finish_payment"); 
         const modal = document.getElementById("paymentModal"); 
@@ -822,7 +831,7 @@
             modal.style.display = "block";
         });
     });
-</script>
+</script>-->
 <script>
     function customBack() {
         window.location.href = "{{ url()->previous() }}";

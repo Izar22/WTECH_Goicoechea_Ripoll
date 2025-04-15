@@ -36,6 +36,7 @@ class UserController extends Controller
 
         $incomingFields['password'] = bcrypt($incomingFields['password']);
         unset($incomingFields["password2"]);
+        unset($incomingFields['name']);
         $user = User::create($incomingFields);
         auth()->login($user);
         return redirect('/');
