@@ -47,8 +47,8 @@
             padding: 5px;
             border-radius: 12px;
             @media (max-width: 768px) {
-                width: 80vw;
-                margin-left: 10vw;
+                width: 60vw;
+                padding-left: 10vw;
             }
         }
         .search_icon{
@@ -455,8 +455,9 @@
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
-        <form class="search_bar" action="#" method="GET">
-            <input class="search" type="text" placeholder="Search">
+        <form id="searchForm" class="search_bar" action="{{ route('categorized_games') }}" method="GET">
+            <input type="hidden" id="categoryInput" name="category" value="{{ request('search') }}">
+            <input class="search" id="searchInput" type="text" name="search" value="{{ request('search') }}" placeholder="Search games">
         </form>
         <div class="user_actions">
             <a class="nav open-logout" href="#">
@@ -479,8 +480,9 @@
                 <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
             </a>
         </div>
-        <form class="search_bar" action="#" method="GET">
-            <input class="search" type="text" placeholder="Search">
+        <form id="searchForm" class="search_bar" action="{{ route('categorized_games') }}" method="GET">
+            <input type="hidden" id="categoryInput" name="category" value="{{ request('search') }}">
+            <input class="search" id="searchInput" type="text" name="search" value="{{ request('search') }}" placeholder="Search games">
         </form>
         <div class="user_actions">
             <a href="{{ route('sign_in') }}">
@@ -500,7 +502,10 @@
     <aside class="sidebar">
         <button class="close_btn">&times;</button> 
         <div>
-            <input class="search" type="text" placeholder="Search">
+            <form id="searchForm2" class="search" action="{{ route('categorized_games') }}" method="GET">
+                <input type="hidden" id="categoryInput2" name="category" value="{{ request('search') }}">
+                <input class="search" id="searchInput2" type="text" name="search" value="{{ request('search') }}" placeholder="Search games">
+            </form>
         </div>         
     </aside>
     <main>
@@ -657,6 +662,18 @@
         sidebar.classList.remove("open");
     });
 });
+</script>
+<script>
+    document.getElementById('searchForm').addEventListener('submit', function (e) {
+        const searchValue = document.getElementById('searchInput').value;
+        document.getElementById('categoryInput').value = 'Searching for: ' + searchValue;
+    });
+</script>
+<script>
+    document.getElementById('searchForm2').addEventListener('submit', function (e) {
+        const searchValue = document.getElementById('searchInput2').value;
+        document.getElementById('categoryInput2').value = 'Searching for: ' + searchValue;
+    });
 </script>
 <script>
     document.querySelectorAll('.less_more').forEach(container => {

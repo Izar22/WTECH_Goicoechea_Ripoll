@@ -137,6 +137,10 @@
                 min-height: calc(100vh - 105px);
             }
         }
+        .image_game{
+            width: 120px;
+            height: 180px;
+        }
         .game_list {
             display: flex;
             flex-wrap: wrap;
@@ -394,7 +398,11 @@
                 @foreach ($games_recomended as $game)
                     <div class="swiper-slide">
                         <a class="nav" href="{{ url('/game_details', ['id' => $game->id]) }}">
-                            <img class="game" src="./Images/Minecraft/1e95962d-7296-4667-baba-8b58979bd754.avif" alt="{{ $game->title }}">
+                            @if ($game->images->isNotEmpty())
+                                <img class="game" src="{{ asset($game->images->first()->path) }}" alt="{{ $game->images->first()->path }}" />
+                            @else
+                                <img class="game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Imagen por defecto" />
+                            @endif
                             <h4 class="game_name">{{ $game->title }}</h4>
                         </a>
                     </div>
@@ -409,7 +417,11 @@
                 @foreach ($games_popular as $game)
                     <div class="swiper-slide">
                         <a class="nav" href="{{ url('/game_details', ['id' => $game->id]) }}">
-                            <img class="game" src="./Images/Minecraft/1e95962d-7296-4667-baba-8b58979bd754.avif" alt="{{ $game->title }}">
+                            @if ($game->images->isNotEmpty())
+                                <img class="game" src="{{ asset($game->images->first()->path) }}" alt="{{ $game->images->first()->path }}" />
+                            @else
+                                <img class="game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Imagen por defecto" />
+                            @endif
                             <h4 class="game_name">{{ $game->title }}</h4>
                         </a>
                     </div>
