@@ -34,13 +34,11 @@ class CheckoutController extends Controller
             'CVV' => 'required|digits:3',
         ]);
 
-        // Parsear MM/YY
         [$exp_month, $exp_year] = explode('/', $request->expiration_date);
         $exp_month = (int) $exp_month;
         $exp_year = 2000 + (int) $exp_year;
 
         DB::transaction(function () use ($request, $exp_month, $exp_year) {
-            // 1. Insertar shipping_details
             $shipping = ShippingDetail::create([
                 'name' => $request->name,
                 'surname' => $request->surname,
@@ -53,7 +51,6 @@ class CheckoutController extends Controller
                 'zipcode' => $request->zip,
             ]);
 
-            // 2. Insertar payment_details
             $payment = PaymentDetail::create([
                 'card_number' => $request->card_number,
                 'exp_month' => $exp_month,
@@ -61,17 +58,14 @@ class CheckoutController extends Controller
                 'cvv' => $request->CVV,
             ]);
 
-            // 3. Calcular total
             $user = Auth::user();
             $shoppingCart = null;
             
             if ($user) {
-                // Carrito por usuario logueado
                 $shoppingCart = ShoppingCart::firstOrCreate([
                     'customer_id' => $user->id
                 ]);
             } else {
-                // Carrito por sesión
                 $cartId = session()->get('cart_id');
             
                 if ($cartId) {
@@ -85,18 +79,15 @@ class CheckoutController extends Controller
                     session()->put('cart_id', $shoppingCart->id);
                 }
             }
-            
-            // Obtener los juegos del carrito
+
             $cartItems = GameShoppingCart::with('game') 
                 ->where('cart_id', $shoppingCart->id)
                 ->get();
-            
-            // Calcular totales
+
             $subtotal = $cartItems->sum(fn($item) => $item->Quantity * $item->game->Price);
             $shippingPrice = $subtotal * 0.10;
             $totalPrice = $subtotal + $shippingPrice;
 
-            // 4. Insertar order_details
             $order = OrderDetail::create([
                 'payment_details_id' => $payment->id,
                 'shipping_details_id' => $shipping->id,
@@ -104,7 +95,6 @@ class CheckoutController extends Controller
                 'total_price' => $totalPrice,
             ]);
 
-            // 5. Insertar game_order
             foreach ($cartItems as $item) {
                 GameOrder::create([
                     'game_id' => $item->game_id,

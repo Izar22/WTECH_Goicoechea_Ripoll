@@ -822,16 +822,6 @@
         });
     });
 </script>
-<!--<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const completePaymentButton = document.querySelector("#finish_payment"); 
-        const modal = document.getElementById("paymentModal"); 
-
-        completePaymentButton.addEventListener("click", function () {
-            modal.style.display = "block";
-        });
-    });
-</script>-->
 <script>
     function customBack() {
         window.location.href = "{{ url()->previous() }}";
