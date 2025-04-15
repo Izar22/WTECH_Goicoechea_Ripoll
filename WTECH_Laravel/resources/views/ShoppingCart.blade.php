@@ -523,7 +523,7 @@
                 </svg>
             </div>
         </div>
-        <section class="container_cart">
+        <section class="container_cart" id="cart">
             <div class="left_section_cart">
                 <h2>Shopping Cart</h2>
                 <div class="games">
@@ -560,41 +560,49 @@
                 <button onclick="customBack(); return false;">Keep shopping</button>
             </div>
         </section>
-        <section class="container_shipping">
-            <div class="left_section">
-                <div class="section_title">Contact Information</div>
-                <div class="form_group">
-                    <input type="text" placeholder="Name">
-                    <input type="text" placeholder="Surname">
+        <form method="POST" action="{{ route('process_shipping') }}">
+            @csrf
+            <section class="container_shipping" id="shipping">
+                <div class="left_section">
+                    <div class="section_title">Contact Information</div>
+                    <div class="form_group">
+                        <input type="text" name="name" placeholder="Name" value="{{ old('name') }}">
+                        <input type="text" name="surname" placeholder="Surname" value="{{ old('surname') }}">
+                    </div>
+                    <div class="form_group">
+                        <input type="email" name="email" placeholder="E-mail address" value="{{ old('email') }}">
+                        <input type="text" name="phone" placeholder="Phone number" value="{{ old('phone') }}">
+                    </div>
+        
+                    <div class="section_title">Shipping</div>
+                    <div class="double_width">
+                        <input type="text" name="address" placeholder="Address" value="{{ old('address') }}">
+                    </div>
+                    <div class="form_group">
+                        <input type="text" name="city" placeholder="City" value="{{ old('city') }}">
+                        <input type="text" name="region" placeholder="Region" value="{{ old('region') }}">
+                    </div>
+                    <div class="form_group">
+                        <input type="text" name="country" placeholder="Country" value="{{ old('country') }}">
+                        <input type="text" name="zip" placeholder="Zip Code" value="{{ old('zip') }}">
+                    </div>
                 </div>
-                <div class="form_group">
-                    <input type="email" placeholder="E-mail address">
-                    <input type="text" placeholder="Phone number">
+        
+                <div class="right_section">
+                    <h2 class="total_price_title_small">Order Price:</h2>
+                    <p class="total_price_shipping_small">{{ $orderPrice ?? 'XX,XX' }} €</p>
+        
+                    <h2 class="total_price_title_small">Shipping:</h2>
+                    <p class="total_price_shipping_small">{{ $shippingPrice ?? 'XX,XX' }} €</p>
+        
+                    <h2 class="total_price_title">Total price:</h2>
+                    <p class="total_price_shipping">{{ $totalPrice ?? 'XX,XX' }} €</p>
+        
+                    <button type="submit" class="total_price_button" id="continue_payment">Continue to payment</button>
                 </div>
-                <div class="section_title">Shipping</div>
-                <div class="double_width">
-                    <input type="text" placeholder="Address">
-                </div>
-                <div class="form_group">
-                    <input type="text" placeholder="City">
-                    <input type="text" placeholder="Region">
-                </div>
-                <div class="form_group">
-                    <input type="text" placeholder="Country">
-                    <input type="text" placeholder="Zip Code">
-                </div>
-            </div>
-            <div class="right_section">
-                <h2 class="total_price_title_small">Order Price:</h2>
-                <p class="total_price_shipping_small">XX,XX €</p>
-                <h2 class="total_price_title_small">Shipping:</h2>
-                <p class="total_price_shipping_small">XX,XX €</p>
-                <h2 class="total_price_title">Total price:</h2>
-                <p class="total_price_shipping">XX,XX €</p>
-                <button class="total_price_button" id="continue_payment">Continue to payment</button>
-            </div>
-        </section>
-        <section class="container_payment">
+            </section>
+        </form>
+        <section class="container_payment" id="payment">
             <div class="left_section">
                 <div class="section_title">Payment Details</div>
                 <div class="double_width">
@@ -697,51 +705,86 @@
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const containers = document.querySelectorAll(".container_cart, .container_shipping, .container_payment");
-        containers[0].classList.add("visible"); 
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const continueToShippingButton = document.querySelector("#continue_shipping");
-        const continueToPaymentButton = document.querySelector("#continue_payment");
-        const containers = document.querySelectorAll(".container_cart, .container_shipping, .container_payment");
-        const circles = document.querySelectorAll(".circle");
-
-        continueToShippingButton.addEventListener("click", () => {
-            containers.forEach(container => container.classList.remove("visible"));
-            document.querySelector(".container_shipping").classList.add("visible");
-            circles.forEach(c => c.classList.remove("selected"));
-            circles[1].classList.add("selected");
-        });
-
-        continueToPaymentButton.addEventListener("click", () => {
-            containers.forEach(container => container.classList.remove("visible"));
-            document.querySelector(".container_payment").classList.add("visible");
-            circles.forEach(c => c.classList.remove("selected"));
-            circles[2].classList.add("selected");
-        });
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-    const circles = document.querySelectorAll(".circle");
     const containers = document.querySelectorAll(".container_cart, .container_shipping, .container_payment");
+    const circles = document.querySelectorAll(".circle");
 
+    // Esta función cambia la visibilidad de las secciones
     function changeContainer(selectedIndex) {
         containers.forEach(container => container.classList.remove("visible"));
-
         if (selectedIndex >= 0 && selectedIndex < containers.length) {
             containers[selectedIndex].classList.add("visible");
         }
     }
 
+    // Función para manejar la visibilidad inicial según la URL
+    function handleInitialVisibility() {
+        const currentFragment = window.location.hash.replace("#", ""); // Obtener el fragmento de la URL
+
+        if (currentFragment) {
+            const selectedIndex = {
+                cart: 0,
+                shipping: 1,
+                payment: 2
+            }[currentFragment]; // Mapear el fragmento a la sección correspondiente
+
+            if (selectedIndex !== undefined) {
+                changeContainer(selectedIndex);
+                circles.forEach(c => c.classList.remove("selected"));
+                circles[selectedIndex].classList.add("selected");
+            }
+        } else {
+            containers[0].classList.add("visible"); // Por defecto, mostrar la sección de "Cart"
+            circles[0].classList.add("selected");
+        }
+    }
+
+    // Llamamos a la función para manejar la visibilidad inicial
+    handleInitialVisibility();
+
+    // Eventos para los botones de "Continuar" y "Volver" (según lo que ya tenías)
+    const continueToShippingButton = document.querySelector("#continue_shipping");
+    const continueToPaymentButton = document.querySelector("#continue_payment");
+
+    continueToShippingButton.addEventListener("click", () => {
+        // Cambiar a la sección de "Shipping"
+        window.location.hash = "shipping"; // Actualiza la URL con el fragmento
+        changeContainer(1); // Mostrar la sección de Shipping
+        circles.forEach(c => c.classList.remove("selected"));
+        circles[1].classList.add("selected");
+    });
+
+    continueToPaymentButton.addEventListener("click", () => {
+        // Cambiar a la sección de "Payment"
+        window.location.hash = "payment"; // Actualiza la URL con el fragmento
+        changeContainer(2); // Mostrar la sección de Payment
+        circles.forEach(c => c.classList.remove("selected"));
+        circles[2].classList.add("selected");
+    });
+
+    // Cambio de sección al hacer clic en los círculos
     circles.forEach((circle, index) => {
         circle.addEventListener("click", () => {
             circles.forEach(c => c.classList.remove("selected"));
             circle.classList.add("selected");
-
+            window.location.hash = circle.id; // Cambiar la URL con el id del círculo
             changeContainer(index);
         });
     });
+
+    document.querySelector("#continue_shipping").addEventListener("click", () => {
+        window.location.hash = "shipping"; // Cambiar a la URL con el fragmento 'shipping'
+        changeContainer(1); // Mostrar la sección de envío
+        circles.forEach(c => c.classList.remove("selected"));
+        circles[1].classList.add("selected");
+    });
+
+    document.querySelector("#continue_payment").addEventListener("click", () => {
+        window.location.hash = "payment"; // Cambiar a la URL con el fragmento 'payment'
+        changeContainer(2); // Mostrar la sección de pago
+        circles.forEach(c => c.classList.remove("selected"));
+        circles[2].classList.add("selected");
+    });
+
 });
 </script>
 <script>
@@ -756,10 +799,8 @@
 </script>
 <script>
     function customBack() {
- 
         window.location.href = "{{ url()->previous() }}";
     }
-
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -786,19 +827,4 @@
         });
     });
 </script> 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const loginParam = urlParams.get("login");
-        if (loginParam) {
-            const navLinks = document.querySelectorAll('.nav');
-            navLinks.forEach(link => {
-                const currentHref = link.getAttribute('href');
-                if (!currentHref.includes('login=')) {
-                    link.setAttribute('href', `${currentHref}${currentHref.includes('?') ? '&' : '?'}login=${loginParam}`);
-                }
-            });
-        }
-    });
-</script>
 </html>

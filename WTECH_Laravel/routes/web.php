@@ -27,6 +27,8 @@ Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])-
 
 Route::post('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart_delete');
 
+Route::post('/process_shipping', [CartController::class, 'process'])->name('process_shipping');
+
 Route::post("/log_in", [UserController::class, "logIn"]);
 
 Route::post("/sign_up", [UserController::class, "signUp"]);
