@@ -286,6 +286,14 @@
             border: solid 1px black;
             margin: 0;
         }
+        .total_price_cart_small{
+            font-size: 16px;
+            background-color: #F5B841;
+            padding: 10px;
+            border-radius: 12px;
+            border: solid 1px black;
+            margin: 0;
+        }
         .total_price_button{
             margin-top: 20px;
         }
@@ -528,112 +536,124 @@
                 </svg>
             </div>
         </div>
-        <section class="container_cart">
-            <div class="left_section_cart">
-                <h2>Shopping Cart</h2>
-                <div class="games">
-                    @foreach ($items as $item)
-                        <div class="game">
-                            <div class="img_game">
-                                @if ($item->game->images->isNotEmpty())
-                                    <img class="image_game" src="{{ asset($item->game->images->first()->path) }}" alt="{{ $item->game->images->first()->path }}" />
-                                @else
-                                    <img class="image_game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Imagen por defecto" />
-                                @endif
-                                <div class="number_game">
-                                    <p>{{ $item->game->title }}</p>
-                                    <div class="less_more" data-item-id="{{ $item->id }}">
-                                        <button class="button button-less">-</button>
-                                        <p class="quantity-display">{{ $item->quantity }}</p>
-                                        <button class="button button-more">+</button>
+        <form id="checkout-form" method="POST" action="">
+            @csrf
+            <section class="container_cart">
+                <div class="left_section_cart">
+                    <h2>Shopping Cart</h2>
+                    <div class="games">
+                        @php
+                            $total = 0;
+                            foreach ($items as $item) {
+                                $total += $item->quantity * $item->game->price;
+                            }
+                            $shippingPrice = $total * 0.10;
+                            $totalPrice = $total + $shippingPrice;
+                        @endphp
+                        @foreach ($items as $item)
+                            <div class="game">
+                                <div class="img_game">
+                                    @if ($item->game->images->isNotEmpty())
+                                        <img class="image_game" src="{{ asset($item->game->images->first()->path) }}" alt="{{ $item->game->images->first()->path }}" />
+                                    @else
+                                        <img class="image_game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Imagen por defecto" />
+                                    @endif
+                                    <div class="number_game">
+                                        <p>{{ $item->game->title }}</p>
+                                        <div class="less_more" data-item-id="{{ $item->id }}">
+                                            <button class="button button-less">-</button>
+                                            <p class="quantity-display">{{ $item->quantity }}</p>
+                                            <button class="button button-more">+</button>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="price_game" data-item-id="{{ $item->id }}" data-unit-price="{{ $item->game->price }}">
+                                    <form action="{{ route('cart_delete', $item->id) }}" method="POST" class="delete-form">
+                                        @csrf
+                                        <button type="submit" class="delete_button" style="background: none; border: none; padding: 0;">
+                                            <img src="./Images/trash-svgrepo-com.svg" alt="Delete"  class="delete_button">
+                                        </button>
+                                    </form>
+                                    <p class="total-price">{{ number_format($item->quantity * $item->game->price, 2) }}€</p>
+                                </div>
                             </div>
-                            <div class="price_game" data-item-id="{{ $item->id }}" data-unit-price="{{ $item->game->price }}">
-                                <form action="{{ route('cart_delete', $item->id) }}" method="POST" class="delete-form">
-                                    @csrf
-                                    <button type="submit" class="delete_button" style="background: none; border: none; padding: 0;">
-                                        <img src="./Images/trash-svgrepo-com.svg" alt="Delete"  class="delete_button">
-                                    </button>
-                                </form>
-                                <p class="total-price">{{ number_format($item->quantity * $item->game->price, 2) }}€</p>
-                            </div>
-                        </div>
-                    @endforeach    
+                        @endforeach    
+                    </div>
                 </div>
-            </div>
-            <div class="right_section">
-                <h2 class="total_price_title">Order Price:</h2>
-                <p class="total_price_cart">XX,XX €</p>
-                <button id="continue_shipping">Continue to shipping</button>
-                <button onclick="customBack(); return false;">Keep shopping</button>
-            </div>
-        </section>
-        <section class="container_shipping">
-            <div class="left_section">
-                <div class="section_title">Contact Information</div>
-                <div class="form_group">
-                    <input type="text" name="name" placeholder="Name" value="{{ old('name') }}">
-                    <input type="text" name="surname" placeholder="Surname" value="{{ old('surname') }}">
+                <div class="right_section">
+                    <h2 class="total_price_title">Order Price:</h2>
+                    <p class="total_price_cart">{{ number_format($total, 2) }} €</p>
+                    <button id="continue_shipping">Continue to shipping</button>
+                    <button onclick="customBack(); return false;">Keep shopping</button>
                 </div>
-                <div class="form_group">
-                    <input type="email" name="email" placeholder="E-mail address" value="{{ old('email') }}">
-                    <input type="text" name="phone" placeholder="Phone number" value="{{ old('phone') }}">
+            </section>
+            <section class="container_shipping">
+                <div class="left_section">
+                    <div class="section_title">Contact Information</div>
+                    <div class="form_group">
+                        <input type="text" name="name" placeholder="Name" value="{{ old('name') }}">
+                        <input type="text" name="surname" placeholder="Surname" value="{{ old('surname') }}">
+                    </div>
+                    <div class="form_group">
+                        <input type="email" name="email" placeholder="E-mail address" value="{{ old('email') }}">
+                        <input type="text" name="phone" placeholder="Phone number" value="{{ old('phone') }}">
+                    </div>
+        
+                    <div class="section_title">Shipping</div>
+                    <div class="double_width">
+                        <input type="text" name="address" placeholder="Address" value="{{ old('address') }}">
+                    </div>
+                    <div class="form_group">
+                        <input type="text" name="city" placeholder="City" value="{{ old('city') }}">
+                        <input type="text" name="region" placeholder="Region" value="{{ old('region') }}">
+                    </div>
+                    <div class="form_group">
+                        <input type="text" name="country" placeholder="Country" value="{{ old('country') }}">
+                        <input type="text" name="zip" placeholder="Zip Code" value="{{ old('zip') }}">
+                    </div>
                 </div>
-    
-                <div class="section_title">Shipping</div>
-                <div class="double_width">
-                    <input type="text" name="address" placeholder="Address" value="{{ old('address') }}">
+        
+                <div class="right_section">
+                    <h2 class="total_price_title_small">Order Price:</h2>
+                    <p class="total_price_cart_small">{{ number_format($total, 2) }} €</p>
+        
+                    <h2 class="total_price_title_small">Shipping:</h2>
+                    <p class="total_price_shipping_small shipping_price" data-shipping="{{ $shippingPrice }}">
+                        {{ number_format($shippingPrice, 2) }} €
+                    </p>
+                    <h2 class="total_price_title">Total price:</h2>
+                    <p class="total_price_shipping">{{ number_format($totalPrice, 2) }} €</p>
+        
+                    <button type="button" class="total_price_button" id="continue_payment">Continue to payment</button>
                 </div>
-                <div class="form_group">
-                    <input type="text" name="city" placeholder="City" value="{{ old('city') }}">
-                    <input type="text" name="region" placeholder="Region" value="{{ old('region') }}">
-                </div>
-                <div class="form_group">
-                    <input type="text" name="country" placeholder="Country" value="{{ old('country') }}">
-                    <input type="text" name="zip" placeholder="Zip Code" value="{{ old('zip') }}">
-                </div>
-            </div>
-    
-            <div class="right_section">
-                <h2 class="total_price_title_small">Order Price:</h2>
-                <p class="total_price_shipping_small">{{ $orderPrice ?? 'XX,XX' }} €</p>
-    
-                <h2 class="total_price_title_small">Shipping:</h2>
-                <p class="total_price_shipping_small">{{ $shippingPrice ?? 'XX,XX' }} €</p>
-    
-                <h2 class="total_price_title">Total price:</h2>
-                <p class="total_price_shipping">{{ $totalPrice ?? 'XX,XX' }} €</p>
-    
-                <button type="submit" class="total_price_button" id="continue_payment">Continue to payment</button>
-            </div>
-        </section>
+            </section>
 
-        <section class="container_payment" >
-            <div class="left_section">
-                <div class="section_title">Payment Details</div>
-                <div class="double_width">
-                    <input type="text" placeholder="Cardholder Name">
+            <section class="container_payment" >
+                <div class="left_section">
+                    <div class="section_title">Payment Details</div>
+                    <div class="double_width">
+                        <input type="text" name="cardholder_name" placeholder="Cardholder Name">
+                    </div>
+                    <div class="double_width">
+                        <input type="text" name="card_number" placeholder="Card Number">
+                    </div>
+                    <div class="form_group">
+                        <input type="text" name="expiration_date" placeholder="Expiration Date (MM/YY)">
+                        <input type="text" name="CVV" placeholder="CVV">
+                    </div>
                 </div>
-                <div class="double_width">
-                    <input type="text" placeholder="Card Number">
+                <div class="right_section">
+                    <h2 class="total_price_title_small">Order Price:</h2>
+                    <p class="total_price_cart_small">{{ number_format($total, 2) }} €</p>
+                    <h2 class="total_price_title_small">Shipping:</h2>
+                    <p class="total_price_shipping_small">{{ number_format($shippingPrice, 2) }} €</p>
+                    <h2 class="total_price_title">Total price:</h2>
+                    <p class="total_price_shipping">{{ number_format($totalPrice, 2) }} €</p>
+                    <button class="total_price_button" id="finish_payment">Complete payment</button>
                 </div>
-                <div class="form_group">
-                    <input type="text" placeholder="Expiration Date (MM/YY)">
-                    <input type="text" placeholder="CVV">
-                </div>
-            </div>
-            <div class="right_section">
-                <h2 class="total_price_title_small">Order Price:</h2>
-                <p class="total_price_shipping_small">XX,XX €</p>
-                <h2 class="total_price_title_small">Shipping:</h2>
-                <p class="total_price_shipping_small">XX,XX €</p>
-                <h2 class="total_price_title">Total price:</h2>
-                <p class="total_price_shipping">XX,XX €</p>
-                <button class="total_price_button" id="finish_payment">Complete payment</button>
-            </div>
-            
-        </section>
+                
+            </section>
+        </form>
         <div id="paymentModal" class="modal">
             <div class="modal_content">
                 <h2>Thanks for ordering with us!</h2>
@@ -660,18 +680,18 @@
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    const menuIcon = document.querySelector(".menu");
-    const sidebar = document.querySelector(".sidebar");
-    const closeButton = document.querySelector(".close_btn");
+        const menuIcon = document.querySelector(".menu");
+        const sidebar = document.querySelector(".sidebar");
+        const closeButton = document.querySelector(".close_btn");
 
-    menuIcon.addEventListener("click", function () {
-        sidebar.classList.toggle("open");
-    });
+        menuIcon.addEventListener("click", function () {
+            sidebar.classList.toggle("open");
+        });
 
-    closeButton.addEventListener("click", function () {
-        sidebar.classList.remove("open");
+        closeButton.addEventListener("click", function () {
+            sidebar.classList.remove("open");
+        });
     });
-});
 </script>
 <script>
     document.getElementById('searchForm').addEventListener('submit', function (e) {
@@ -712,6 +732,28 @@
                 if (data.success) {
                     quantityDisplay.textContent = data.new_quantity;
                     totalPriceEl.textContent = data.total_price + '€';
+
+                    let totalCart = 0;
+                    document.querySelectorAll('.total-price').forEach(el => {
+                        const price = parseFloat(el.textContent.replace('€', '')) || 0;
+                        totalCart += price;
+                    });
+                    document.querySelector('.total_price_cart').textContent = totalCart.toFixed(2) + ' €';
+                    document.querySelectorAll('.total_price_cart_small').forEach(el => {
+                        el.textContent = totalCart.toFixed(2) + ' €';
+                    });
+
+                    const shipping = totalCart * 0.10;
+
+                    document.querySelectorAll('.shipping_price').forEach(el => {
+                        el.textContent = shipping.toFixed(2) + ' €';
+                        el.dataset.shipping = shipping.toFixed(2); 
+                    });
+
+                    const fullTotal = totalCart + shipping;
+                    document.querySelectorAll('.total_price_shipping').forEach(el => {
+                        el.textContent = fullTotal.toFixed(2) + ' €';
+                    });
                 } else {
                     alert('Ocurrió un error al actualizar el carrito');
                 }
@@ -750,36 +792,36 @@
     });
 
     document.addEventListener("DOMContentLoaded", () => {
-    const circles = document.querySelectorAll(".circle");
-    const containers = document.querySelectorAll(".container_cart, .container_shipping, .container_payment");
+        const circles = document.querySelectorAll(".circle");
+        const containers = document.querySelectorAll(".container_cart, .container_shipping, .container_payment");
 
-    function changeContainer(selectedIndex) {
-        containers.forEach(container => container.classList.remove("visible"));
+        function changeContainer(selectedIndex) {
+            containers.forEach(container => container.classList.remove("visible"));
 
-        if (selectedIndex >= 0 && selectedIndex < containers.length) {
-            containers[selectedIndex].classList.add("visible");
+            if (selectedIndex >= 0 && selectedIndex < containers.length) {
+                containers[selectedIndex].classList.add("visible");
+            }
         }
-    }
 
-    circles.forEach((circle, index) => {
-        circle.addEventListener("click", () => {
-            circles.forEach(c => c.classList.remove("selected"));
-            circle.classList.add("selected");
+        circles.forEach((circle, index) => {
+            circle.addEventListener("click", () => {
+                circles.forEach(c => c.classList.remove("selected"));
+                circle.classList.add("selected");
 
-            changeContainer(index);
+                changeContainer(index);
+            });
         });
     });
-});
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    const completePaymentButton = document.querySelector("#finish_payment"); 
-    const modal = document.getElementById("paymentModal"); 
+        const completePaymentButton = document.querySelector("#finish_payment"); 
+        const modal = document.getElementById("paymentModal"); 
 
-    completePaymentButton.addEventListener("click", function () {
-        modal.style.display = "block";
+        completePaymentButton.addEventListener("click", function () {
+            modal.style.display = "block";
+        });
     });
-});
 </script>
 <script>
     function customBack() {
