@@ -286,6 +286,14 @@
             border: solid 1px black;
             margin: 0;
         }
+        .total_price_cart_small{
+            font-size: 16px;
+            background-color: #F5B841;
+            padding: 10px;
+            border-radius: 12px;
+            border: solid 1px black;
+            margin: 0;
+        }
         .total_price_button{
             margin-top: 20px;
         }
@@ -532,6 +540,14 @@
             <div class="left_section_cart">
                 <h2>Shopping Cart</h2>
                 <div class="games">
+                    @php
+                        $total = 0;
+                        foreach ($items as $item) {
+                            $total += $item->quantity * $item->game->price;
+                        }
+                        $shippingPrice = $total * 0.10;
+                        $totalPrice = $total + $shippingPrice;
+                    @endphp
                     @foreach ($items as $item)
                         <div class="game">
                             <div class="img_game">
@@ -564,7 +580,7 @@
             </div>
             <div class="right_section">
                 <h2 class="total_price_title">Order Price:</h2>
-                <p class="total_price_cart">XX,XX €</p>
+                <p class="total_price_cart">{{ number_format($total, 2) }} €</p>
                 <button id="continue_shipping">Continue to shipping</button>
                 <button onclick="customBack(); return false;">Keep shopping</button>
             </div>
@@ -597,13 +613,14 @@
     
             <div class="right_section">
                 <h2 class="total_price_title_small">Order Price:</h2>
-                <p class="total_price_shipping_small">{{ $orderPrice ?? 'XX,XX' }} €</p>
+                <p class="total_price_cart_small">{{ number_format($total, 2) }} €</p>
     
                 <h2 class="total_price_title_small">Shipping:</h2>
-                <p class="total_price_shipping_small">{{ $shippingPrice ?? 'XX,XX' }} €</p>
-    
+                <p class="total_price_shipping_small shipping_price" data-shipping="{{ $shippingPrice }}">
+                    {{ number_format($shippingPrice, 2) }} €
+                </p>
                 <h2 class="total_price_title">Total price:</h2>
-                <p class="total_price_shipping">{{ $totalPrice ?? 'XX,XX' }} €</p>
+                <p class="total_price_shipping">{{ number_format($totalPrice, 2) }} €</p>
     
                 <button type="submit" class="total_price_button" id="continue_payment">Continue to payment</button>
             </div>
@@ -625,11 +642,11 @@
             </div>
             <div class="right_section">
                 <h2 class="total_price_title_small">Order Price:</h2>
-                <p class="total_price_shipping_small">XX,XX €</p>
+                <p class="total_price_cart_small">{{ number_format($total, 2) }} €</p>
                 <h2 class="total_price_title_small">Shipping:</h2>
-                <p class="total_price_shipping_small">XX,XX €</p>
+                <p class="total_price_shipping_small">{{ number_format($shippingPrice, 2) }} €</p>
                 <h2 class="total_price_title">Total price:</h2>
-                <p class="total_price_shipping">XX,XX €</p>
+                <p class="total_price_shipping">{{ number_format($totalPrice, 2) }} €</p>
                 <button class="total_price_button" id="finish_payment">Complete payment</button>
             </div>
             
@@ -660,18 +677,18 @@
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    const menuIcon = document.querySelector(".menu");
-    const sidebar = document.querySelector(".sidebar");
-    const closeButton = document.querySelector(".close_btn");
+        const menuIcon = document.querySelector(".menu");
+        const sidebar = document.querySelector(".sidebar");
+        const closeButton = document.querySelector(".close_btn");
 
-    menuIcon.addEventListener("click", function () {
-        sidebar.classList.toggle("open");
-    });
+        menuIcon.addEventListener("click", function () {
+            sidebar.classList.toggle("open");
+        });
 
-    closeButton.addEventListener("click", function () {
-        sidebar.classList.remove("open");
+        closeButton.addEventListener("click", function () {
+            sidebar.classList.remove("open");
+        });
     });
-});
 </script>
 <script>
     document.getElementById('searchForm').addEventListener('submit', function (e) {
@@ -712,6 +729,28 @@
                 if (data.success) {
                     quantityDisplay.textContent = data.new_quantity;
                     totalPriceEl.textContent = data.total_price + '€';
+
+                    let totalCart = 0;
+                    document.querySelectorAll('.total-price').forEach(el => {
+                        const price = parseFloat(el.textContent.replace('€', '')) || 0;
+                        totalCart += price;
+                    });
+                    document.querySelector('.total_price_cart').textContent = totalCart.toFixed(2) + ' €';
+                    document.querySelectorAll('.total_price_cart_small').forEach(el => {
+                        el.textContent = totalCart.toFixed(2) + ' €';
+                    });
+
+                    const shipping = totalCart * 0.10;
+
+                    document.querySelectorAll('.shipping_price').forEach(el => {
+                        el.textContent = shipping.toFixed(2) + ' €';
+                        el.dataset.shipping = shipping.toFixed(2); 
+                    });
+
+                    const fullTotal = totalCart + shipping;
+                    document.querySelectorAll('.total_price_shipping').forEach(el => {
+                        el.textContent = fullTotal.toFixed(2) + ' €';
+                    });
                 } else {
                     alert('Ocurrió un error al actualizar el carrito');
                 }
