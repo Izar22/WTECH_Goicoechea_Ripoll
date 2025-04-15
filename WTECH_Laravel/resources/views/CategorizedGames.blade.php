@@ -494,7 +494,7 @@
                 <div class="articles_pills">
                     <p id="articles_count">{{ $totalGames }} articles</p>
                     <div class="applied_filters">
-                        @if(request('fromPrice') && request('toPrice'))
+                        @if(strlen(request('fromPrice')) > 0 && strlen(request('toPrice')) > 0)
                             <div class="filter_label">Price: {{ request('fromPrice') }} - {{ request('toPrice') }} €<span class="remove" data-filter="price">✖</span></div>
                         @endif
                         @if(request('genre'))
@@ -613,6 +613,14 @@
             </div>
         </div>
     </main>
+    <form id="filtersResetForm" method="GET" action="{{ route('categorized_games') }}" style="display: none;">
+        <input type="hidden" name="platform" value="{{ request('platform') }}">
+        <input type="hidden" name="genre" value="{{ request('genre') }}">
+        <input type="hidden" name="category" value="{{ request('category') }}">
+        <input type="hidden" name="order_by" value="{{ request('order_by') }}">
+        <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
+        <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+    </form>
     <footer>
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
     </footer>
@@ -674,31 +682,34 @@
     });
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const removeButtons = document.querySelectorAll('.remove');
 
-        removeButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
+        removeButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
                 const filterType = button.getAttribute('data-filter');
+                const form = document.getElementById('filtersResetForm');
 
-                let form;
-                if (filterType === 'price') {
-                    form = document.querySelector('form[action="{{ route('categorized_games') }}"]'); 
-                    form.querySelector('[name="fromPrice"]').value = '';
-                    form.querySelector('[name="toPrice"]').value = '';
-                } else if (filterType === 'genre') {
-                    form = document.querySelector('form[action="{{ route('categorized_games') }}"]'); 
-                    form.querySelector('[name="genre"]').value = '';
-                } else if (filterType === 'platform') {
-                    form = document.querySelector('form[action="{{ route('categorized_games') }}"]');
-                    form.querySelector('[name="platform"]').value = '';
+                if (!form) return;
+
+                switch (filterType) {
+                    case 'price':
+                        form.querySelector('[name="fromPrice"]').value = '';
+                        form.querySelector('[name="toPrice"]').value = '';
+                        break;
+                    case 'genre':
+                        form.querySelector('[name="genre"]').value = '';
+                        break;
+                    case 'platform':
+                        form.querySelector('[name="platform"]').value = '';
+                        break;
                 }
 
                 form.submit();
             });
         });
     });
-</script> 
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const heartIcons = document.querySelectorAll(".heart");
