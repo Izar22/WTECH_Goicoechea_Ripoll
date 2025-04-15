@@ -429,7 +429,7 @@
                     @foreach ($game->images as $index => $image)
                         <div class="mySlides fade">
                             <div class="numbertext">{{ $index + 1 }} / {{ $game->images->count() }}</div>
-                            <img src="{{ asset($image->path) }}" alt="Game Image {{ $index + 1 }}" style="width:100%">
+                            <img src="{{ asset($image->path) }}" alt="Game Image {{ $index + 1 }}" style="width:100%;">
                         </div>
                     @endforeach
                 

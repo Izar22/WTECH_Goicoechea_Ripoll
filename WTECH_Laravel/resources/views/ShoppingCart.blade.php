@@ -182,7 +182,8 @@
         }
         .image_game{
             width: 120px;
-            height: auto;
+            height: 170px;
+            object-fit: cover;
         }
         .number_game{
             display: flex;
@@ -440,6 +441,10 @@
             width: 24px;
             height: 24px;
         }
+        .text-red-500{
+            color: red;
+            font-size: 10px;
+        }
         footer {
             position: fixed;
             left: 0;
@@ -592,24 +597,51 @@
                     <div class="section_title">Contact Information</div>
                     <div class="form_group">
                         <input type="text" name="name" placeholder="Name" value="{{ old('name') }}">
+                        @error('name')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                         <input type="text" name="surname" placeholder="Surname" value="{{ old('surname') }}">
+                        @error('surname')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form_group">
                         <input type="email" name="email" placeholder="E-mail address" value="{{ old('email') }}">
+                        @error('email')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                         <input type="text" name="phone" placeholder="Phone number" value="{{ old('phone') }}">
+                        @error('phone')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
         
                     <div class="section_title">Shipping</div>
                     <div class="double_width">
                         <input type="text" name="address" placeholder="Address" value="{{ old('address') }}">
+                        @error('address')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form_group">
                         <input type="text" name="city" placeholder="City" value="{{ old('city') }}">
+                        @error('city')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                         <input type="text" name="region" placeholder="Region" value="{{ old('region') }}">
+                        @error('region')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form_group">
                         <input type="text" name="country" placeholder="Country" value="{{ old('country') }}">
+                        @error('country')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                         <input type="text" name="zip" placeholder="Zip Code" value="{{ old('zip') }}">
+                        @error('zip')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
         
@@ -633,13 +665,25 @@
                     <div class="section_title">Payment Details</div>
                     <div class="double_width">
                         <input type="text" name="cardholder_name" placeholder="Cardholder Name">
+                        @error('cardholder_name')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="double_width">
                         <input type="text" name="card_number" placeholder="Card Number">
+                        @error('card_number')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form_group">
                         <input type="text" name="expiration_date" placeholder="Expiration Date (MM/YY)">
+                        @error('expiration_date')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                         <input type="text" name="CVV" placeholder="CVV">
+                        @error('CVV')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="right_section">

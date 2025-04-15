@@ -243,7 +243,7 @@
         .game {
             width: 170px;
             height: 250px;
-            
+            object-fit: cover;
         }
         .game_name {
             font-size: 20px;
