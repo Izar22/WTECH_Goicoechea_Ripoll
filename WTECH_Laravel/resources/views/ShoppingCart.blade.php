@@ -535,7 +535,11 @@
                     @foreach ($items as $item)
                         <div class="game">
                             <div class="img_game">
-                                <img class="image_game" alt="{{ $item->game->title }}" src="./Images/Overwatch_2_Steam_artwork.jpg"/>
+                                @if ($item->game->images->isNotEmpty())
+                                    <img class="image_game" src="{{ asset($item->game->images->first()->path) }}" alt="{{ $item->game->images->first()->path }}" />
+                                @else
+                                    <img class="image_game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Imagen por defecto" />
+                                @endif
                                 <div class="number_game">
                                     <p>{{ $item->game->title }}</p>
                                     <div class="less_more" data-item-id="{{ $item->id }}">
