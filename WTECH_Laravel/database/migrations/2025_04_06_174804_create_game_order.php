@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('game_id');
             $table->unsignedInteger('quantity');
+            $table->unsignedBigInteger('order_details_id');
+
         
             $table->foreign('game_id')->references('id')->on('games');
+            $table->foreign('order_details_id')->references('id')->on('order_details');
         });        
     }
 

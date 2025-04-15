@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('shipping_details', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 255);
+            $table->string('surname', 255);
             $table->string('phone', 255);
+            $table->string('email', 255);
             $table->string('address', 255);
             $table->string('city', 50);
             $table->string('region', 50);
