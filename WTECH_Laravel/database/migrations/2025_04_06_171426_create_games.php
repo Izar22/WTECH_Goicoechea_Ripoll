@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('region', 50);
             $table->string('genre', 50);
             $table->string('description', 255);
+            $table->string('category', 50);
             $table->timestamps();
         });
     }

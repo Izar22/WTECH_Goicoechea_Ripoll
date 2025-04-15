@@ -371,21 +371,21 @@
             </form>
         </div>   
         <nav class="navegation_mobile">
-            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 1']) }}">Category 1</a>
-            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 2']) }}">Category 2</a>
-            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 3']) }}">Category 3</a>
-            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 4']) }}">Category 4</a>
-            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 5']) }}">Category 5</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'All games']) }}">All games</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Short games']) }}">Short games</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Long games']) }}">Long games</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Open world']) }}">Open world</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Pixel art']) }}">Pixel art</a>
         </nav>
         
     </aside>
     <main>
         <nav class="navegation">
-            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 1']) }}">Category 1</a>
-            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 2']) }}">Category 2</a>
-            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 3']) }}">Category 3</a>
-            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 4']) }}">Category 4</a>
-            <a class="nav" href="{{ route('categorized_games', ['category' => 'Category 5']) }}">Category 5</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'All games']) }}">All games</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Short games']) }}">Short games</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Long games']) }}">Long games</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Open world']) }}">Open world</a>
+            <a class="nav" href="{{ route('categorized_games', ['category' => 'Pixel art']) }}">Pixel art</a>
         </nav>
         <section class="banner">
             <h2 class="CTA_first">Play More,</h2>

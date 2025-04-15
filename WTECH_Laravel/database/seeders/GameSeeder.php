@@ -19,16 +19,18 @@ class GameSeeder extends Seeder
         $platforms = ['PC', 'PlayStation', 'Xbox', 'Nintendo Switch'];
         $regions = ['NA', 'EU', 'JP', 'Global'];
         $genres = ['Action', 'Adventure', 'RPG', 'Shooter', 'Puzzle', 'Simulation'];
-
+        $category = ['Short games', 'Long games', 'Open world', 'Pixel art'];
+        
         foreach (range(1, 50) as $index) {
             DB::table('games')->insert([
-                'title' => $faker->words(3, true),
+                'title' => ucwords($faker->words(3, true)),
                 'release_date' => $faker->date('Y-m-d'),
                 'publisher_name' => $faker->company,
                 'price' => $faker->randomFloat(2, 0.99, 9.99),
                 'platform' => $faker->randomElement($platforms),
                 'region' => $faker->randomElement($regions),
                 'genre' => $faker->randomElement($genres),
+                'category' => $faker->randomElement($category),
                 'description' => $faker->sentence(10),
                 'created_at' => now(),
                 'updated_at' => now(),
