@@ -184,7 +184,7 @@
 </head>
 <body>
     <header>
-        <a href="LandingPage.html" class="title">
+        <a href="{{ route('landing_page') }}" class="title">
             <img src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo" class="logo">
         </a>
         Log In or Create an Account
