@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\ShoppingCart;
-use App\Models\GameShoppingCart;
-use App\Models\Game;
 use Auth;
+use App\Models\Game;
+use App\Models\ShoppingCart;
+use Illuminate\Http\Request;
+use App\Models\ShippingDetail;
+use App\Models\GameShoppingCart;
 
 class CartController extends Controller
 {

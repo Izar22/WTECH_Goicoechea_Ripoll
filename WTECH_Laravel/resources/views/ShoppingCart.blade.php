@@ -569,37 +569,43 @@
             <div class="left_section">
                 <div class="section_title">Contact Information</div>
                 <div class="form_group">
-                    <input type="text" placeholder="Name">
-                    <input type="text" placeholder="Surname">
+                    <input type="text" name="name" placeholder="Name" value="{{ old('name') }}">
+                    <input type="text" name="surname" placeholder="Surname" value="{{ old('surname') }}">
                 </div>
                 <div class="form_group">
-                    <input type="email" placeholder="E-mail address">
-                    <input type="text" placeholder="Phone number">
+                    <input type="email" name="email" placeholder="E-mail address" value="{{ old('email') }}">
+                    <input type="text" name="phone" placeholder="Phone number" value="{{ old('phone') }}">
                 </div>
+    
                 <div class="section_title">Shipping</div>
                 <div class="double_width">
-                    <input type="text" placeholder="Address">
+                    <input type="text" name="address" placeholder="Address" value="{{ old('address') }}">
                 </div>
                 <div class="form_group">
-                    <input type="text" placeholder="City">
-                    <input type="text" placeholder="Region">
+                    <input type="text" name="city" placeholder="City" value="{{ old('city') }}">
+                    <input type="text" name="region" placeholder="Region" value="{{ old('region') }}">
                 </div>
                 <div class="form_group">
-                    <input type="text" placeholder="Country">
-                    <input type="text" placeholder="Zip Code">
+                    <input type="text" name="country" placeholder="Country" value="{{ old('country') }}">
+                    <input type="text" name="zip" placeholder="Zip Code" value="{{ old('zip') }}">
                 </div>
             </div>
+    
             <div class="right_section">
                 <h2 class="total_price_title_small">Order Price:</h2>
-                <p class="total_price_shipping_small">XX,XX €</p>
+                <p class="total_price_shipping_small">{{ $orderPrice ?? 'XX,XX' }} €</p>
+    
                 <h2 class="total_price_title_small">Shipping:</h2>
-                <p class="total_price_shipping_small">XX,XX €</p>
+                <p class="total_price_shipping_small">{{ $shippingPrice ?? 'XX,XX' }} €</p>
+    
                 <h2 class="total_price_title">Total price:</h2>
-                <p class="total_price_shipping">XX,XX €</p>
-                <button class="total_price_button" id="continue_payment">Continue to payment</button>
+                <p class="total_price_shipping">{{ $totalPrice ?? 'XX,XX' }} €</p>
+    
+                <button type="submit" class="total_price_button" id="continue_payment">Continue to payment</button>
             </div>
         </section>
-        <section class="container_payment">
+
+        <section class="container_payment" >
             <div class="left_section">
                 <div class="section_title">Payment Details</div>
                 <div class="double_width">
@@ -773,10 +779,8 @@
 </script>
 <script>
     function customBack() {
- 
         window.location.href = "{{ url()->previous() }}";
     }
-
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -803,19 +807,4 @@
         });
     });
 </script> 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const loginParam = urlParams.get("login");
-        if (loginParam) {
-            const navLinks = document.querySelectorAll('.nav');
-            navLinks.forEach(link => {
-                const currentHref = link.getAttribute('href');
-                if (!currentHref.includes('login=')) {
-                    link.setAttribute('href', `${currentHref}${currentHref.includes('?') ? '&' : '?'}login=${loginParam}`);
-                }
-            });
-        }
-    });
-</script>
 </html>

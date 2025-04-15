@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payment_details', function (Blueprint $table) {
-            $table->bigInteger('card_number')->primary();
+            $table->id();
+            $table->bigInteger('card_number');
             $table->unsignedTinyInteger('exp_month'); 
             $table->unsignedSmallInteger('exp_year'); 
             $table->integer('cvv');
