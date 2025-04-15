@@ -175,27 +175,4 @@ class CartController extends Controller
 
         return redirect()->back()->with('success', 'Item removed from cart.');
     }
-
-    public function process(Request $request)
-    {
-        $validated = $request->validate([
-            'phone' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'city' => 'required|string|max:50',
-            'region' => 'required|string|max:50',
-            'country' => 'required|string|max:50',
-            'zip' => 'required|string|max:5',
-        ]);
-    
-        ShippingDetail::create([
-            'phone' => $validated['phone'],
-            'address' => $validated['address'],
-            'city' => $validated['city'],
-            'region' => $validated['region'],
-            'country' => $validated['country'],
-            'zipcode' => $validated['zip'],
-        ]);
-    
-        return redirect()->route('shopping_cart')->withFragment('payment');
-    }
 }
