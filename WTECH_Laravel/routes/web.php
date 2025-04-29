@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\AdminGameController;
 
 Route::get('/sign_in', function () {
     return view('LoginPage');
@@ -37,5 +38,7 @@ Route::post("/log_in", [UserController::class, "logIn"]);
 Route::post("/sign_up", [UserController::class, "signUp"]);
 
 Route::post("/log_out", [UserController::class, "logOut"]);
+
+Route::get('/admin/categorized_games', [AdminGameController::class, 'categorizedGames'])->name('admin_categorized_games');
 
 
