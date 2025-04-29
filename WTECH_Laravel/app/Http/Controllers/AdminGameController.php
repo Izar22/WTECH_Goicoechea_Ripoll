@@ -4,16 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminGameController extends Controller
 {
     public function showAddProduct()
     {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('sign_in');
+        }
         return view('AddProduct');  
     }
 
     public function destroy($id)
     {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('sign_in');
+        }
         $game = Game::findOrFail($id);
         $game->delete();
 
@@ -22,6 +29,9 @@ class AdminGameController extends Controller
     
     public function categorizedGames(Request $request)
     {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('sign_in');
+        }
         $orderBy = $request->query('order_by');
         $genre = $request->query('genre');
         $platform = $request->query('platform');
