@@ -482,10 +482,10 @@
     </aside>
     <main>
         <div class="add_product">
-            <a href="AddProduct.html">
+            <a href="{{ route('admin_add_product') }}">
                 <img src="{{ asset('./Images/add-ellipse-svgrepo-com.svg') }}" alt="Add" class="icon"> 
             </a>
-            <a class="add_text" href="AddProduct.html">Add new product</a>           
+            <a class="add_text" href="{{ route('admin_add_product') }}">Add new product</a>           
         </div> 
         <div class="top_section">
             <div>
