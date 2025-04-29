@@ -2,11 +2,13 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\CartController;
+
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminGameController;
 
 Route::get('/sign_in', function () {
@@ -38,6 +40,12 @@ Route::post("/log_in", [UserController::class, "logIn"]);
 Route::post("/sign_up", [UserController::class, "signUp"]);
 
 Route::post("/log_out", [UserController::class, "logOut"]);
+
+Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin_login_form');
+
+Route::post('/admin/login', [AdminController::class, 'login'])->name('admin_login');
+
+Route::get('/admin/add_product', [AdminProductController::class, 'showAddProduct'])->name('admin_add_product');
 
 Route::get('/admin/categorized_games', [AdminGameController::class, 'categorizedGames'])->name('admin_categorized_games');
 
