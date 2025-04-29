@@ -7,6 +7,19 @@ use Illuminate\Http\Request;
 
 class AdminGameController extends Controller
 {
+    public function showAddProduct()
+    {
+        return view('AddProduct');  
+    }
+
+    public function destroy($id)
+    {
+        $game = Game::findOrFail($id);
+        $game->delete();
+
+        return response()->json(['success' => true]);
+    }
+    
     public function categorizedGames(Request $request)
     {
         $orderBy = $request->query('order_by');

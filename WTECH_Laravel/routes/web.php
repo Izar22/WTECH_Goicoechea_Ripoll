@@ -8,7 +8,6 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminGameController;
 
 Route::get('/sign_in', function () {
@@ -45,7 +44,9 @@ Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('adm
 
 Route::post('/admin/login', [AdminController::class, 'login'])->name('admin_login');
 
-Route::get('/admin/add_product', [AdminProductController::class, 'showAddProduct'])->name('admin_add_product');
+Route::get('/admin/add_game', [AdminGameController::class, 'showAddProduct'])->name('admin_add_game');
+
+Route::delete('/admin/games/{id}', [AdminGameController::class, 'destroy'])->name('admin_games_destroy');
 
 Route::get('/admin/categorized_games', [AdminGameController::class, 'categorizedGames'])->name('admin_categorized_games');
 

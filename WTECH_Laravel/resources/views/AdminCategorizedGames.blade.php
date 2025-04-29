@@ -423,6 +423,7 @@
                         <input type="hidden" name="genre" value="{{ request('genre') }}">
                         <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                         <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                        <input type="hidden" name="search" value="{{ request('search') }}">
                         <select name="order_by" id="order_by" onchange="this.form.submit()">
                             <option value="">Choose an option</option>
                             <option value="price_increasing" {{ request('order_by') == 'price_increasing' ? 'selected' : '' }}>Price: from less to more</option>
@@ -437,6 +438,7 @@
                             <input type="hidden" name="genre" value="{{ request('genre') }}">
                             <input type="hidden" name="platform" value="{{ request('platform') }}">
                             <input type="hidden" name="order_by" value="{{ request('order_by') }}">
+                            <input type="hidden" name="search" value="{{ request('search') }}">
                             <div class="price_range">
                                 <label for="fromPrice">From</label>
                                 <input type="number" id="fromPrice" name="fromPrice" min="0" max="1000" step="1" value="{{ request('fromPrice') }}">
@@ -453,6 +455,7 @@
                             <input type="hidden" name="order_by" value="{{ request('order_by') }}">
                             <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                             <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                            <input type="hidden" name="search" value="{{ request('search') }}">
                             <select name="genre" id="genre" onchange="this.form.submit()">
                                 <option value="">Choose an option</option>
                                 @foreach($genres as $genre)
@@ -468,6 +471,7 @@
                             <input type="hidden" name="order_by" value="{{ request('order_by') }}">
                             <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                             <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                            <input type="hidden" name="search" value="{{ request('search') }}">
                             <select name="platform" id="platform" onchange="this.form.submit()">
                                 <option value="">Choose an option</option>
                                 @foreach($platforms as $platform)
@@ -482,10 +486,10 @@
     </aside>
     <main>
         <div class="add_product">
-            <a href="{{ route('admin_add_product') }}">
+            <a href="{{ route('admin_add_game') }}">
                 <img src="{{ asset('./Images/add-ellipse-svgrepo-com.svg') }}" alt="Add" class="icon"> 
             </a>
-            <a class="add_text" href="{{ route('admin_add_product') }}">Add new product</a>           
+            <a class="add_text" href="{{ route('admin_add_game') }}">Add new product</a>           
         </div> 
         <div class="top_section">
             <div>
@@ -512,6 +516,7 @@
                     <input type="hidden" name="genre" value="{{ request('genre') }}">
                     <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                     <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                    <input type="hidden" name="search" value="{{ request('search') }}">
                     <select name="order_by" id="order_by" onchange="this.form.submit()">
                         <option value="">Choose an option</option>
                         <option value="price_increasing" {{ request('order_by') == 'price_increasing' ? 'selected' : '' }}>Price: from less to more</option>
@@ -529,6 +534,7 @@
                         <input type="hidden" name="genre" value="{{ request('genre') }}">
                         <input type="hidden" name="platform" value="{{ request('platform') }}">
                         <input type="hidden" name="order_by" value="{{ request('order_by') }}">
+                        <input type="hidden" name="search" value="{{ request('search') }}">
                         <div class="price_range">
                             <label for="fromPrice">From</label>
                             <input type="number" id="fromPrice" name="fromPrice" min="0" max="1000" step="1" value="{{ request('fromPrice') }}">
@@ -545,6 +551,7 @@
                         <input type="hidden" name="order_by" value="{{ request('order_by') }}">
                         <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                         <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                        <input type="hidden" name="search" value="{{ request('search') }}">
                         <select name="genre" id="genre" onchange="this.form.submit()">
                             <option value="">Choose an option</option>
                             @foreach($genres as $genre)
@@ -562,6 +569,7 @@
                         <input type="hidden" name="category" value="{{ request('category') }}">
                         <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                         <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                        <input type="hidden" name="search" value="{{ request('search') }}">
                         <select name="platform" id="platform" onchange="this.form.submit()">
                             <option value="">Choose an option</option>
                             @foreach($platforms as $platform)
@@ -577,14 +585,18 @@
                     <div class="game">
                         <div class="game_image_container">
                             <img class="image_game" src="{{ asset($game->images->first()->path) }}" alt="{{ $game->images->first()->path }}" />
-                            <img src="{{ asset('./Images/trash-full-svgrepo-com-v2.svg') }}" alt="Trash Icon" class="trash_icon" id="openModal" onclick="openModal();"/>
+                            <img src="{{ asset('./Images/trash-full-svgrepo-com-v2.svg') }}" alt="Trash Icon" class="trash_icon" id="openModal" data-id="{{ $game->id }} onclick="openModal();"/>
                         </div>
                         <div class="game_link" >
                             <p>{{ $game->title }}</p>
                         </div>
                         <div class="price_icon">
                             <p>{{ $game->price }} €</p>
-                            <img class="edit_icon" src="{{ asset('./Images/edit-3-svgrepo-com.svg') }}" alt="Edit" width="24px" height="24px" style="cursor: pointer;">
+                            <img src="{{ asset('./Images/trash-full-svgrepo-com-v2.svg') }}" 
+                                alt="Trash Icon" 
+                                class="trash_icon openModalBtn" 
+                                data-id="{{ $game->id }}" 
+                                style="cursor: pointer;" />
                         </div>
                     </div>
                 @endforeach 
@@ -605,10 +617,10 @@
     <form id="filtersResetForm" method="GET" action="{{ route('categorized_games') }}" style="display: none;">
         <input type="hidden" name="platform" value="{{ request('platform') }}">
         <input type="hidden" name="genre" value="{{ request('genre') }}">
-        <input type="hidden" name="category" value="{{ request('category') }}">
         <input type="hidden" name="order_by" value="{{ request('order_by') }}">
         <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
         <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+        <input type="hidden" name="search" value="{{ request('search') }}">
     </form>
     <footer>
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
@@ -718,28 +730,50 @@
             });
         });
     });
-</script>    
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const modal = document.getElementById("deleteModal");
-        const cancelBtn = document.getElementById("cancelDelete");
-        const confirmBtn = document.getElementById("confirmDelete");
+        let productIdToDelete = null;
 
-        cancelBtn.addEventListener("click", function () {
-            modal.style.display = "none";
+        // Abrir modal al hacer clic en cualquier papelera
+        document.querySelectorAll('.openModalBtn').forEach(button => {
+            button.addEventListener('click', function () {
+                console.log("AAAAAAAAAAAA")
+                productIdToDelete = this.dataset.id;
+                document.getElementById('deleteModal').style.display = 'block';
+            });
         });
 
-        confirmBtn.addEventListener("click", function () {
-            modal.style.display = "none";
+        // Cancelar la eliminación
+        document.getElementById('cancelDelete').addEventListener('click', function () {
+            productIdToDelete = null;
+            document.getElementById('deleteModal').style.display = 'none';
+        });
+
+        // Confirmar y hacer fetch DELETE
+        document.getElementById('confirmDelete').addEventListener('click', function () {
+            if (!productIdToDelete) return;
+
+            fetch(`/admin/games/${productIdToDelete}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.reload(); // recargar página
+                } else {
+                    alert('Error deleting the product.');
+                }
+            });
+
+            document.getElementById('deleteModal').style.display = 'none';
         });
     });
-
-    function openModal() {
-        const modal = document.getElementById("deleteModal");
-        console.log("Modal abierto");
-        modal.style.display = "flex";
-    }
-</script>
+</script>   
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const updatePagination = () => {
