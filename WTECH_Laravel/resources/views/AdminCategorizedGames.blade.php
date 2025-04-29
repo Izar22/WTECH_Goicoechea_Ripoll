@@ -344,6 +344,15 @@
             background-color: rgb(255, 0, 0);
             color: white;
         }
+
+        #confirmLogout {
+            background-color: rgb(4, 194, 4);
+            color: white;
+        }
+        #cancelLogout {
+            background-color: rgb(255, 0, 0);
+            color: white;
+        }
         .icon{
             width: 24px;
             height: 24px;
@@ -397,10 +406,10 @@
             <input class="search" id="searchInput" type="text" name="search" value="{{ request('search') }}" placeholder="Search games">
         </form>
         <div class="user_actions">
-            <a href="LandingPage.html">
-                <img src="{{ asset('./Images/log-out-svgrepo-com.svg') }}" alt="LogOut" class="icon"> 
+            <a class="nav open-logout" href="#">
+                <img src="{{ asset('./Images/log-out-svgrepo-com.svg') }}" alt="LogOut" class="icon">
             </a>
-            <a class="action" href="LandingPage.html">Log Out</a>
+            <a class="action nav open-logout" href="#">Log Out</a>
             <div class="menu">
                 <img src="{{ asset('./Images/menu-svgrepo-com.svg') }}" alt="Menu" class="icon">
             </div>
@@ -613,6 +622,16 @@
                 <button id="cancelDelete">No</button>
             </div>
         </div>
+        <div id="logoutModal" class="modal">
+            <div class="modal_content">
+                <p>Are you sure you want to log out?</p>
+                <form action="/admin/logout" method="POST">
+                    @csrf
+                    <button id="confirmLogout">Yes</button>
+                </form>
+                <button id="cancelLogout">No</button>
+            </div>
+        </div>
     </main>
     <form id="filtersResetForm" method="GET" action="{{ route('admin_categorized_games') }}" style="display: none;">
         <input type="hidden" name="platform" value="{{ request('platform') }}">
@@ -735,7 +754,6 @@
     document.addEventListener("DOMContentLoaded", function () {
         let productIdToDelete = null;
 
-        // Abrir modal al hacer clic en cualquier papelera
         document.querySelectorAll('.openModalBtn').forEach(button => {
             button.addEventListener('click', function () {
                 console.log("AAAAAAAAAAAA")
@@ -744,13 +762,11 @@
             });
         });
 
-        // Cancelar la eliminación
         document.getElementById('cancelDelete').addEventListener('click', function () {
             productIdToDelete = null;
             document.getElementById('deleteModal').style.display = 'none';
         });
 
-        // Confirmar y hacer fetch DELETE
         document.getElementById('confirmDelete').addEventListener('click', function () {
             if (!productIdToDelete) return;
 
@@ -764,16 +780,40 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    window.location.reload(); // recargar página
+                    window.location.reload(); 
                 } else {
                     alert('Error deleting the product.');
                 }
             });
-
             document.getElementById('deleteModal').style.display = 'none';
         });
     });
-</script>   
+</script>  
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const logoutModal = document.getElementById("logoutModal");
+        const confirmLogoutBtn = document.getElementById("confirmLogout");
+        const cancelLogoutBtn = document.getElementById("cancelLogout");
+        const logoutLinks = document.querySelectorAll(".open-logout");
+
+        function openLogoutModal(event) {
+            event.preventDefault();
+            logoutModal.style.display = "flex";
+        }
+
+        logoutLinks.forEach(link => {
+            link.addEventListener("click", openLogoutModal);
+        });
+
+        confirmLogoutBtn.addEventListener("click", function () {
+            window.location.href = "/";
+        });
+
+        cancelLogoutBtn.addEventListener("click", function () {
+            logoutModal.style.display = "none"; 
+        });
+    });
+</script> 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const updatePagination = () => {
@@ -783,35 +823,27 @@
             const currentPageContainer = document.getElementById('current_page');
 
             if (screenWidth < 600) {
-                // En pantallas pequeñas (<600px), mostrar la página actual
-                currentPageContainer.classList.remove('hidden'); // Asegurar que se muestre
-                pageLinksContainer.classList.add('hidden'); // Ocultar las páginas numeradas
+                currentPageContainer.classList.remove('hidden'); 
+                pageLinksContainer.classList.add('hidden'); 
             } else {
-                // En pantallas grandes (>600px), ocultar la página actual
-                currentPageContainer.classList.add('hidden'); // Ocultar la página actual
-                pageLinksContainer.classList.remove('hidden'); // Mostrar las páginas numeradas
+                currentPageContainer.classList.add('hidden'); 
+                pageLinksContainer.classList.remove('hidden'); 
             }
 
-            // Mostrar u ocultar los botones de paginación
             pageButtons.forEach(button => {
                 if (screenWidth < 600) {
-                    // En pantallas pequeñas, solo mostrar "Previous", "Next" y la página actual
                     if (button.classList.contains('active') || button.innerText === "Previous" || button.innerText === "Next" || button === currentPageContainer) {
                         button.style.display = 'inline-block';
                     } else {
                         button.style.display = 'none';
                     }
                 } else {
-                    // En pantallas grandes, mostrar todos los botones
                     button.style.display = 'inline-block';
                 }
             });
         };
-
-        // Llama a la función al cargar la página
         updatePagination();
 
-        // Actualiza la paginación cuando se redimensione la ventana
         window.addEventListener('resize', updatePagination);
     });
 </script>

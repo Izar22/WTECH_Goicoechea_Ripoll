@@ -26,7 +26,7 @@ class AdminController extends Controller
         ])) {
             // Regenerar la sesión y redirigir
             $request->session()->regenerate();
-            return redirect("/");
+            return redirect("/admin/categorized_games");
         }
 
         // Si las credenciales son incorrectas
@@ -35,9 +35,8 @@ class AdminController extends Controller
 
     public function logOut()
     {
-        // Logout del administrador usando el guard 'admin'
         Auth::guard('admin')->logout();
-        return redirect()->back();
+        return redirect("/");
     }
 
 }

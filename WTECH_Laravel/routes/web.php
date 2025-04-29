@@ -42,7 +42,9 @@ Route::post("/log_out", [UserController::class, "logOut"]);
 
 Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin_login_form');
 
-Route::post('/admin/login', [AdminController::class, 'login'])->name('admin_login');
+Route::post('/admin/login', [AdminController::class, 'logIn'])->name('admin_login');
+
+Route::post('/admin/logout', [AdminController::class, 'logOut'])->name('admin_logout');
 
 Route::get('/admin/add_game', [AdminGameController::class, 'showAddProduct'])->name('admin_add_game');
 
