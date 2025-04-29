@@ -27,6 +27,7 @@
             justify-content: space-between;
             align-items: center;
             box-sizing: border-box;
+            z-index: 100;
             @media (max-width: 768px) {
                 padding-right: 15px;
             }
@@ -48,7 +49,7 @@
             border-radius: 12px;
             @media (max-width: 768px) {
                 width: 60vw;
-                padding-left: 10vw;
+                margin-left: 10vw;
             }
         }
         .search_icon{
@@ -65,6 +66,10 @@
         .user_actions{
             display: flex;  
         }
+        .add_product{
+            display: flex;
+            justify-content: end;
+        }
         .action{
             margin: 0 15px;
             text-decoration: none;
@@ -72,6 +77,11 @@
             @media (max-width: 768px) {
                 display: none;
             } 
+        }
+        .add_text{
+            margin: 0 15px;
+            text-decoration: none;
+            color: #000000;
         }
         main {
             background: #FBFFFE;
@@ -85,7 +95,7 @@
             flex-direction: column;
             @media (max-width: 768px) {
                 height: auto;
-                min-height: calc(100vh - 108.4px);
+                max-height: calc(100vh - 108.4px);
             }
         }
         .close_btn {
@@ -191,19 +201,21 @@
                 margin-top: 5px;
             }
         }
-        .game p{
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
-            max-width: 120px;
-            height: 24px;
-        }
         .image_game{
             width: 120px;
             height: 180px;
             object-fit: cover;
+        }
+        .game_image_container {
+            position: relative; 
+        }
+        .trash_icon {
+            position: absolute;
+            top: 10px; 
+            right: 10px; 
+            width: 30px; 
+            height: 30px; 
+            cursor: pointer; 
         }
         .order_by{
             align-self: end;
@@ -324,16 +336,25 @@
             border: none;
             cursor: pointer;
         }
-        #confirmLogout {
+        #confirmDelete {
             background-color: rgb(4, 194, 4);
             color: white;
         }
-        #cancelLogout {
+        #cancelDelete {
             background-color: rgb(255, 0, 0);
             color: white;
         }
         .icon{
             width: 24px;
+            height: 24px;
+        }
+        .game p{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            max-width: 120px;
             height: 24px;
         }
         .pagination {
@@ -343,7 +364,7 @@
             @media (max-width: 768px) {
                 margin-top: 15px;
             }
-        }
+        } 
         .page_button, .page_buttons {
             padding: 10px;
             margin: 5px;
@@ -365,57 +386,26 @@
     </style>
 </head>
 <body>
-    @auth
     <header>
         <div class="title">
-            <a class="nav" href="{{ route('landing_page') }}"> 
-                <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
+            <a href="CategorizedGamesAdmin.html"> 
+                <img class="logo" src="{{ asset('./Images/LOGO V2 horizontal.png') }}" alt="8-Bit Market Logo"/>
             </a>
         </div>
-        <form id="searchForm" class="search_bar" action="{{ route('categorized_games') }}" method="GET">
+        <form id="searchForm" class="search_bar" action="{{ route('admin_categorized_games') }}" method="GET">
             <input type="hidden" id="categoryInput" name="category" value="{{ request('search') }}">
             <input class="search" id="searchInput" type="text" name="search" value="{{ request('search') }}" placeholder="Search games">
         </form>
         <div class="user_actions">
-            <a class="nav open-logout" href="#">
-                <img src="./Images/log-out-svgrepo-com.svg" alt="LogOut" class="icon"> 
+            <a href="LandingPage.html">
+                <img src="{{ asset('./Images/log-out-svgrepo-com.svg') }}" alt="LogOut" class="icon"> 
             </a>
-            <a class="action nav open-logout" href="#">Log Out</a>
-            <a class="nav" href="{{ route('shopping_cart') }}">
-                <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
-            </a>
-            <a class="action nav" href="{{ route('shopping_cart') }}">Cart</a>
+            <a class="action" href="LandingPage.html">Log Out</a>
             <div class="menu">
-                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
-            </div>
-        </div>    
-    </header>             
-    @else
-    <header>
-        <div class="title">
-            <a class="nav" href="{{ route('landing_page') }}"> 
-                <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
-            </a>
-        </div>
-        <form id="searchForm" class="search_bar" action="{{ route('categorized_games') }}" method="GET">
-            <input type="hidden" id="categoryInput" name="category" value="{{ request('search') }}">
-            <input class="search" id="searchInput" type="text" name="search" value="{{ request('search') }}" placeholder="Search games">
-        </form>
-        <div class="user_actions">
-            <a href="{{ route('sign_in') }}">
-                <img src="./Images/avatar-default-svgrepo-com.svg" alt="SignIn" class="icon"> 
-            </a>
-            <a class="action" href="{{ route('sign_in') }}">Sign In</a>
-            <a class="nav" href="{{ route('shopping_cart') }}">
-                <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
-            </a>
-            <a class="action nav" href="{{ route('shopping_cart') }}">Cart</a>
-            <div class="menu">
-                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
+                <img src="{{ asset('./Images/menu-svgrepo-com.svg') }}" alt="Menu" class="icon">
             </div>
         </div>       
     </header>
-    @endauth
     <aside class="sidebar">
         <button class="close_btn">&times;</button> 
         <div>
@@ -424,14 +414,13 @@
                     <input type="hidden" id="categoryInput2" name="category" value="{{ request('search') }}">
                     <input class="search" id="searchInput2" type="text" name="search" value="{{ request('search') }}" placeholder="Search games">
                 </form>
-            </div>   
+            </div> 
             <div class="mobile_filters">
                 <div class="order_by_mobile">
                     <label for="order_by">Order By</label>
-                    <form method="GET" action="{{ route('categorized_games') }}">
+                    <form method="GET" action="{{ route('admin_categorized_games') }}">
                         <input type="hidden" name="platform" value="{{ request('platform') }}">
                         <input type="hidden" name="genre" value="{{ request('genre') }}">
-                        <input type="hidden" name="category" value="{{ request('category') }}">
                         <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                         <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
                         <select name="order_by" id="order_by" onchange="this.form.submit()">
@@ -445,7 +434,6 @@
                     <div>
                         <h3>Price range</h3>
                         <form method="GET" action="{{ route('categorized_games') }}">
-                            <input type="hidden" name="category" value="{{ request('category') }}">
                             <input type="hidden" name="genre" value="{{ request('genre') }}">
                             <input type="hidden" name="platform" value="{{ request('platform') }}">
                             <input type="hidden" name="order_by" value="{{ request('order_by') }}">
@@ -463,7 +451,6 @@
                         <form method="GET" action="{{ route('categorized_games') }}">
                             <input type="hidden" name="platform" value="{{ request('platform') }}">
                             <input type="hidden" name="order_by" value="{{ request('order_by') }}">
-                            <input type="hidden" name="category" value="{{ request('category') }}">
                             <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                             <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
                             <select name="genre" id="genre" onchange="this.form.submit()">
@@ -479,7 +466,6 @@
                         <form method="GET" action="{{ route('categorized_games') }}">
                             <input type="hidden" name="genre" value="{{ request('genre') }}">
                             <input type="hidden" name="order_by" value="{{ request('order_by') }}">
-                            <input type="hidden" name="category" value="{{ request('category') }}">
                             <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                             <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
                             <select name="platform" id="platform" onchange="this.form.submit()">
@@ -489,12 +475,18 @@
                                 @endforeach
                             </select>
                         </form>
-                    </div>          
+                    </div>         
                 </div>
             </div>         
         </div>         
     </aside>
     <main>
+        <div class="add_product">
+            <a href="{{ route('admin_add_product') }}">
+                <img src="{{ asset('./Images/add-ellipse-svgrepo-com.svg') }}" alt="Add" class="icon"> 
+            </a>
+            <a class="add_text" href="{{ route('admin_add_product') }}">Add new product</a>           
+        </div> 
         <div class="top_section">
             <div>
                 <h2 id="category_name"></h2>
@@ -511,14 +503,13 @@
                             <div class="filter_label">Platform: {{ ucfirst(request('platform')) }}<span class="remove" data-filter="platform">✖</span></div>
                         @endif
                     </div>
-                </div>                
+                </div>                 
             </div>           
             <div class="order_by">
                 <label for="order_by">Order By</label>
-                <form method="GET" action="{{ route('categorized_games') }}">
+                <form method="GET" action="{{ route('admin_categorized_games') }}">
                     <input type="hidden" name="platform" value="{{ request('platform') }}">
                     <input type="hidden" name="genre" value="{{ request('genre') }}">
-                    <input type="hidden" name="category" value="{{ request('category') }}">
                     <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                     <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
                     <select name="order_by" id="order_by" onchange="this.form.submit()">
@@ -534,8 +525,7 @@
             <div class="filters">
                 <div>
                     <h3>Price range</h3>
-                    <form method="GET" action="{{ route('categorized_games') }}">
-                        <input type="hidden" name="category" value="{{ request('category') }}">
+                    <form method="GET" action="{{ route('admin_categorized_games') }}">
                         <input type="hidden" name="genre" value="{{ request('genre') }}">
                         <input type="hidden" name="platform" value="{{ request('platform') }}">
                         <input type="hidden" name="order_by" value="{{ request('order_by') }}">
@@ -550,10 +540,9 @@
                 </div>
                 <div class="filter">
                     <label for="genre">Genre</label>
-                    <form method="GET" action="{{ route('categorized_games') }}">
+                    <form method="GET" action="{{ route('admin_categorized_games') }}">
                         <input type="hidden" name="platform" value="{{ request('platform') }}">
                         <input type="hidden" name="order_by" value="{{ request('order_by') }}">
-                        <input type="hidden" name="category" value="{{ request('category') }}">
                         <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                         <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
                         <select name="genre" id="genre" onchange="this.form.submit()">
@@ -567,7 +556,7 @@
                 
                 <div class="filter">
                     <label for="platform">Platform</label>
-                    <form method="GET" action="{{ route('categorized_games') }}">
+                    <form method="GET" action="{{ route('admin_categorized_games') }}">
                         <input type="hidden" name="genre" value="{{ request('genre') }}">
                         <input type="hidden" name="order_by" value="{{ request('order_by') }}">
                         <input type="hidden" name="category" value="{{ request('category') }}">
@@ -583,40 +572,33 @@
                 </div>         
             </div>
             <section class="games_section">
-                <div class="games" id="gamesContainer"></div>   
-                    @foreach ($games as $game)
+                <div class="games" id="gamesContainer">
+                @foreach ($games as $game) 
                     <div class="game">
-                        <div class="game_link" style="cursor: pointer;" onclick="location.href='{{ url('/game_details', ['id' => $game->id]) }}'">
-                            @if ($game->images->isNotEmpty())
-                                <img class="image_game" src="{{ asset($game->images->first()->path) }}" alt="{{ $game->images->first()->path }}" />
-                            @else
-                                <img class="image_game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Imagen por defecto" />
-                            @endif
+                        <div class="game_image_container">
+                            <img class="image_game" src="{{ asset($game->images->first()->path) }}" alt="{{ $game->images->first()->path }}" />
+                            <img src="{{ asset('./Images/trash-full-svgrepo-com-v2.svg') }}" alt="Trash Icon" class="trash_icon" id="openModal" onclick="openModal();"/>
                         </div>
-                        <div class="game_link" style="cursor: pointer;" onclick="location.href='{{ url('/game_details', ['id' => $game->id]) }}'">
+                        <div class="game_link" >
                             <p>{{ $game->title }}</p>
                         </div>
                         <div class="price_icon">
                             <p>{{ $game->price }} €</p>
-                            <div class="heart">
-                                <img src="{{ asset('Images/heart-svgrepo-com.svg') }}" alt="Heart" class="icon">
-                            </div>
+                            <img class="edit_icon" src="{{ asset('./Images/edit-3-svgrepo-com.svg') }}" alt="Edit" width="24px" height="24px" style="cursor: pointer;">
                         </div>
                     </div>
-                @endforeach
-            </section>   
+                @endforeach 
+                </div> 
+            </section>
         </div> 
         <div class="pagination" class="pagination">
             {{ $games->links('vendor.pagination.custom') }}
         </div>
-        <div id="logoutModal" class="modal">
+        <div id="deleteModal" class="modal">
             <div class="modal_content">
-                <p>Are you sure you want to log out?</p>
-                <form action="/log_out" method="POST">
-                    @csrf
-                    <button id="confirmLogout">Yes</button>
-                </form>
-                <button id="cancelLogout">No</button>
+                <p>Are you sure you want to delete this product?</p>
+                <button id="confirmDelete">Yes</button>
+                <button id="cancelDelete">No</button>
             </div>
         </div>
     </main>
@@ -632,6 +614,132 @@
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
     </footer>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuIcon = document.querySelector(".menu");
+        const sidebar = document.querySelector(".sidebar");
+        const closeButton = document.querySelector(".close_btn");
+
+        menuIcon.addEventListener("click", function () {
+            sidebar.classList.toggle("open");
+        });
+
+        closeButton.addEventListener("click", function () {
+            sidebar.classList.remove("open");
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const genreSelects = document.querySelectorAll("#genre");
+        const platformSelects = document.querySelectorAll("#platform");
+        const fromPrices = document.querySelectorAll("#fromPrice");
+        const toPrices = document.querySelectorAll("#toPrice");
+        const applyButtons = document.querySelectorAll(".button_apply");
+        const filterContainer = document.querySelector(".applied_filters");
+
+        const filterOrder = ["Price", "Genre", "Platform"];
+        const filters = {};
+
+        function updateFilterDisplay() {
+            filterContainer.innerHTML = "";
+            filterOrder.forEach(type => {
+                if (filters[type]) {
+                    filterContainer.appendChild(filters[type]);
+                }
+            });
+        }
+
+        function addFilterLabel(type, value) {
+            if (filters[type]) filters[type].remove();
+
+            const filterLabel = document.createElement("div");
+            filterLabel.classList.add("filter_label");
+            filterLabel.dataset.type = type;
+            filterLabel.innerHTML = `${type}: ${value} <span class="remove">✖</span>`;
+
+            filterLabel.querySelector(".remove").addEventListener("click", function () {
+                filterLabel.remove();
+                delete filters[type];
+
+                if (type === "Genre") genreSelects.forEach(select => (select.value = ""));
+                if (type === "Platform") platformSelects.forEach(select => (select.value = ""));
+                if (type === "Price") {
+                    fromPrices.forEach(input => (input.value = ""));
+                    toPrices.forEach(input => (input.value = ""));
+                    toggleApplyButton(0);
+                    toggleApplyButton(1);
+                }
+
+                updateFilterDisplay();
+            });
+
+            filters[type] = filterLabel;
+            updateFilterDisplay();
+        }
+
+        function toggleApplyButton(index) {
+            const fromValue = fromPrices[index].value.trim();
+            const toValue = toPrices[index].value.trim();
+            applyButtons[index].disabled = !(fromValue !== "" && toValue !== "");
+        }
+
+        genreSelects.forEach(select => {
+            select.addEventListener("change", function () {
+                if (select.value !== "") {
+                    addFilterLabel("Genre", select.options[select.selectedIndex].text);
+                }
+            });
+        });
+
+        platformSelects.forEach(select => {
+            select.addEventListener("change", function () {
+                if (select.value !== "") {
+                    addFilterLabel("Platform", select.options[select.selectedIndex].text);
+                }
+            });
+        });
+
+        fromPrices.forEach((input, index) => {
+            input.addEventListener("input", () => toggleApplyButton(index));
+        });
+
+        toPrices.forEach((input, index) => {
+            input.addEventListener("input", () => toggleApplyButton(index));
+        });
+
+        applyButtons.forEach((button, index) => {
+            button.addEventListener("click", function () {
+                const fromValue = fromPrices[index].value.trim();
+                const toValue = toPrices[index].value.trim();
+                if (fromValue !== "" && toValue !== "") {
+                    addFilterLabel("Price", `${fromValue} - ${toValue} €`);
+                }
+            });
+        });
+    });
+</script>    
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("deleteModal");
+        const cancelBtn = document.getElementById("cancelDelete");
+        const confirmBtn = document.getElementById("confirmDelete");
+
+        cancelBtn.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+
+        confirmBtn.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+    });
+
+    function openModal() {
+        const modal = document.getElementById("deleteModal");
+        console.log("Modal abierto");
+        modal.style.display = "flex";
+    }
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const updatePagination = () => {
@@ -674,33 +782,6 @@
     });
 </script>
 <script>
-    document.getElementById('searchForm').addEventListener('submit', function (e) {
-        const searchValue = document.getElementById('searchInput').value;
-        document.getElementById('categoryInput').value = 'Searching for: ' + searchValue;
-    });
-</script>
-<script>
-    document.getElementById('searchForm2').addEventListener('submit', function (e) {
-        const searchValue = document.getElementById('searchInput2').value;
-        document.getElementById('categoryInput2').value = 'Searching for: ' + searchValue;
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const menuIcon = document.querySelector(".menu");
-        const sidebar = document.querySelector(".sidebar");
-        const closeButton = document.querySelector(".close_btn");
-
-        menuIcon.addEventListener("click", function () {
-            sidebar.classList.toggle("open");
-        });
-
-        closeButton.addEventListener("click", function () {
-            sidebar.classList.remove("open");
-        });
-    });
-</script>
-<script>
     document.addEventListener('DOMContentLoaded', function () {
         const removeButtons = document.querySelectorAll('.remove');
 
@@ -730,71 +811,15 @@
     });
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const heartIcons = document.querySelectorAll(".heart");
-        const heartFilled = ` <img src="./Images/heart-svgrepo-com (1).svg" alt="Heart" class="heart icon">`;
-        
-        const heartOutline = `<img src="./Images/heart-svgrepo-com.svg" alt="Heart" class="heart icon">`;
-        heartIcons.forEach(heart => {
-            let isFavorite = false;
-            heart.addEventListener("click", function() {
-                isFavorite = !isFavorite;
-                heart.innerHTML = isFavorite ? heartFilled : heartOutline;
-            });
-        });
+    document.getElementById('searchForm').addEventListener('submit', function (e) {
+        const searchValue = document.getElementById('searchInput').value;
+        document.getElementById('categoryInput').value = 'Searching for: ' + searchValue;
     });
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        function getCategoryFromURL() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get('category'); 
-        }
-
-        const categoryName = getCategoryFromURL();
-        
-        const categoryElement = document.getElementById("category_name");
-        categoryElement.textContent = categoryName;
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const logoutModal = document.getElementById("logoutModal");
-        const confirmLogoutBtn = document.getElementById("confirmLogout");
-        const cancelLogoutBtn = document.getElementById("cancelLogout");
-        const logoutLinks = document.querySelectorAll(".open-logout");
-
-        function openLogoutModal(event) {
-            event.preventDefault();
-            logoutModal.style.display = "flex";
-        }
-
-        logoutLinks.forEach(link => {
-            link.addEventListener("click", openLogoutModal);
-        });
-
-        confirmLogoutBtn.addEventListener("click", function () {
-            window.location.href = window.location.pathname; 
-        });
-
-        cancelLogoutBtn.addEventListener("click", function () {
-            logoutModal.style.display = "none"; 
-        });
-    });
-</script> 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const loginParam = urlParams.get("login");
-        if (loginParam) {
-            const navLinks = document.querySelectorAll('.nav');
-            navLinks.forEach(link => {
-                const currentHref = link.getAttribute('href');
-                if (!currentHref.includes('login=')) {
-                    link.setAttribute('href', `${currentHref}${currentHref.includes('?') ? '&' : '?'}login=${loginParam}`);
-                }
-            });
-        }
+    document.getElementById('searchForm2').addEventListener('submit', function (e) {
+        const searchValue = document.getElementById('searchInput2').value;
+        document.getElementById('categoryInput2').value = 'Searching for: ' + searchValue;
     });
 </script>
 </html>
