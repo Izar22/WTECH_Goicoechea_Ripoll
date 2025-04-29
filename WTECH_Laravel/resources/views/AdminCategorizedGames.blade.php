@@ -758,7 +758,6 @@
 
         document.querySelectorAll('.openModalBtn').forEach(button => {
             button.addEventListener('click', function () {
-                console.log("AAAAAAAAAAAA")
                 productIdToDelete = this.dataset.id;
                 document.getElementById('deleteModal').style.display = 'flex';
             });

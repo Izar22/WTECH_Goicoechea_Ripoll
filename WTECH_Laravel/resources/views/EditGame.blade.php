@@ -359,19 +359,22 @@
     <header>
         <div class="title">
             <a href="CategorizedGamesAdmin.html"> 
-                <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
+                <img class="logo" src="{{ asset('./Images/LOGO V2 horizontal.png') }}" alt="8-Bit Market Logo"/>
             </a>
         </div>
-        <div class="search_bar">
-            <input class="search" type="text" placeholder="Search">
-        </div>
+        <form id="searchForm" class="search_bar" action="{{ route('admin_categorized_games') }}" method="GET">
+            <input type="hidden" id="categoryInput" name="category" value="{{ request('search') }}">
+            <input class="search" id="searchInput" type="text" name="search" value="{{ request('search') }}" placeholder="Search games">
+        </form>
         <div class="user_actions">
-            <a href="LandingPage.html">
-                <img src="./Images/log-out-svgrepo-com.svg" alt="LogOut" class="icon"> 
+            <a class="nav open-logout" href="#">
+                <img src="{{ asset('./Images/log-out-svgrepo-com.svg') }}" alt="LogOut" class="icon">
             </a>
-            <a class="action" href="LandingPage.html">Log Out</a>
-        </div>
-        
+            <a class="action nav open-logout" href="#">Log Out</a>
+            <div class="menu">
+                <img src="{{ asset('./Images/menu-svgrepo-com.svg') }}" alt="Menu" class="icon">
+            </div>
+        </div>       
     </header>
     <aside class="sidebar">
         <button class="close_btn">&times;</button> 
@@ -381,7 +384,7 @@
     </aside>
     <main>
         <div class="back" onclick="customBack(); return false;">
-            <img src="./Images/arrow-narrow-left-svgrepo-com.svg" alt="Arrow" class="icon">
+            <img src="{{ asset('./Images/arrow-narrow-left-svgrepo-com.svg') }}" alt="Arrow" class="icon">
             <p>Back</p>
         </div>
         <div class="game_name">
@@ -391,14 +394,18 @@
             </div>
             <div class="delete_button" >
                 <strong onclick="" style="cursor: pointer;">Delete</strong>
-                <img src="images/trash-full-svgrepo-com.svg" alt="Trash Icon" class="trash_icon" onclick="" style="cursor: pointer;" id="openModal"/>
+                <img src="{{ asset('./Images/trash-full-svgrepo-com.svg') }}" 
+                alt="Trash Icon" 
+                class="trash_icon openModalBtn" 
+                data-id="{{ $game->id }}" 
+                style="cursor: pointer;" /> <!-- data-id da error porque no he puesto el game-->
             </div>
         </div>
         <div class="container">
             <section  class="game_details">
                 <div id="image_upload_container" class="image_upload_container">
                     <ul id="image_list"></ul>
-                    <img src="Images/plus-circle-1427-svgrepo-com.svg" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
+                    <img src="{{ asset('./Images/plus-circle-1427-svgrepo-com.svg') }}" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
                 </div>
                 <div class="details">
                     <div class="input-group">
@@ -437,6 +444,16 @@
                 <button id="cancelDelete">No</button>
             </div>
         </div>
+        <div id="logoutModal" class="modal">
+            <div class="modal_content">
+                <p>Are you sure you want to log out?</p>
+                <form action="/admin/logout" method="POST">
+                    @csrf
+                    <button id="confirmLogout">Yes</button>
+                </form>
+                <button id="cancelLogout">No</button>
+            </div>
+        </div>
     </main>
     <footer>
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
@@ -457,6 +474,69 @@
     });
 });
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let productIdToDelete = null;
+
+        document.querySelectorAll('.openModalBtn').forEach(button => {
+            button.addEventListener('click', function () {
+                productIdToDelete = this.dataset.id;
+                document.getElementById('deleteModal').style.display = 'flex';
+            });
+        });
+
+        document.getElementById('cancelDelete').addEventListener('click', function () {
+            productIdToDelete = null;
+            document.getElementById('deleteModal').style.display = 'none';
+        });
+
+        document.getElementById('confirmDelete').addEventListener('click', function () {
+            if (!productIdToDelete) return;
+
+            fetch(`/admin/games/${productIdToDelete}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = "/admin/categorized_games"; 
+                } else {
+                    alert('Error deleting the product.');
+                }
+            });
+            document.getElementById('deleteModal').style.display = 'none';
+        });
+    });
+</script>  
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const logoutModal = document.getElementById("logoutModal");
+        const confirmLogoutBtn = document.getElementById("confirmLogout");
+        const cancelLogoutBtn = document.getElementById("cancelLogout");
+        const logoutLinks = document.querySelectorAll(".open-logout");
+
+        function openLogoutModal(event) {
+            event.preventDefault();
+            logoutModal.style.display = "flex";
+        }
+
+        logoutLinks.forEach(link => {
+            link.addEventListener("click", openLogoutModal);
+        });
+
+        confirmLogoutBtn.addEventListener("click", function () {
+            window.location.href = "/";
+        });
+
+        cancelLogoutBtn.addEventListener("click", function () {
+            logoutModal.style.display = "none"; 
+        });
+    });
+</script> 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(".button").addEventListener("click", function () {
@@ -562,14 +642,7 @@
 </script>
 <script>
     function customBack() {
-        const previousPage = document.referrer;
-        const currentPage = window.location.href;
-
-        if (previousPage === currentPage) {
-            window.location.href = "CategorizedGamesAdmin.html";  
-        } else {
-            window.location.href = previousPage;
-        }
+            window.location.href = "/admin/categorized_games";  
     }
 </script>
 </html>
