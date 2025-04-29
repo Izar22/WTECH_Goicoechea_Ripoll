@@ -326,7 +326,7 @@
         </form>
         <div class="user_actions">
             <a href="LandingPage.html">
-                <img src="./Images/log-out-svgrepo-com.svg" alt="LogOut" class="icon"> 
+                <img src="{{ asset('Images/log-out-svgrepo-com.svg') }}" alt="LogOut" class="icon"> 
             </a>
             <a class="action" href="LandingPage.html">Log Out</a>
             <div class="menu">
@@ -343,7 +343,7 @@
     </aside>
     <main>
         <div class="back" onclick="customBack(); return false;">
-            <img src="./Images/arrow-narrow-left-svgrepo-com.svg" alt="Arrow Back" class="icon"> 
+            <img src="{{ asset('Images/arrow-narrow-left-svgrepo-com.svg') }}" alt="Arrow Back" class="icon"> 
             <p>Back</p>
         </div>
         <div class="game_name">
@@ -356,7 +356,7 @@
             <div class="game_details">
                 <div id="image_upload_container" class="image_upload_container">
                     <ul id="image_list"></ul>
-                    <img src="Images/plus-circle-1427-svgrepo-com.svg" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
+                    <img src="{{ asset('Images/plus-circle-1427-svgrepo-com.svg') }}" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
                 </div>
                 <div class="details">
                     <div class="input-group">
@@ -384,7 +384,7 @@
                     <input type="number" id="price" value="15" min="1">
                 </div>
                 <div class="button_save">
-                    <button class="button">Save Changes</button>
+                    <button class="button">Add Game</button>
                 </div>
             </div>
         </section>

@@ -66,7 +66,7 @@
         .user_actions{
             display: flex;  
         }
-        .add_product{
+        .add_game{
             display: flex;
             justify-content: end;
         }
@@ -481,11 +481,11 @@
         </div>         
     </aside>
     <main>
-        <div class="add_product">
-            <a href="{{ route('admin_add_product') }}">
+        <div class="add_game">
+            <a href="{{ route('admin_add_game') }}">
                 <img src="{{ asset('./Images/add-ellipse-svgrepo-com.svg') }}" alt="Add" class="icon"> 
             </a>
-            <a class="add_text" href="{{ route('admin_add_product') }}">Add new product</a>           
+            <a class="add_text" href="{{ route('admin_add_game') }}">Add new product</a>           
         </div> 
         <div class="top_section">
             <div>
