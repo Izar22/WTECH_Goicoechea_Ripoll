@@ -316,8 +316,8 @@
             display: none;
             position: fixed;
             z-index: 1000;
-            left: 0;
-            top: 0;
+            left:  0;
+            top:  0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
@@ -585,18 +585,18 @@
                     <div class="game">
                         <div class="game_image_container">
                             <img class="image_game" src="{{ asset($game->images->first()->path) }}" alt="{{ $game->images->first()->path }}" />
-                            <img src="{{ asset('./Images/trash-full-svgrepo-com-v2.svg') }}" alt="Trash Icon" class="trash_icon" id="openModal" data-id="{{ $game->id }} onclick="openModal();"/>
+                            <img src="{{ asset('./Images/trash-full-svgrepo-com-v2.svg') }}" 
+                                alt="Trash Icon" 
+                                class="trash_icon openModalBtn" 
+                                data-id="{{ $game->id }}" 
+                                style="cursor: pointer;" />
                         </div>
                         <div class="game_link" >
                             <p>{{ $game->title }}</p>
                         </div>
                         <div class="price_icon">
                             <p>{{ $game->price }} €</p>
-                            <img src="{{ asset('./Images/trash-full-svgrepo-com-v2.svg') }}" 
-                                alt="Trash Icon" 
-                                class="trash_icon openModalBtn" 
-                                data-id="{{ $game->id }}" 
-                                style="cursor: pointer;" />
+                            <img class="edit_icon" src="{{ asset('./Images/edit-3-svgrepo-com.svg') }}" alt="Edit" width="24px" height="24px" style="cursor: pointer;">
                         </div>
                     </div>
                 @endforeach 
@@ -614,7 +614,7 @@
             </div>
         </div>
     </main>
-    <form id="filtersResetForm" method="GET" action="{{ route('categorized_games') }}" style="display: none;">
+    <form id="filtersResetForm" method="GET" action="{{ route('admin_categorized_games') }}" style="display: none;">
         <input type="hidden" name="platform" value="{{ request('platform') }}">
         <input type="hidden" name="genre" value="{{ request('genre') }}">
         <input type="hidden" name="order_by" value="{{ request('order_by') }}">
@@ -740,7 +740,7 @@
             button.addEventListener('click', function () {
                 console.log("AAAAAAAAAAAA")
                 productIdToDelete = this.dataset.id;
-                document.getElementById('deleteModal').style.display = 'block';
+                document.getElementById('deleteModal').style.display = 'flex';
             });
         });
 
