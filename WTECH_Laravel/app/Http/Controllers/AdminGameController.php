@@ -5,25 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Game;
 use Illuminate\Http\Request;
 
-class GameController extends Controller
+class AdminGameController extends Controller
 {
-    public function sliders()
-    {
-        $games_recomended = Game::select('title', 'id')->limit(8)->get();
-        $games_popular = Game::select('title', 'id')->inRandomOrder()->limit(8)->get();
-        return view('LandingPage', compact('games_recomended', 'games_popular'));
-    }
-
-    public function gameDetails($id)
-    {
-        $game = Game::with('images')->findOrFail($id);
-
-        return view('GameDetails', compact('game'));
-    }
-
     public function categorizedGames(Request $request)
     {
-        $category = $request->query('category');
         $orderBy = $request->query('order_by');
         $genre = $request->query('genre');
         $platform = $request->query('platform');
@@ -37,22 +22,6 @@ class GameController extends Controller
         $games = Game::query();
         if ($search) {
             $games = $games->where('title', 'LIKE', '%' . $search . '%');
-        }
-        else{
-            if ($category) {
-                if ($category === "All games") {
-                    $games = Game::query();
-                }
-                elseif ($category === "Short games" || $category === "Long games" || $category === "Open world" || $category === "Pixel art") {
-                    $games = Game::query()->where('category', $category);
-                }
-                else{
-                    $parts = explode(':', $category);
-                    $searchTerm = isset($parts[1]) ? ltrim($parts[1]) : $category;
-
-                    $games = $games->where('title', 'LIKE', '%' . $searchTerm . '%');
-                }
-            }         
         }
 
         if ($genre) {
@@ -83,10 +52,8 @@ class GameController extends Controller
             $games = $games->orderBy('price', 'desc');
         }
         $totalGames = $games->count();
-
-        //$games = $games->paginate(10);
         $games = $games->with('images')->paginate(10);
 
-        return view('CategorizedGames', compact('games', 'category', 'genres', 'platforms', 'totalGames'));
+        return view('AdminCategorizedGames', compact('games', 'genres', 'platforms', 'totalGames'));
     }
 }
