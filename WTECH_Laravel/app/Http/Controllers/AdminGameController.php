@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\Image;
+
 use Illuminate\Http\Request;
 
 class AdminGameController extends Controller
 {
+    public function showAddGame()
+    {
+        return view('AddGame');  
+    }
+    
     public function categorizedGames(Request $request)
     {
         $orderBy = $request->query('order_by');
@@ -55,5 +62,38 @@ class AdminGameController extends Controller
         $games = $games->with('images')->paginate(10);
 
         return view('AdminCategorizedGames', compact('games', 'genres', 'platforms', 'totalGames'));
+    }
+
+    public function addGame(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'release_date' => 'required|date',
+            'publisher_name' => 'nullable|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'platform' => 'required|string|max:255',
+            'region' => 'required|string|max:255',
+            'genre' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'images.*' => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048'
+        ]);
+
+        $game = Game::create($validated);
+
+        // Manejar las imagenes
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $uploadedImage) {
+                $filename = time() . '_' . $uploadedImage->getClientOriginalName();
+                $uploadedImage->move(public_path('uploaded'), $filename);
+
+                $image = Image::create([
+                    'image' => 'uploaded/' . $filename
+                ]);
+
+                $game->images()->attach($image->id);
+            }
+        }
+
+        return redirect()->route('admin.game.edit')->with('success', 'Game created successfully!');
     }
 }
