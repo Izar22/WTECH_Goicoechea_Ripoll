@@ -8,12 +8,20 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminGameController extends Controller
 {
-    public function showAddProduct()
+    public function showAddGame()
     {
         if (!Auth::guard('admin')->check()) {
             return redirect()->route('sign_in');
         }
-        return view('AddProduct');  
+        return view('AddGame');  
+    }
+
+    public function showEditGame()
+    {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('sign_in');
+        }
+        return view('EditGame');  
     }
 
     public function destroy($id)

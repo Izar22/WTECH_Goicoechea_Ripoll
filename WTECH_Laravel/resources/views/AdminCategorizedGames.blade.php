@@ -605,7 +605,9 @@
                         </div>
                         <div class="price_icon">
                             <p>{{ $game->price }} €</p>
-                            <img class="edit_icon" src="{{ asset('./Images/edit-3-svgrepo-com.svg') }}" alt="Edit" width="24px" height="24px" style="cursor: pointer;">
+                            <a href="{{ route('admin_edit_game') }}">
+                                <img class="edit_icon" src="{{ asset('./Images/edit-3-svgrepo-com.svg') }}" alt="Edit" width="24px" height="24px" style="cursor: pointer;">
+                            </a>
                         </div>
                     </div>
                 @endforeach 

@@ -46,9 +46,11 @@ Route::post('/admin/login', [AdminController::class, 'logIn'])->name('admin_logi
 
 Route::post('/admin/logout', [AdminController::class, 'logOut'])->name('admin_logout');
 
-Route::get('/admin/add_game', [AdminGameController::class, 'showAddProduct'])->name('admin_add_game');
+Route::get('/admin/add_game', [AdminGameController::class, 'showAddGame'])->name('admin_add_game');
 
 Route::delete('/admin/games/{id}', [AdminGameController::class, 'destroy'])->name('admin_games_destroy');
+
+Route::get('/admin/edit_game', [AdminGameController::class, 'showEditGame'])->name('admin_edit_game');
 
 Route::get('/admin/categorized_games', [AdminGameController::class, 'categorizedGames'])->name('admin_categorized_games');
 
