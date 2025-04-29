@@ -457,7 +457,6 @@
                             </div>
                             <button type="submit" class="button_apply">Apply</button>
                         </form>
-                        <button class="button_apply" disabled>Apply</button>
                     </div>
                     <div class="filter">
                         <label for="genre">Genre</label>
