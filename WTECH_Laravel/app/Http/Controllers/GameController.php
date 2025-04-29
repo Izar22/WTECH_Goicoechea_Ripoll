@@ -40,12 +40,19 @@ class GameController extends Controller
         }
         else{
             if ($category) {
-                $games = $games->where('category', $category);
-            }
-    
-            if ($category === "All games") {
-                $games = Game::query();
-            }
+                if ($category === "All games") {
+                    $games = Game::query();
+                }
+                elseif ($category === "Short games" || $category === "Long games" || $category === "Open world" || $category === "Pixel art") {
+                    $games = Game::query()->where('category', $category);
+                }
+                else{
+                    $parts = explode(':', $category);
+                    $searchTerm = isset($parts[1]) ? ltrim($parts[1]) : $category;
+
+                    $games = $games->where('title', 'LIKE', '%' . $searchTerm . '%');
+                }
+            }         
         }
 
         if ($genre) {
