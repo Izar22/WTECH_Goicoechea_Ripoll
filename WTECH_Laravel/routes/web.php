@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\CartController;
+
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\AdminProductController;
 
 Route::get('/sign_in', function () {
     return view('LoginPage');
@@ -45,4 +46,5 @@ Route::post('/admin/login', [AdminController::class, 'login'])->name('admin_logi
 
 //Route::post('/admin/categorized_games', [AdminController::class, 'categorizedGames'])->name('admin_categorized_games');
 
+Route::get('/admin/add_product', [AdminProductController::class, 'showAddProduct'])->name('admin_add_product');
 
