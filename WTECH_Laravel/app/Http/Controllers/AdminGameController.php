@@ -69,12 +69,13 @@ class AdminGameController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'release_date' => 'required|date',
-            'publisher_name' => 'nullable|string|max:255',
-            'price' => 'required|numeric|min:0',
+            'publisher_name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:1',
             'platform' => 'required|string|max:255',
             'region' => 'required|string|max:255',
             'genre' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'category' => 'required|string|max:255',
+            'description' => 'required|string',
             'images.*' => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048'
         ]);
 
@@ -83,7 +84,7 @@ class AdminGameController extends Controller
         // Manejar las imagenes
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $uploadedImage) {
-                $filename = time() . '_' . $uploadedImage->getClientOriginalName();
+                $filename = $uploadedImage->getClientOriginalName();
                 $uploadedImage->move(public_path('uploaded'), $filename);
 
                 $image = Image::create([
@@ -94,6 +95,6 @@ class AdminGameController extends Controller
             }
         }
 
-        return redirect()->route('admin.game.edit')->with('success', 'Game created successfully!');
+        return redirect()->route('admin_categorized_games')->with('success', 'Game created successfully!');
     }
 }

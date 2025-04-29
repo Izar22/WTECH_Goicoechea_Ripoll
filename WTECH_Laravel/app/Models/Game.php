@@ -14,6 +14,7 @@ class Game extends Model
         'platform',
         'region',
         'genre',
+        'category',
         'description',
     ];
 

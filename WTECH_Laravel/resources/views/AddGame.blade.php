@@ -330,7 +330,7 @@
             </a>
             <a class="action" href="LandingPage.html">Log Out</a>
             <div class="menu">
-                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
+                <img src="{{ asset('./Images/menu-svgrepo-com.svg') }}" alt="Menu" class="icon">
             </div>
         </div>
         
@@ -346,48 +346,92 @@
             <img src="{{ asset('Images/arrow-narrow-left-svgrepo-com.svg') }}" alt="Arrow Back" class="icon"> 
             <p>Back</p>
         </div>
-        <div class="game_name">
-            <div class="game_name_field">
-                <label for="game_name"><h2>Game Name:</h2></label>
-                <input type="text" id="genre" value="xxxxxxxxxx">
-            </div>
-        </div>
-        <section class="container">
-            <div class="game_details">
-                <div id="image_upload_container" class="image_upload_container">
-                    <ul id="image_list"></ul>
-                    <img src="{{ asset('Images/plus-circle-1427-svgrepo-com.svg') }}" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
-                </div>
-                <div class="details">
-                    <div class="input-group">
-                        <label for="platform"><strong>Platform:</strong></label>
-                        <input type="text" id="platform" value="xxxxxxxxxx">
-                    </div>
-                    <div class="input-group">
-                        <label for="region"><strong>Region:</strong></label>
-                        <input type="text" id="region" value="xxxxxxxxxx">
-                    </div>
-                    <div class="input-group">
-                        <label for="genre"><strong>Genre:</strong></label>
-                        <input type="text" id="genre" value="xxxxxxxxxx">
-                    </div>
-                    <div class="input-group">
-                        <label for="release_date"><strong>Date of release:</strong></label>
-                        <input type="date" id="release_date"  value="xx/xx/xxxx">
-                    </div>
-                    <textarea id="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</textarea>
+        <form action="{{ route('admin_add_game') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="game_name">
+                <div class="game_name_field">
+                    <label for="game_name"><h2>Game Name:</h2></label>
+                    <input type="text" id="genre" name="title" value="xxxxxxxxxx">
+                    @error('title')
+                        <div class="text-red-500 text-sm">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
-            <div class="right_part">
-                <div class="price_box">
-                    <h3 class="price">Price</h3>
-                    <input type="number" id="price" value="15" min="1">
+            <section class="container">
+                <div class="game_details">
+                    <div id="image_upload_container" class="image_upload_container">
+                        <ul id="image_list"></ul>
+                        <img src="{{ asset('Images/plus-circle-1427-svgrepo-com.svg') }}" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
+                    </div>
+                    <div class="details">
+                        <div class="input-group">
+                            <label for="publisher_name"><strong>Publisher:</strong></label>
+                            <input type="text" id="publisher_name" name="publisher_name" value="xxxxxxxxxx">
+                            @error('publisher_name')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="input-group">
+                            <label for="platform"><strong>Platform:</strong></label>
+                            <input type="text" id="platform" name="platform" value="xxxxxxxxxx">
+                            @error('platform')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="input-group">
+                            <label for="region"><strong>Region:</strong></label>
+                            <input type="text" id="region" name="region" value="xxxxxxxxxx">
+                            @error('region')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="input-group">
+                            <label for="genre"><strong>Genre:</strong></label>
+                            <input type="text" id="genre" name="genre" value="xxxxxxxxxx">
+                            @error('genre')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="input-group">
+                            <label for="category"><strong>Category:</strong></label>
+                            <select id="category" name="category">
+                                <option value="Short games">Short games</option>
+                                <option value="Long games">Long games</option>
+                                <option value="Pixel art">Pixel art</option>
+                                <option value="Open world">Open world</option>
+                            </select>
+                            @error('category')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="input-group">
+                            <label for="release_date"><strong>Date of release:</strong></label>
+                            <input type="date" id="release_date" name="release_date" value="xx/xx/xxxx">
+                            @error('release_date')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <label for="description"><strong>Description:</strong></label>
+                        <textarea id="description" name="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</textarea>
+                        @error('description')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
-                <div class="button_save">
-                    <button class="button">Add Game</button>
+                <div class="right_part">
+                    <div class="price_box">
+                        <h3 class="price">Price</h3>
+                        <input type="number" id="price" name="price" value="15" min="0.01" step="0.01">
+                        @error('number')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="button_save">
+                        <button class="button">Add Game</button>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </form>
     </main>
     <footer>
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
