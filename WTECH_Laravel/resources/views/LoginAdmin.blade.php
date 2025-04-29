@@ -153,8 +153,8 @@
 </head>
 <body>
     <header>
-        <a href="LandingPage.html" class="title">
-            <img src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo" class="logo">
+        <a href="{{ route('landing_page') }}" class="title">
+            <img src="{{ asset('./Images/LOGO V2 horizontal.png') }}" alt="8-Bit Market Logo" class="logo">
         </a>
         Log In as administrator
     </header>
@@ -162,11 +162,21 @@
         <section class="form_container">
             <div class="form_section_login">
                 <h2>Log In</h2>
-                <form id="login_form">
+                <!--@if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif-->
+                <form id="login_form" action="{{ route('admin_login') }}" method="POST">
+                    @csrf
                     <label for="email_login">E-mail</label>
-                    <input type="email" id="email_login" required>
+                    <input type="email" id="email_login" name="email_login" required>
                     <label for="password_login">Password</label>
-                    <input type="password" id="password_login" required>
+                    <input type="password" id="password_login" name="password_login" required>
                     <button type="submit">Log In</button>
                 </form>
             </div>
@@ -174,10 +184,4 @@
     </div>
     <footer>&copy; 2024 8-Bit Market. All rights reserved. 🎮❤️</footer>
 </body>
-<script>
-    document.getElementById("login_form").addEventListener("submit", function (event) {  
-        event.preventDefault();
-        window.location.href = "CategorizedGamesAdmin.html";
-    });
-</script>
 </html>

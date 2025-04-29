@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,5 +38,11 @@ Route::post("/log_in", [UserController::class, "logIn"]);
 Route::post("/sign_up", [UserController::class, "signUp"]);
 
 Route::post("/log_out", [UserController::class, "logOut"]);
+
+Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin_login_form');
+
+Route::post('/admin/login', [AdminController::class, 'login'])->name('admin_login');
+
+//Route::post('/admin/categorized_games', [AdminController::class, 'categorizedGames'])->name('admin_categorized_games');
 
 

@@ -202,7 +202,7 @@
                     <button type="submit">Log In</button>
                 </form>
                 <div class="admin_link">
-                    <p><a href="{{ route('admin.login.form') }}">Log in as an Administrator</a></p>
+                    <p><a href="{{ route('admin_login_form') }}">Log in as an Administrator</a></p>
                 </div>
             </section>
             <div class="divider"></div>
