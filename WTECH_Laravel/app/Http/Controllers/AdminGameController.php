@@ -11,7 +11,7 @@ class AdminGameController extends Controller
     public function showAddGame()
     {
         if (!Auth::guard('admin')->check()) {
-            return redirect()->route('sign_in');
+            return redirect()->route('admin_login_form');
         }
         return view('AddGame');  
     }
@@ -19,7 +19,7 @@ class AdminGameController extends Controller
     public function showEditGame()
     {
         if (!Auth::guard('admin')->check()) {
-            return redirect()->route('sign_in');
+            return redirect()->route('admin_login_form');
         }
         return view('EditGame');  
     }
@@ -27,7 +27,7 @@ class AdminGameController extends Controller
     public function destroy($id)
     {
         if (!Auth::guard('admin')->check()) {
-            return redirect()->route('sign_in');
+            return redirect()->route('admin_login_form');
         }
         $game = Game::findOrFail($id);
         $game->delete();
@@ -38,7 +38,7 @@ class AdminGameController extends Controller
     public function categorizedGames(Request $request)
     {
         if (!Auth::guard('admin')->check()) {
-            return redirect()->route('sign_in');
+            return redirect()->route('admin_login_form');
         }
         $orderBy = $request->query('order_by');
         $genre = $request->query('genre');
