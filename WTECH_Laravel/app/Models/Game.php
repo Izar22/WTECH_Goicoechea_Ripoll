@@ -20,6 +20,6 @@ class Game extends Model
 
     public function images()
     {
-        return $this->belongsToMany(Image::class, 'image_game');
-    }
+        return $this->belongsToMany(Image::class, 'image_game', 'game_id', 'image_id');
+    }    
 }

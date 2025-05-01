@@ -360,8 +360,12 @@
             <section class="container">
                 <div class="game_details">
                     <div id="image_upload_container" class="image_upload_container">
+                        <!--<input type="file" name="images[]" multiple accept="image/*">-->
                         <ul id="image_list"></ul>
                         <img src="{{ asset('Images/plus-circle-1427-svgrepo-com.svg') }}" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
+                        @error('images[]')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="details">
                         <div class="input-group">
@@ -454,54 +458,42 @@
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        document.querySelector(".button").addEventListener("click", function () {
-            const gameData = {
-                platform: document.getElementById("platform").value,
-                region: document.getElementById("region").value,
-                genre: document.getElementById("genre").value,
-                release_date: document.getElementById("release_date").value,
-                description: document.getElementById("description").value,
-                price: document.getElementById("price").value
-            };
-    
-            console.log("Saving game data:", gameData); 
-        });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
         const addImageBtn = document.getElementById("add_image");
         const imageList = document.getElementById("image_list");
         const uploadContainer = document.getElementById("image_upload_container");
 
-
-        imageList.style.maxHeight = "calc(100% - 100px)"; 
+        imageList.style.maxHeight = "calc(100% - 100px)";
         imageList.style.overflowY = "auto";
         imageList.style.overflowX = "hidden";
         imageList.style.textOverflow = "ellipsis";
-        
+
         addImageBtn.addEventListener("click", function () {
             const fileInput = document.createElement("input");
             fileInput.type = "file";
             fileInput.accept = "image/*";
-            
+            fileInput.name = "images[]";
+            fileInput.style.display = "none"; // no mostrarlo visualmente
+
+            document.getElementById("image_upload_container").appendChild(fileInput); // importante para que se envíe
+
             fileInput.addEventListener("change", function () {
                 if (fileInput.files.length > 0) {
                     const file = fileInput.files[0];
                     const listItem = document.createElement("li");
                     listItem.textContent = file.name;
-                    
+
                     const removeBtn = document.createElement("span");
                     removeBtn.textContent = " X";
                     removeBtn.style.cursor = "pointer";
                     removeBtn.style.color = "red";
                     removeBtn.addEventListener("click", function () {
                         imageList.removeChild(listItem);
+                        fileInput.remove(); // elimina también el input
                         if (imageList.children.length === 0) {
                             uploadContainer.style.justifyContent = "center";
                         }
                     });
-                    
+
                     listItem.appendChild(removeBtn);
                     imageList.appendChild(listItem);
 
@@ -510,8 +502,14 @@
                     }
                 }
             });
-            
+
             fileInput.click();
+        });
+        document.querySelector("form").addEventListener("submit", function (e) {
+            const fileInputs = this.querySelectorAll('input[type="file"]');
+            fileInputs.forEach(input => {
+                console.log("Archivo:", input.files[0]);
+            });
         });
     });
 </script>

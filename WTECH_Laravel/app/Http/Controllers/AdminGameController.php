@@ -76,7 +76,7 @@ class AdminGameController extends Controller
             'genre' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'description' => 'required|string',
-            'images.*' => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048'
+            'images.*' => 'image|mimes:jpg,jpeg,png,gif,svg'
         ]);
 
         $game = Game::create($validated);
@@ -88,7 +88,7 @@ class AdminGameController extends Controller
                 $uploadedImage->move(public_path('uploaded'), $filename);
 
                 $image = Image::create([
-                    'image' => 'uploaded/' . $filename
+                    'path' => 'uploaded/' . $filename
                 ]);
 
                 $game->images()->attach($image->id);
