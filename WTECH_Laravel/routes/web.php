@@ -50,7 +50,9 @@ Route::get('/admin/add_game', [AdminGameController::class, 'showAddGame'])->name
 
 Route::delete('/admin/games/{id}', [AdminGameController::class, 'destroy'])->name('admin_games_destroy');
 
-Route::get('/admin/edit_game', [AdminGameController::class, 'showEditGame'])->name('admin_edit_game');
+Route::get('/admin/edit_game/{id}', [AdminGameController::class, 'showEditGame'])->name('admin_edit_game');
+
+Route::put('/admin/edit_game/{id}', [AdminGameController::class, 'editGame'])->name('admin_edit_game_put');
 
 Route::get('/admin/categorized_games', [AdminGameController::class, 'categorizedGames'])->name('admin_categorized_games');
 

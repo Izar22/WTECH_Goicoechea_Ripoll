@@ -605,7 +605,7 @@
                         </div>
                         <div class="price_icon">
                             <p>{{ $game->price }} €</p>
-                            <a href="{{ route('admin_edit_game') }}">
+                            <a href="{{ route('admin_edit_game', ['id' => $game->id]) }}">
                                 <img class="edit_icon" src="{{ asset('./Images/edit-3-svgrepo-com.svg') }}" alt="Edit" width="24px" height="24px" style="cursor: pointer;">
                             </a>
                         </div>

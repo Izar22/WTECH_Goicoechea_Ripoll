@@ -387,56 +387,97 @@
             <img src="{{ asset('./Images/arrow-narrow-left-svgrepo-com.svg') }}" alt="Arrow" class="icon">
             <p>Back</p>
         </div>
-        <div class="game_name">
-            <div class="game_name_field">
-                <h2>Game Name:</h2>
-                <input type="text" id="genre" value="xxxxxxxxxx"></p>
+        <form action="{{ route('admin_edit_game_put', ['id' => $game->id]) }}" method="POST" enctype="multipart/form-data">
+            @method('PUT') 
+            @csrf
+            <div class="game_name">
+                <div class="game_name_field">
+                    <h2>Game Name:</h2>
+                    <input type="text" id="genre" name="title" value='{{ $game->title }}'></p>
+                    @error('title')
+                        <div class="text-red-500 text-sm">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="delete_button" >
+                    <strong onclick="" style="cursor: pointer;">Delete</strong>
+                    <img src="{{ asset('./Images/trash-full-svgrepo-com.svg') }}" 
+                    alt="Trash Icon" 
+                    class="trash_icon openModalBtn" 
+                    data-id="{{ $game->id }}" 
+                    style="cursor: pointer;" />
+                </div>
             </div>
-            <div class="delete_button" >
-                <strong onclick="" style="cursor: pointer;">Delete</strong>
-                <img src="{{ asset('./Images/trash-full-svgrepo-com.svg') }}" 
-                alt="Trash Icon" 
-                class="trash_icon openModalBtn" 
-                data-id="{{ $game->id }}" 
-                style="cursor: pointer;" /> <!-- data-id da error porque no he puesto el game-->
+            <div class="container">
+                <section  class="game_details">
+                    <div id="image_upload_container" class="image_upload_container">
+                        <ul id="image_list"></ul>
+                        <img src="{{ asset('./Images/plus-circle-1427-svgrepo-com.svg') }}" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
+                    </div>
+                    <div class="details">
+                        <div class="input-group">
+                            <label for="publisher_name"><strong>Publisher:</strong></label>
+                            <input type="text" id="publisher_name" name="publisher_name" value='{{ $game->publisher_name }}'>
+                            @error('publisher_name')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="input-group">
+                            <label for="platform"><strong>Platform:</strong></label>
+                            <input type="text" id="platform" name="platform" value='{{ $game->platform }}'>
+                            @error('platform')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="input-group">
+                            <label for="region"><strong>Region:</strong></label>
+                            <input type="text" id="region" name="region" value='{{ $game->region }}'>
+                            @error('region')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="input-group">
+                            <label for="genre"><strong>Genre:</strong></label>
+                            <input type="text" id="genre" name="genre" value='{{ $game->genre }}'>
+                            @error('genre')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="input-group">
+                            <label for="category"><strong>Category:</strong></label>
+                            <select id="category" name="category">
+                                <option value="Short games" {{ $game->category == 'Short games' ? 'selected' : '' }}>Short games</option>
+                                <option value="Long games" {{ $game->category == 'Long games' ? 'selected' : '' }}>Long games</option>
+                                <option value="Pixel art" {{ $game->category == 'Pixel art' ? 'selected' : '' }}>Pixel art</option>
+                                <option value="Open world" {{ $game->category == 'Open world' ? 'selected' : '' }}>Open world</option>
+                            </select>
+                            @error('category')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="input-group">
+                            <label for="release_date"><strong>Date of release:</strong></label>
+                            <input type="date" id="release_date"  name="release_date" value='{{ $game->release_date }}'>
+                        </div>
+                        <textarea id="description" name="description">'{{ $game->description }}'</textarea>
+                        @error('description')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </section >
+                <section  class="right_part">
+                    <div class="price_box">
+                        <h3 class="price">Price</h3>
+                        <input type="number" id="price" name="price" value='{{ $game->price }}' min="1" step="0.01">
+                        @error('price')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="button_save">
+                        <button class="button">Save Changes</button>
+                    </div>
+                </section >
             </div>
-        </div>
-        <div class="container">
-            <section  class="game_details">
-                <div id="image_upload_container" class="image_upload_container">
-                    <ul id="image_list"></ul>
-                    <img src="{{ asset('./Images/plus-circle-1427-svgrepo-com.svg') }}" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
-                </div>
-                <div class="details">
-                    <div class="input-group">
-                        <label for="platform"><strong>Platform:</strong></label>
-                        <input type="text" id="platform" value="xxxxxxxxxx">
-                    </div>
-                    <div class="input-group">
-                        <label for="region"><strong>Region:</strong></label>
-                        <input type="text" id="region" value="xxxxxxxxxx">
-                    </div>
-                    <div class="input-group">
-                        <label for="genre"><strong>Genre:</strong></label>
-                        <input type="text" id="genre" value="xxxxxxxxxx">
-                    </div>
-                    <div class="input-group">
-                        <label for="release_date"><strong>Date of release:</strong></label>
-                        <input type="date" id="release_date"  value="xx/xx/xxxx">
-                    </div>
-                    <textarea id="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</textarea>
-                </div>
-            </section >
-            <section  class="right_part">
-                <div class="price_box">
-                    <h3 class="price">Price</h3>
-                    <input type="number" id="price" value="15" min="1">
-                </div>
-                <div class="button_save">
-                    <button class="button">Save Changes</button>
-                </div>
-            </section >
-        </div>
+        </form>
         <div id="deleteModal" class="modal">
             <div class="modal_content">
                 <p>Are you sure you want to delete this product?</p>
