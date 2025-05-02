@@ -6,16 +6,68 @@ use App\Models\Game;
 use App\Models\Image;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminGameController extends Controller
 {
     public function showAddGame()
     {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin_login_form');
+        }
         return view('AddGame');  
+    }
+
+    public function showEditGame($id)
+    {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin_login_form');
+        }
+        $game = Game::findOrFail($id); 
+
+        return view('EditGame', compact('game')); 
+    }
+
+    public function editGame(Request $request, $id)
+    {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin_login_form');
+        }
+
+        $validated = $request->validate([
+            'title'         => 'required|string|max:255',
+            'publisher_name'=> 'required|string|max:255',
+            'platform'      => 'required|string|max:255',
+            'region'        => 'required|string|max:255',
+            'genre'         => 'required|string|max:255',
+            'category'      => 'required|in:Short games,Long games,Pixel art,Open world',
+            'release_date'  => 'required|date',
+            'description'    => 'required|string',
+            'price'         => 'required|numeric|min:0.01',
+        ]);
+
+        $game = Game::findOrFail($id);
+        $game->update($request->all());
+        
+        return redirect()->route('admin_categorized_games');
+    }
+
+    public function destroy($id)
+    {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin_login_form');
+        }
+        $game = Game::findOrFail($id);
+        $game->delete();
+
+        return response()->json(['success' => true]);
     }
     
     public function categorizedGames(Request $request)
     {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin_login_form');
+        }
         $orderBy = $request->query('order_by');
         $genre = $request->query('genre');
         $platform = $request->query('platform');

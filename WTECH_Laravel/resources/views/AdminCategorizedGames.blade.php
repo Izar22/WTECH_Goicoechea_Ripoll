@@ -316,8 +316,8 @@
             display: none;
             position: fixed;
             z-index: 1000;
-            left: 0;
-            top: 0;
+            left:  0;
+            top:  0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
@@ -341,6 +341,15 @@
             color: white;
         }
         #cancelDelete {
+            background-color: rgb(255, 0, 0);
+            color: white;
+        }
+
+        #confirmLogout {
+            background-color: rgb(4, 194, 4);
+            color: white;
+        }
+        #cancelLogout {
             background-color: rgb(255, 0, 0);
             color: white;
         }
@@ -397,10 +406,10 @@
             <input class="search" id="searchInput" type="text" name="search" value="{{ request('search') }}" placeholder="Search games">
         </form>
         <div class="user_actions">
-            <a href="LandingPage.html">
-                <img src="{{ asset('./Images/log-out-svgrepo-com.svg') }}" alt="LogOut" class="icon"> 
+            <a class="nav open-logout" href="#">
+                <img src="{{ asset('./Images/log-out-svgrepo-com.svg') }}" alt="LogOut" class="icon">
             </a>
-            <a class="action" href="LandingPage.html">Log Out</a>
+            <a class="action nav open-logout" href="#">Log Out</a>
             <div class="menu">
                 <img src="{{ asset('./Images/menu-svgrepo-com.svg') }}" alt="Menu" class="icon">
             </div>
@@ -423,6 +432,7 @@
                         <input type="hidden" name="genre" value="{{ request('genre') }}">
                         <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                         <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                        <input type="hidden" name="search" value="{{ request('search') }}">
                         <select name="order_by" id="order_by" onchange="this.form.submit()">
                             <option value="">Choose an option</option>
                             <option value="price_increasing" {{ request('order_by') == 'price_increasing' ? 'selected' : '' }}>Price: from less to more</option>
@@ -437,6 +447,7 @@
                             <input type="hidden" name="genre" value="{{ request('genre') }}">
                             <input type="hidden" name="platform" value="{{ request('platform') }}">
                             <input type="hidden" name="order_by" value="{{ request('order_by') }}">
+                            <input type="hidden" name="search" value="{{ request('search') }}">
                             <div class="price_range">
                                 <label for="fromPrice">From</label>
                                 <input type="number" id="fromPrice" name="fromPrice" min="0" max="1000" step="1" value="{{ request('fromPrice') }}">
@@ -453,6 +464,7 @@
                             <input type="hidden" name="order_by" value="{{ request('order_by') }}">
                             <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                             <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                            <input type="hidden" name="search" value="{{ request('search') }}">
                             <select name="genre" id="genre" onchange="this.form.submit()">
                                 <option value="">Choose an option</option>
                                 @foreach($genres as $genre)
@@ -468,6 +480,7 @@
                             <input type="hidden" name="order_by" value="{{ request('order_by') }}">
                             <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                             <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                            <input type="hidden" name="search" value="{{ request('search') }}">
                             <select name="platform" id="platform" onchange="this.form.submit()">
                                 <option value="">Choose an option</option>
                                 @foreach($platforms as $platform)
@@ -512,6 +525,7 @@
                     <input type="hidden" name="genre" value="{{ request('genre') }}">
                     <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                     <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                    <input type="hidden" name="search" value="{{ request('search') }}">
                     <select name="order_by" id="order_by" onchange="this.form.submit()">
                         <option value="">Choose an option</option>
                         <option value="price_increasing" {{ request('order_by') == 'price_increasing' ? 'selected' : '' }}>Price: from less to more</option>
@@ -529,6 +543,7 @@
                         <input type="hidden" name="genre" value="{{ request('genre') }}">
                         <input type="hidden" name="platform" value="{{ request('platform') }}">
                         <input type="hidden" name="order_by" value="{{ request('order_by') }}">
+                        <input type="hidden" name="search" value="{{ request('search') }}">
                         <div class="price_range">
                             <label for="fromPrice">From</label>
                             <input type="number" id="fromPrice" name="fromPrice" min="0" max="1000" step="1" value="{{ request('fromPrice') }}">
@@ -545,6 +560,7 @@
                         <input type="hidden" name="order_by" value="{{ request('order_by') }}">
                         <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                         <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                        <input type="hidden" name="search" value="{{ request('search') }}">
                         <select name="genre" id="genre" onchange="this.form.submit()">
                             <option value="">Choose an option</option>
                             @foreach($genres as $genre)
@@ -562,6 +578,7 @@
                         <input type="hidden" name="category" value="{{ request('category') }}">
                         <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
                         <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+                        <input type="hidden" name="search" value="{{ request('search') }}">
                         <select name="platform" id="platform" onchange="this.form.submit()">
                             <option value="">Choose an option</option>
                             @foreach($platforms as $platform)
@@ -577,14 +594,20 @@
                     <div class="game">
                         <div class="game_image_container">
                             <img class="image_game" src="{{ asset($game->images->first()->path) }}" alt="{{ $game->images->first()->path }}" />
-                            <img src="{{ asset('./Images/trash-full-svgrepo-com-v2.svg') }}" alt="Trash Icon" class="trash_icon" id="openModal" onclick="openModal();"/>
+                            <img src="{{ asset('./Images/trash-full-svgrepo-com-v2.svg') }}" 
+                                alt="Trash Icon" 
+                                class="trash_icon openModalBtn" 
+                                data-id="{{ $game->id }}" 
+                                style="cursor: pointer;" />
                         </div>
                         <div class="game_link" >
                             <p>{{ $game->title }}</p>
                         </div>
                         <div class="price_icon">
                             <p>{{ $game->price }} €</p>
-                            <img class="edit_icon" src="{{ asset('./Images/edit-3-svgrepo-com.svg') }}" alt="Edit" width="24px" height="24px" style="cursor: pointer;">
+                            <a href="{{ route('admin_edit_game', ['id' => $game->id]) }}">
+                                <img class="edit_icon" src="{{ asset('./Images/edit-3-svgrepo-com.svg') }}" alt="Edit" width="24px" height="24px" style="cursor: pointer;">
+                            </a>
                         </div>
                     </div>
                 @endforeach 
@@ -601,14 +624,24 @@
                 <button id="cancelDelete">No</button>
             </div>
         </div>
+        <div id="logoutModal" class="modal">
+            <div class="modal_content">
+                <p>Are you sure you want to log out?</p>
+                <form action="/admin/logout" method="POST">
+                    @csrf
+                    <button id="confirmLogout">Yes</button>
+                </form>
+                <button id="cancelLogout">No</button>
+            </div>
+        </div>
     </main>
-    <form id="filtersResetForm" method="GET" action="{{ route('categorized_games') }}" style="display: none;">
+    <form id="filtersResetForm" method="GET" action="{{ route('admin_categorized_games') }}" style="display: none;">
         <input type="hidden" name="platform" value="{{ request('platform') }}">
         <input type="hidden" name="genre" value="{{ request('genre') }}">
-        <input type="hidden" name="category" value="{{ request('category') }}">
         <input type="hidden" name="order_by" value="{{ request('order_by') }}">
         <input type="hidden" name="fromPrice" value="{{ request('fromPrice') }}">
         <input type="hidden" name="toPrice" value="{{ request('toPrice') }}">
+        <input type="hidden" name="search" value="{{ request('search') }}">
     </form>
     <footer>
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
@@ -718,28 +751,70 @@
             });
         });
     });
-</script>    
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const modal = document.getElementById("deleteModal");
-        const cancelBtn = document.getElementById("cancelDelete");
-        const confirmBtn = document.getElementById("confirmDelete");
+        let productIdToDelete = null;
 
-        cancelBtn.addEventListener("click", function () {
-            modal.style.display = "none";
+        document.querySelectorAll('.openModalBtn').forEach(button => {
+            button.addEventListener('click', function () {
+                productIdToDelete = this.dataset.id;
+                document.getElementById('deleteModal').style.display = 'flex';
+            });
         });
 
-        confirmBtn.addEventListener("click", function () {
-            modal.style.display = "none";
+        document.getElementById('cancelDelete').addEventListener('click', function () {
+            productIdToDelete = null;
+            document.getElementById('deleteModal').style.display = 'none';
+        });
+
+        document.getElementById('confirmDelete').addEventListener('click', function () {
+            if (!productIdToDelete) return;
+
+            fetch(`/admin/games/${productIdToDelete}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.reload(); 
+                } else {
+                    alert('Error deleting the product.');
+                }
+            });
+            document.getElementById('deleteModal').style.display = 'none';
         });
     });
+</script>  
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const logoutModal = document.getElementById("logoutModal");
+        const confirmLogoutBtn = document.getElementById("confirmLogout");
+        const cancelLogoutBtn = document.getElementById("cancelLogout");
+        const logoutLinks = document.querySelectorAll(".open-logout");
 
-    function openModal() {
-        const modal = document.getElementById("deleteModal");
-        console.log("Modal abierto");
-        modal.style.display = "flex";
-    }
-</script>
+        function openLogoutModal(event) {
+            event.preventDefault();
+            logoutModal.style.display = "flex";
+        }
+
+        logoutLinks.forEach(link => {
+            link.addEventListener("click", openLogoutModal);
+        });
+
+        confirmLogoutBtn.addEventListener("click", function () {
+            window.location.href = "/";
+        });
+
+        cancelLogoutBtn.addEventListener("click", function () {
+            logoutModal.style.display = "none"; 
+        });
+    });
+</script> 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const updatePagination = () => {
@@ -749,35 +824,27 @@
             const currentPageContainer = document.getElementById('current_page');
 
             if (screenWidth < 600) {
-                // En pantallas pequeñas (<600px), mostrar la página actual
-                currentPageContainer.classList.remove('hidden'); // Asegurar que se muestre
-                pageLinksContainer.classList.add('hidden'); // Ocultar las páginas numeradas
+                currentPageContainer.classList.remove('hidden'); 
+                pageLinksContainer.classList.add('hidden'); 
             } else {
-                // En pantallas grandes (>600px), ocultar la página actual
-                currentPageContainer.classList.add('hidden'); // Ocultar la página actual
-                pageLinksContainer.classList.remove('hidden'); // Mostrar las páginas numeradas
+                currentPageContainer.classList.add('hidden'); 
+                pageLinksContainer.classList.remove('hidden'); 
             }
 
-            // Mostrar u ocultar los botones de paginación
             pageButtons.forEach(button => {
                 if (screenWidth < 600) {
-                    // En pantallas pequeñas, solo mostrar "Previous", "Next" y la página actual
                     if (button.classList.contains('active') || button.innerText === "Previous" || button.innerText === "Next" || button === currentPageContainer) {
                         button.style.display = 'inline-block';
                     } else {
                         button.style.display = 'none';
                     }
                 } else {
-                    // En pantallas grandes, mostrar todos los botones
                     button.style.display = 'inline-block';
                 }
             });
         };
-
-        // Llama a la función al cargar la página
         updatePagination();
 
-        // Actualiza la paginación cuando se redimensione la ventana
         window.addEventListener('resize', updatePagination);
     });
 </script>
