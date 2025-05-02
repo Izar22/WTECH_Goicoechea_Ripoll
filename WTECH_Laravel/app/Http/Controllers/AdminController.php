@@ -26,7 +26,7 @@ class AdminController extends Controller
         ])) {
             // Regenerar la sesión y redirigir
             $request->session()->regenerate();
-            return redirect("/");
+            return redirect("/admin/categorized_games");
         }
 
         // Si las credenciales son incorrectas

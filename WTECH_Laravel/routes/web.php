@@ -44,7 +44,7 @@ Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('adm
 
 Route::post('/admin/login', [AdminController::class, 'login'])->name('admin_login');
 
-Route::get('/admin/add_game', [AdminGameController::class, 'showAddGame'])->name('admin_add_game');
+Route::get('/admin/add_game', [AdminGameController::class, 'showAddGame'])->name('admin_show_add_game');
 
 Route::post('/admin/add_game', [AdminGameController::class, 'addGame'])->name('admin_add_game');
 

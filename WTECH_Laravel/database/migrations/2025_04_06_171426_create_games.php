@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title', 50);
             $table->date('release_date');
             $table->string('publisher_name', 50);
-            $table->decimal('price', 3, 2);
+            $table->decimal('price', 8, 2);
             $table->string('platform', 50);
             $table->string('region', 50);
             $table->string('genre', 50);
