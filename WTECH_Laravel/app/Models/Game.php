@@ -14,11 +14,12 @@ class Game extends Model
         'platform',
         'region',
         'genre',
+        'category',
         'description',
     ];
 
     public function images()
     {
-        return $this->belongsToMany(Image::class, 'image_game');
-    }
+        return $this->belongsToMany(Image::class, 'image_game', 'game_id', 'image_id');
+    }    
 }
