@@ -392,8 +392,8 @@
             @csrf
             <div class="game_name">
                 <div class="game_name_field">
-                    <h2>Game Name:</h2>
-                    <input type="text" id="genre" name="title" value='{{ $game->title }}'></p>
+                    <label for="game_name"><h2>Game Name:</h2></label>
+                    <input type="text" id="genre" name="title" value='{{ $game->title }}'>
                     @error('title')
                         <div class="text-red-500 text-sm">{{ $message }}</div>
                     @enderror
@@ -410,9 +410,20 @@
             <div class="container">
                 <section  class="game_details">
                     <div id="image_upload_container" class="image_upload_container">
-                        <ul id="image_list"></ul>
+                        <ul id="image_list">
+                            @foreach ($game->images as $image)
+                            <li data-existing-image="{{ $image->id }}">
+                                {{ basename($image->path) }}
+                                <span style="cursor: pointer; color: red;" onclick="removeExistingImage(this, {{ $image->id }})"> X</span>
+                            </li>
+                        @endforeach
+                        </ul>
                         <img src="{{ asset('./Images/plus-circle-1427-svgrepo-com.svg') }}" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
+                        @error('images[]')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
+                    <input type="hidden" name="deleted_images" id="deleted_images_input">
                     <div class="details">
                         <div class="input-group">
                             <label for="publisher_name"><strong>Publisher:</strong></label>
@@ -458,7 +469,7 @@
                             <label for="release_date"><strong>Date of release:</strong></label>
                             <input type="date" id="release_date"  name="release_date" value='{{ $game->release_date }}'>
                         </div>
-                        <textarea id="description" name="description">'{{ $game->description }}'</textarea>
+                        <textarea id="description" name="description">{{ $game->description }}</textarea>
                         @error('description')
                             <div class="text-red-500 text-sm">{{ $message }}</div>
                         @enderror
@@ -580,17 +591,60 @@
 </script> 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        document.querySelector(".button").addEventListener("click", function () {
-            const gameData = {
-                platform: document.getElementById("platform").value,
-                region: document.getElementById("region").value,
-                genre: document.getElementById("genre").value,
-                release_date: document.getElementById("release_date").value,
-                description: document.getElementById("description").value,
-                price: document.getElementById("price").value
-            };
-    
-            console.log("Saving game data:", gameData); 
+        const addImageBtn = document.getElementById("add_image");
+        const imageList = document.getElementById("image_list");
+        const uploadContainer = document.getElementById("image_upload_container");
+
+        imageList.style.maxHeight = "calc(100% - 100px)";
+        imageList.style.overflowY = "auto";
+        imageList.style.overflowX = "hidden";
+        imageList.style.textOverflow = "ellipsis";
+
+        addImageBtn.addEventListener("click", function () {
+            const fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.accept = "image/*";
+
+            fileInput.name = "images[]";
+            fileInput.style.display = "none"; 
+
+            document.getElementById("image_upload_container").appendChild(fileInput); // importante para que se envíe
+
+            fileInput.addEventListener("change", function () {
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const listItem = document.createElement("li");
+                    listItem.textContent = file.name;
+
+                    const removeBtn = document.createElement("span");
+                    removeBtn.textContent = " X";
+                    removeBtn.style.cursor = "pointer";
+                    removeBtn.style.color = "red";
+                    removeBtn.addEventListener("click", function () {
+                        imageList.removeChild(listItem);
+
+                        fileInput.remove(); 
+
+                        if (imageList.children.length === 0) {
+                            uploadContainer.style.justifyContent = "center";
+                        }
+                    });
+
+                    listItem.appendChild(removeBtn);
+                    imageList.appendChild(listItem);
+
+                    if (imageList.children.length >= 1) {
+                        uploadContainer.style.justifyContent = "start";
+                    }
+                }
+            });
+            fileInput.click();
+        });
+        document.querySelector("form").addEventListener("submit", function (e) {
+            const fileInputs = this.querySelectorAll('input[type="file"]');
+            fileInputs.forEach(input => {
+                console.log("Archivo:", input.files[0]);
+            });
         });
     });
 </script>
@@ -616,74 +670,25 @@
     });
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const addImageBtn = document.getElementById("add_image");
-        const imageList = document.getElementById("image_list");
-        const uploadContainer = document.getElementById("image_upload_container");
-
-        imageList.style.maxHeight = "calc(100% - 100px)"; 
-        imageList.style.overflowY = "auto";
-        imageList.style.overflowX = "hidden";
-        imageList.style.textOverflow = "ellipsis";
-
-        const initialImages = ["Images/Overwatch 2/images.jpeg", "Images/Overwatch 2/MV5BOGMxODVmNDgtZGE1Yy00Y2VlLTk3ZTMtYzU5YTcxODhiNzMxXkEyXkFqcGc@._V1_.jpg", "Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg"];
-        initialImages.forEach(imageName => {
-            const listItem = document.createElement("li");
-            listItem.textContent = imageName;
-            
-            const removeBtn = document.createElement("span");
-            removeBtn.textContent = " X";
-            removeBtn.style.cursor = "pointer";
-            removeBtn.style.color = "red";
-            removeBtn.addEventListener("click", function () {
-                imageList.removeChild(listItem);
-                if (imageList.children.length === 0) {
-                    uploadContainer.style.justifyContent = "center";
-                }
-            });
-            
-            listItem.appendChild(removeBtn);
-            imageList.appendChild(listItem);
-        });
-        
-        addImageBtn.addEventListener("click", function () {
-            const fileInput = document.createElement("input");
-            fileInput.type = "file";
-            fileInput.accept = "image/*";
-            
-            fileInput.addEventListener("change", function () {
-                if (fileInput.files.length > 0) {
-                    const file = fileInput.files[0];
-                    const listItem = document.createElement("li");
-                    listItem.textContent = file.name;
-                    
-                    const removeBtn = document.createElement("span");
-                    removeBtn.textContent = " X";
-                    removeBtn.style.cursor = "pointer";
-                    removeBtn.style.color = "red";
-                    removeBtn.addEventListener("click", function () {
-                        imageList.removeChild(listItem);
-                        if (imageList.children.length === 0) {
-                            uploadContainer.style.justifyContent = "center";
-                        }
-                    });
-                    
-                    listItem.appendChild(removeBtn);
-                    imageList.appendChild(listItem);
-
-                    if (imageList.children.length >= 1) {
-                        uploadContainer.style.justifyContent = "start";
-                    }
-                }
-            });
-            
-            fileInput.click();
-        });
-    });
-</script>
-<script>
     function customBack() {
             window.location.href = "/admin/categorized_games";  
+    }
+</script>
+<script>
+    function removeExistingImage(span, imageId) {
+        const li = span.parentElement;
+        li.remove();
+
+        const input = document.getElementById("deleted_images_input");
+
+        // Obtener el array actual de imágenes eliminadas (si existe)
+        let current = input.value ? JSON.parse(input.value) : [];
+
+        // Agregar el ID de la imagen que se está eliminando
+        current.push(imageId);
+
+        // Asignar el valor del campo como un string JSON
+        input.value = JSON.stringify(current);
     }
 </script>
 </html>
