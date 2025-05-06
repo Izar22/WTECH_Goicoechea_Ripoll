@@ -372,7 +372,7 @@
     <header>
         <div class="title">
             <a class="nav" href="{{ route('landing_page') }}"> 
-                <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
+                <img class="logo" src="{{ asset('./Images/LOGO V2 horizontal.png') }}" alt="8-Bit Market Logo"/>
             </a>
         </div>
         <form id="searchForm" class="search_bar" action="{{ route('categorized_games') }}" method="GET">
@@ -381,15 +381,15 @@
         </form>
         <div class="user_actions">
             <a class="nav open-logout" href="#">
-                <img src="./Images/log-out-svgrepo-com.svg" alt="LogOut" class="icon"> 
+                <img src="{{ asset('./Images/log-out-svgrepo-com.svg') }}" alt="LogOut" class="icon"> 
             </a>
             <a class="action nav open-logout" href="#">Log Out</a>
             <a class="nav" href="{{ route('shopping_cart') }}">
-                <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
+                <img src="{{ asset('./Images/cart-shopping-svgrepo-com.svg') }}" alt="Menu" class="icon">               
             </a>
             <a class="action nav" href="{{ route('shopping_cart') }}">Cart</a>
             <div class="menu">
-                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
+                <img src="{{ asset('./Images/menu-svgrepo-com.svg') }}" alt="Menu" class="icon">
             </div>
         </div>    
     </header>             
@@ -397,7 +397,7 @@
     <header>
         <div class="title">
             <a class="nav" href="{{ route('landing_page') }}"> 
-                <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
+                <img class="logo" src="{{ asset('./Images/LOGO V2 horizontal.png') }}" alt="8-Bit Market Logo"/>
             </a>
         </div>
         <form id="searchForm" class="search_bar" action="{{ route('categorized_games') }}" method="GET">
@@ -406,15 +406,15 @@
         </form>
         <div class="user_actions">
             <a href="{{ route('sign_in') }}">
-                <img src="./Images/avatar-default-svgrepo-com.svg" alt="SignIn" class="icon"> 
+                <img src="{{ asset('./Images/avatar-default-svgrepo-com.svg') }}" alt="SignIn" class="icon"> 
             </a>
             <a class="action" href="{{ route('sign_in') }}">Sign In</a>
             <a class="nav" href="{{ route('shopping_cart') }}">
-                <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
+                <img src="{{ asset('./Images/cart-shopping-svgrepo-com.svg') }}" alt="Menu" class="icon">               
             </a>
             <a class="action nav" href="{{ route('shopping_cart') }}">Cart</a>
             <div class="menu">
-                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
+                <img src="{{ asset('./Images/menu-svgrepo-com.svg') }}" alt="Menu" class="icon">
             </div>
         </div>       
     </header>
@@ -593,7 +593,7 @@
                             @if ($game->images->isNotEmpty())
                                 <img class="image_game" src="{{ asset($game->images->first()->path) }}" alt="{{ $game->images->first()->path }}" />
                             @else
-                                <img class="image_game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Imagen por defecto" />
+                                <img class="image_game" src="{{ asset('./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg') }}" alt="Imagen por defecto" />
                             @endif
                         </div>
                         <div class="game_link" style="cursor: pointer;" onclick="location.href='{{ url('/game_details', ['id' => $game->id]) }}'">
@@ -735,9 +735,9 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const heartIcons = document.querySelectorAll(".heart");
-        const heartFilled = ` <img src="./Images/heart-svgrepo-com (1).svg" alt="Heart" class="heart icon">`;
+        const heartFilled = ` <img src="{{ asset('./Images/heart-svgrepo-com (1).svg') }}" alt="Heart" class="heart icon">`;
         
-        const heartOutline = `<img src="./Images/heart-svgrepo-com.svg" alt="Heart" class="heart icon">`;
+        const heartOutline = `<img src="{{ asset('./Images/heart-svgrepo-com.svg') }}" alt="Heart" class="heart icon">`;
         heartIcons.forEach(heart => {
             let isFavorite = false;
             heart.addEventListener("click", function() {

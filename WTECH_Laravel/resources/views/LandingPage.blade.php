@@ -94,7 +94,7 @@
             font-weight: bold;
         }
         .banner {
-            background-image: url('./Images/preview.jpg');
+            background-image: url('{{ asset('./Images/preview.jpg') }}');
             background-size: cover; 
             background-position: center;
             background-color: rgba(39, 93, 173, 0.6); 
@@ -318,7 +318,7 @@
     <header>
         <div class="title">
             <a class="nav" href="{{ route('landing_page') }}"> 
-                <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
+                <img class="logo" src="{{ asset('./Images/LOGO V2 horizontal.png') }}" alt="8-Bit Market Logo"/>
             </a>
         </div>
         <form id="searchForm" class="search_bar" action="{{ route('categorized_games') }}" method="GET">
@@ -327,15 +327,15 @@
         </form>
         <div class="user_actions">
             <a class="nav open-logout" href="#">
-                <img src="./Images/log-out-svgrepo-com.svg" alt="LogOut" class="icon"> 
+                <img src="{{ asset('./Images/log-out-svgrepo-com.svg') }}" alt="LogOut" class="icon"> 
             </a>
             <a class="action nav open-logout" href="#">Log Out</a>
             <a class="nav" href="{{ route('shopping_cart') }}">
-                <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
+                <img src="{{ asset('./Images/cart-shopping-svgrepo-com.svg') }}" alt="Menu" class="icon">               
             </a>
             <a class="action nav" href="{{ route('shopping_cart') }}">Cart</a>
             <div class="menu">
-                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
+                <img src="{{ asset('./Images/menu-svgrepo-com.svg') }}" alt="Menu" class="icon">
             </div>
         </div>    
     </header>             
@@ -343,7 +343,7 @@
     <header>
         <div class="title">
             <a class="nav" href="{{ route('landing_page') }}"> 
-                <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
+                <img class="logo" src="{{ asset('./Images/LOGO V2 horizontal.png') }}" alt="8-Bit Market Logo"/>
             </a>
         </div>
         <form id="searchForm" class="search_bar" action="{{ route('categorized_games') }}" method="GET">
@@ -352,15 +352,15 @@
         </form>
         <div class="user_actions">
             <a href="{{ route('sign_in') }}">
-                <img src="./Images/avatar-default-svgrepo-com.svg" alt="SignIn" class="icon"> 
+                <img src="{{ asset('./Images/avatar-default-svgrepo-com.svg') }}" alt="SignIn" class="icon"> 
             </a>
             <a class="action" href="{{ route('sign_in') }}">Sign In</a>
             <a class="nav" href="{{ route('shopping_cart') }}">
-                <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
+                <img src="{{ asset('./Images/cart-shopping-svgrepo-com.svg') }}" alt="Menu" class="icon">               
             </a>
             <a class="action nav" href="{{ route('shopping_cart') }}">Cart</a>
             <div class="menu">
-                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
+                <img src="{{ asset('./Images/menu-svgrepo-com.svg') }}" alt="Menu" class="icon">
             </div>
         </div>
     </header>
@@ -404,7 +404,7 @@
                             @if ($game->images->isNotEmpty())
                                 <img class="game" src="{{ asset($game->images->first()->path) }}" alt="{{ $game->images->first()->path }}" />
                             @else
-                                <img class="game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Imagen por defecto" />
+                                <img class="game" src="{{ asset('./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg') }}" alt="Imagen por defecto" />
                             @endif
                             <h4 class="game_name">{{ $game->title }}</h4>
                         </a>
@@ -423,7 +423,7 @@
                             @if ($game->images->isNotEmpty())
                                 <img class="game" src="{{ asset($game->images->first()->path) }}" alt="{{ $game->images->first()->path }}" />
                             @else
-                                <img class="game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Imagen por defecto" />
+                                <img class="game" src="{{ asset('./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg') }}" alt="Imagen por defecto" />
                             @endif
                             <h4 class="game_name">{{ $game->title }}</h4>
                         </a>
