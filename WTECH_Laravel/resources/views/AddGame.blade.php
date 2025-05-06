@@ -145,7 +145,7 @@
         .image_upload_container {
             background-color: #275DAD;
             display: flex;
-            width: 258px;
+            width: 40vh;
             height: 100%;
             align-items: center;
             justify-content: center;
@@ -183,7 +183,7 @@
         }
         .details input{
             font-family: "Kanit", sans-serif;
-            width: 100%;
+            width: 97%;
             border: 1px solid #ccc;
             padding: 5px;
             font-size: 16px;
@@ -193,7 +193,7 @@
         }
         .details textarea {
             font-family: "Kanit", sans-serif;
-            width: 100%;
+            width: 97%;
             max-width:100%;
             border: 1px solid #ccc;
             padding: 5px;
@@ -201,6 +201,16 @@
             @media (max-width: 768px) {
                 width: 99%; 
                 min-height: 40vh; 
+            }
+        }
+        .input-group select {
+            font-family: "Kanit", sans-serif;
+            width: 100%;
+            border: 1px solid #ccc;
+            padding: 5px;
+            font-size: 16px;
+            @media (max-width: 768px) {
+                width: 99%;  
             }
         }
         .price_box { 
