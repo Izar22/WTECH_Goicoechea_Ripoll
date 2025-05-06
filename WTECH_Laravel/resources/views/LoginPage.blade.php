@@ -253,32 +253,4 @@
     </div>
     <footer>&copy; 2024 8-Bit Market. All rights reserved. 🎮❤️</footer>
 </body>
-<script>
-
-/*document.getElementById("login_form").addEventListener("submit", function (event) {
-    event.preventDefault(); 
-
-    const currentPage = window.location.href; 
-    let previousPage = document.referrer || "index.html";
-
-    if (previousPage === currentPage) {
-        previousPage = "index.html"; 
-    }
-
-    window.location.href = previousPage + (previousPage.includes("?") ? "&" : "?") + "login=valid";
-});
-
-document.getElementById("singIn_form").addEventListener("submit", function (event) {
-    event.preventDefault(); 
-
-    const currentPage = window.location.href; 
-    let previousPage = document.referrer || "index.html";
-
-    if (previousPage === currentPage) {
-        previousPage = "index.html"; 
-    }
-
-    window.location.href = previousPage + (previousPage.includes("?") ? "&" : "?") + "login=valid";
-});*/
-</script>
 </html>

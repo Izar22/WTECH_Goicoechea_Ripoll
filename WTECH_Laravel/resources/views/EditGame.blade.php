@@ -709,13 +709,10 @@
 
         const input = document.getElementById("deleted_images_input");
 
-        // Obtener el array actual de imágenes eliminadas (si existe)
         let current = input.value ? JSON.parse(input.value) : [];
 
-        // Agregar el ID de la imagen que se está eliminando
         current.push(imageId);
 
-        // Asignar el valor del campo como un string JSON
         input.value = JSON.stringify(current);
     }
 </script>

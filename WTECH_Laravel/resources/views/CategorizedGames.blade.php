@@ -641,35 +641,30 @@
             const currentPageContainer = document.getElementById('current_page');
 
             if (screenWidth < 600) {
-                // En pantallas pequeñas (<600px), mostrar la página actual
-                currentPageContainer.classList.remove('hidden'); // Asegurar que se muestre
-                pageLinksContainer.classList.add('hidden'); // Ocultar las páginas numeradas
+                currentPageContainer.classList.remove('hidden'); 
+                pageLinksContainer.classList.add('hidden'); 
             } else {
-                // En pantallas grandes (>600px), ocultar la página actual
-                currentPageContainer.classList.add('hidden'); // Ocultar la página actual
-                pageLinksContainer.classList.remove('hidden'); // Mostrar las páginas numeradas
+                currentPageContainer.classList.add('hidden'); 
+                pageLinksContainer.classList.remove('hidden'); 
             }
 
-            // Mostrar u ocultar los botones de paginación
             pageButtons.forEach(button => {
                 if (screenWidth < 600) {
-                    // En pantallas pequeñas, solo mostrar "Previous", "Next" y la página actual
+                    
                     if (button.classList.contains('active') || button.innerText === "Previous" || button.innerText === "Next" || button === currentPageContainer) {
                         button.style.display = 'inline-block';
                     } else {
                         button.style.display = 'none';
                     }
                 } else {
-                    // En pantallas grandes, mostrar todos los botones
+                    
                     button.style.display = 'inline-block';
                 }
             });
         };
 
-        // Llama a la función al cargar la página
         updatePagination();
 
-        // Actualiza la paginación cuando se redimensione la ventana
         window.addEventListener('resize', updatePagination);
     });
 </script>

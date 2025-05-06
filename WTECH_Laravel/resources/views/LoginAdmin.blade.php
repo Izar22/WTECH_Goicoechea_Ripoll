@@ -166,15 +166,6 @@
         <section class="form_container">
             <div class="form_section_login">
                 <h2>Log In</h2>
-                <!--@if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif-->
                 <form id="login_form" action="{{ route('admin_login') }}" method="POST">
                     @csrf
                     <label for="email_login">E-mail</label>  
