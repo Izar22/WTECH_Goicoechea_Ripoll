@@ -340,6 +340,11 @@
         .input-group{
             margin: 16px 0;
         }
+
+        .text-red-500{
+            color: red;
+            font-size: 10px;
+        }
         footer {
             position: fixed;
             left: 0;
@@ -419,9 +424,14 @@
                         @endforeach
                         </ul>
                         <img src="{{ asset('./Images/plus-circle-1427-svgrepo-com.svg') }}" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
-                        @error('images[]')
+                        @error('images')
                             <div class="text-red-500 text-sm">{{ $message }}</div>
                         @enderror
+                        @foreach ($errors->get('images.*') as $imageErrors)
+                            @foreach ($imageErrors as $error)
+                                <div class="text-red-500 text-sm">{{ $error }}</div>
+                            @endforeach
+                        @endforeach
                     </div>
                     <input type="hidden" name="deleted_images" id="deleted_images_input">
                     <div class="details">
