@@ -44,7 +44,8 @@ class AdminGameController extends Controller
             'release_date'  => 'required|date',
             'description'    => 'required|string',
             'price'         => 'required|numeric|min:0.01',
-            'images.*' => 'image|mimes:jpg,jpeg,png,gif,svg'
+            'images' => 'required|array|min:1',
+            'images.*' => 'required|image|mimes:jpg,jpeg,png,gif,svg'
         ]);
 
         $game = Game::findOrFail($id);
@@ -173,7 +174,6 @@ class AdminGameController extends Controller
 
         $game = Game::create($validated);
 
-        // Manejar las imagenes
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $uploadedImage) {
                 $filename = $uploadedImage->getClientOriginalName();
