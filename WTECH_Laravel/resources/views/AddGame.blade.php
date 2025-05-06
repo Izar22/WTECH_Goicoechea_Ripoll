@@ -411,7 +411,6 @@
             <section class="container">
                 <div class="game_details">
                     <div id="image_upload_container" class="image_upload_container">
-                        <!--<input type="file" name="images[]" multiple accept="image/*">-->
                         <ul id="image_list"></ul>
                         <img src="{{ asset('Images/plus-circle-1427-svgrepo-com.svg') }}" id="add_image" style="cursor: pointer; width: 50px; height: 50px;" alt="Add Image">
                         @error('images')

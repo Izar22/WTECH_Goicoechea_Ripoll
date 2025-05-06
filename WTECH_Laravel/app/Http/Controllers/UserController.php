@@ -19,7 +19,7 @@ class UserController extends Controller
             $request->session()->regenerate();
             return redirect("/");
         }
-        return redirect("/sign_in");
+        return back()->withErrors(['login_error' => 'Mail or password are not correct'])->withInput();
     }
 
     public function signUp(Request $request){
@@ -31,7 +31,9 @@ class UserController extends Controller
         ]);
 
         if ($incomingFields['password'] !== $incomingFields['password2']) {
-            return redirect('/sign_in');
+            return back()
+                ->withErrors(['password_mismatch' => 'Passwords do not match'])
+                ->withInput();
         }
 
         $incomingFields['password'] = bcrypt($incomingFields['password']);
