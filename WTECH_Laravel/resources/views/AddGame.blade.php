@@ -233,6 +233,7 @@
             border: none;
             cursor: pointer;
             border-radius: 12px;
+            color: #ffffff
         }
         .button:hover{
             background-color: #7ca6e4;
@@ -353,8 +354,9 @@
                 <img class="logo" src="{{ asset('Images/LOGO V2 horizontal.png') }}" alt="8-Bit Market Logo"/>
             </a>
         </div>
-        <form class="search_bar" action="#" method="GET">
-            <input class="search" type="text" placeholder="Search">
+        <form id="searchForm" class="search_bar" action="{{ route('admin_categorized_games') }}" method="GET">
+            <input type="hidden" id="categoryInput" name="category" value="{{ request('search') }}">
+            <input class="search" id="searchInput" type="text" name="search" value="{{ request('search') }}" placeholder="Search games">
         </form>
         <div class="user_actions">
             <a class="nav open-logout" href="#">
