@@ -118,6 +118,9 @@ class AdminGameController extends Controller
 
     public function addGame(Request $request)
     {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin_login_form');
+        }
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'release_date' => 'required|date',
@@ -128,12 +131,11 @@ class AdminGameController extends Controller
             'genre' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'description' => 'required|string',
-            'images.*' => 'image|mimes:jpg,jpeg,png,gif,svg'
+            'images.*' => 'required|image|mimes:jpg,jpeg,png,gif,svg'
         ]);
 
         $game = Game::create($validated);
 
-        // Manejar las imagenes
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $uploadedImage) {
                 $filename = $uploadedImage->getClientOriginalName();
