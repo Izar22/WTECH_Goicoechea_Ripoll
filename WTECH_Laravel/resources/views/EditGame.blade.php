@@ -174,7 +174,7 @@
         .image_upload_container {
             background-color: #275DAD;
             display: flex;
-            width: 258px;
+            width: 40vh;
             height: 100%;
             align-items: center;
             justify-content: center;
@@ -193,7 +193,7 @@
         }
         .details input{
             font-family: "Kanit", sans-serif;
-            width: 100%;
+            width: 97%;
             border: 1px solid #ccc;
             padding: 5px;
             font-size: 16px;
@@ -203,7 +203,7 @@
         }
         .details textarea {
             font-family: "Kanit", sans-serif;
-            width: 100%;
+            width: 97%;
             max-width:100%;
             border: 1px solid #ccc;
             padding: 5px;
@@ -211,6 +211,16 @@
             @media (max-width: 768px) {
                 width: 99%;  
                 min-height: 200px;
+            }
+        }
+        .input-group select {
+            font-family: "Kanit", sans-serif;
+            width: 100%;
+            border: 1px solid #ccc;
+            padding: 5px;
+            font-size: 16px;
+            @media (max-width: 768px) {
+                width: 99%;  
             }
         }
         .price_box { 
@@ -330,6 +340,14 @@
             color: white;
         }
         #cancelDelete {
+            background-color: rgb(255, 0, 0);
+            color: white;
+        }
+        #confirmLogout {
+            background-color: rgb(4, 194, 4);
+            color: white;
+        }
+        #cancelLogout {
             background-color: rgb(255, 0, 0);
             color: white;
         }
@@ -608,8 +626,7 @@
             fileInput.name = "images[]";
             fileInput.style.display = "none"; 
 
-            document.getElementById("image_upload_container").appendChild(fileInput); // importante para que se envíe
-
+            document.getElementById("image_upload_container").appendChild(fileInput); 
             fileInput.addEventListener("change", function () {
                 if (fileInput.files.length > 0) {
                     const file = fileInput.files[0];
