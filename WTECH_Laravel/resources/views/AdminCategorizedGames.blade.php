@@ -330,6 +330,10 @@
             border-radius: 8px;
             text-align: center;
         }
+
+        .form_logout{
+            display: inline-flex;
+        }
         .modal button {
             margin: 10px;
             padding: 8px 16px;
@@ -627,7 +631,7 @@
         <div id="logoutModal" class="modal">
             <div class="modal_content">
                 <p>Are you sure you want to log out?</p>
-                <form action="/admin/logout" method="POST">
+                <form action="/admin/logout" method="POST" class="form_logout">
                     @csrf
                     <button id="confirmLogout">Yes</button>
                 </form>
