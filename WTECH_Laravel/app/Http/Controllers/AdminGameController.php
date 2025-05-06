@@ -23,7 +23,7 @@ class AdminGameController extends Controller
         if (!Auth::guard('admin')->check()) {
             return redirect()->route('admin_login_form');
         }
-        $game = Game::findOrFail($id); 
+        $game = Game::with('images')->findOrFail($id);
 
         return view('EditGame', compact('game')); 
     }
@@ -44,11 +44,50 @@ class AdminGameController extends Controller
             'release_date'  => 'required|date',
             'description'    => 'required|string',
             'price'         => 'required|numeric|min:0.01',
+            'images.*' => 'image|mimes:jpg,jpeg,png,gif,svg'
         ]);
 
         $game = Game::findOrFail($id);
-        $game->update($request->all());
-        
+
+        if ($request->has('deleted_images')) {
+
+            $deletedIds = json_decode($request->input('deleted_images'), true);
+            if ($deletedIds) {
+                foreach ($deletedIds as $imageId) {
+                    $imageId = (int) $imageId; 
+            
+                    $image = Image::find($imageId);
+            
+                    if ($image) {
+                        $game->images()->detach($imageId);
+            
+                        if ($image->games()->count() === 0) {
+                            $imagePath = public_path($image->path);
+                            if (file_exists($imagePath)) {
+                                unlink($imagePath);
+                            }
+                            $image->delete();
+                        }
+                    }
+                }
+            }
+        }
+
+        $game->update($validated);
+    
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $uploadedImage) {
+                $filename = $uploadedImage->getClientOriginalName();
+                $uploadedImage->move(public_path('uploaded'), $filename);
+
+                $image = Image::create([
+                    'path' => 'uploaded/' . $filename
+                ]);
+
+                $game->images()->attach($image->id);
+            }
+        }
+    
         return redirect()->route('admin_categorized_games');
     }
 
