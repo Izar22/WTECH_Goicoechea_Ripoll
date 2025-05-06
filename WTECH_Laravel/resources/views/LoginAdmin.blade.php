@@ -149,6 +149,10 @@
                 height: 40px;
             }
         }
+        .text-red-500{
+            color: red;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
@@ -173,10 +177,26 @@
                 @endif-->
                 <form id="login_form" action="{{ route('admin_login') }}" method="POST">
                     @csrf
-                    <label for="email_login">E-mail</label>
-                    <input type="email" id="email_login" name="email_login" required>
+                    <label for="email_login">E-mail</label>  
+                    <input type="email" id="email_login" name="email_login" value="{{old('email_login')}}" required>
+                    @error('email_login')
+                        <div class="text-red-500 text-sm">{{ $message }}</div>
+                    @enderror
                     <label for="password_login">Password</label>
-                    <input type="password" id="password_login" name="password_login" required>
+                    <input type="password" id="password_login" name="password_login" value="{{old('email_login')}}" required>
+                    @error('password_login')
+                        <div class="text-red-500 text-sm">{{ $message }}</div>
+                    @enderror
+                    @if ($errors->has('login_error'))
+                        <div class="text-red-500 text-sm mb-4">
+                            {{ $errors->first('login_error') }}
+                        </div>
+                    @endif
+                    @if ($errors->has('login_error'))
+                        <div class="text-red-500 text-sm">
+                            {{ $errors->first('login_error') }}
+                        </div>
+                    @endif
                     <button type="submit">Log In</button>
                 </form>
             </div>

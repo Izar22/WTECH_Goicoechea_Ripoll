@@ -30,7 +30,7 @@ class AdminController extends Controller
         }
 
         // Si las credenciales son incorrectas
-        return redirect("/admin/login")->withErrors(['email' => 'Credenciales incorrectas']);
+        return redirect("/admin/login")->withErrors(['login_error' => 'User or password not correct']);
     }
 
     public function logOut()

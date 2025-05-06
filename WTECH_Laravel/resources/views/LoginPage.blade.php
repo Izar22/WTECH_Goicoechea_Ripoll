@@ -149,6 +149,11 @@
         .admin_link a:hover {
             text-decoration: underline;
         }
+
+        .text-red-500{
+            color: red;
+            font-size: 12px;
+        }
         @media (max-width: 830px) {
 
             #header_text::after {
@@ -196,9 +201,15 @@
                 <form id="login_form" action="/log_in" method="POST">
                     @csrf
                     <label for="email_login">E-mail</label>
-                    <input type="email" id="email_login" name="loginemail" required>
+                    <input type="email" id="email_login" name="loginemail" value="{{ old('loginemail') }}" required>
+                    @error('loginemail')
+                        <div class="text-red-500 text-sm">{{ $message }}</div>
+                    @enderror
                     <label for="password_login">Password</label>
-                    <input type="password" id="password_login" name="loginpassword" required>
+                    <input type="password" id="password_login" name="loginpassword" value="{{ old('loginpassword') }}" required>
+                    @error('loginpassword')
+                        <div class="text-red-500 text-sm">{{ $message }}</div>
+                    @enderror
                     <button type="submit">Log In</button>
                 </form>
                 <div class="admin_link">
@@ -211,13 +222,30 @@
                 <form id="singIn_form" action="/sign_up" method="POST">
                     @csrf
                     <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" value="{{ old('name') }}" required>
+                    @error('name')
+                        <div class="text-red-500 text-sm">{{ $message }}</div>
+                    @enderror
                     <label for="email_register">E-mail</label>
-                    <input type="email" id="email_register" name="email" required>
+                    <input type="email" id="email_register" name="email" value="{{ old('email') }}" required>
+                    @error('email')
+                        <div class="text-red-500 text-sm">{{ $message }}</div>
+                    @enderror
                     <label for="password_register">Password</label>
-                    <input type="password" id="password_register" name="password" required>
+                    <input type="password" id="password_register" name="password" value="{{ old('password') }}" required>
+                    @error('password')
+                        <div class="text-red-500 text-sm">{{ $message }}</div>
+                    @enderror
                     <label for="repeat_password">Repeat password</label>
                     <input type="password" id="repeat_password"  name="password2" required>
+                    @error('password2')
+                        <div class="text-red-500 text-sm">{{ $message }}</div>
+                    @enderror
+                    @if ($errors->has('password_mismatch'))
+                        <div class="text-red-500 text-sm">
+                            {{ $errors->first('password_mismatch') }}
+                        </div>
+                    @endif
                     <button type="submit">Create</button>
                 </form>
             </section>
