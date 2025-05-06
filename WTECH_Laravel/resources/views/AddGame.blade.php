@@ -299,6 +299,38 @@
         .input-group{
             margin: 16px 0;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left:  0;
+            top:  0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal_content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .modal button {
+            margin: 10px;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+        }
+        #confirmLogout {
+            background-color: rgb(4, 194, 4);
+            color: white;
+        }
+        #cancelLogout {
+            background-color: rgb(255, 0, 0);
+            color: white;
+        }
 
         .text-red-500{
             color: red;
@@ -330,10 +362,10 @@
             <input class="search" type="text" placeholder="Search">
         </form>
         <div class="user_actions">
-            <a href="LandingPage.html">
-                <img src="{{ asset('Images/log-out-svgrepo-com.svg') }}" alt="LogOut" class="icon"> 
+            <a class="nav open-logout" href="#">
+                <img src="{{ asset('./Images/log-out-svgrepo-com.svg') }}" alt="LogOut" class="icon">
             </a>
-            <a class="action" href="LandingPage.html">Log Out</a>
+            <a class="action nav open-logout" href="#">Log Out</a>
             <div class="menu">
                 <img src="{{ asset('./Images/menu-svgrepo-com.svg') }}" alt="Menu" class="icon">
             </div>
@@ -446,6 +478,16 @@
                 </div>
             </section>
         </form>
+        <div id="logoutModal" class="modal">
+            <div class="modal_content">
+                <p>Are you sure you want to log out?</p>
+                <form action="/admin/logout" method="POST">
+                    @csrf
+                    <button id="confirmLogout">Yes</button>
+                </form>
+                <button id="cancelLogout">No</button>
+            </div>
+        </div>
     </main>
     <footer>
         2025 © 8-Bit Market. All rights reserved. 🎮❤️
@@ -483,9 +525,9 @@
             fileInput.accept = "image/*";
 
             fileInput.name = "images[]";
-            fileInput.style.display = "none"; // no mostrarlo visualmente
+            fileInput.style.display = "none"; 
 
-            document.getElementById("image_upload_container").appendChild(fileInput); // importante para que se envíe
+            document.getElementById("image_upload_container").appendChild(fileInput); 
 
             fileInput.addEventListener("change", function () {
                 if (fileInput.files.length > 0) {
@@ -500,7 +542,7 @@
                     removeBtn.addEventListener("click", function () {
                         imageList.removeChild(listItem);
 
-                        fileInput.remove(); // elimina también el input
+                        fileInput.remove(); 
 
                         if (imageList.children.length === 0) {
                             uploadContainer.style.justifyContent = "center";
@@ -527,14 +569,32 @@
 </script>
 <script>
     function customBack() {
-        const previousPage = document.referrer;
-        const currentPage = window.location.href;
-
-        if (previousPage === currentPage) {
-            window.location.href = "CategorizedGamesAdmin.html";  
-        } else {
-            window.location.href = previousPage;
-        }
+            window.location.href = "/admin/categorized_games";  
     }
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const logoutModal = document.getElementById("logoutModal");
+        const confirmLogoutBtn = document.getElementById("confirmLogout");
+        const cancelLogoutBtn = document.getElementById("cancelLogout");
+        const logoutLinks = document.querySelectorAll(".open-logout");
+
+        function openLogoutModal(event) {
+            event.preventDefault();
+            logoutModal.style.display = "flex";
+        }
+
+        logoutLinks.forEach(link => {
+            link.addEventListener("click", openLogoutModal);
+        });
+
+        confirmLogoutBtn.addEventListener("click", function () {
+            window.location.href = "/";
+        });
+
+        cancelLogoutBtn.addEventListener("click", function () {
+            logoutModal.style.display = "none"; 
+        });
+    });
+</script> 
 </html>

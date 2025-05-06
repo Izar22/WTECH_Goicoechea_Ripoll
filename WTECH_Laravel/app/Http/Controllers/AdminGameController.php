@@ -158,6 +158,9 @@ class AdminGameController extends Controller
 
     public function addGame(Request $request)
     {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin_login_form');
+        }
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'release_date' => 'required|date',
