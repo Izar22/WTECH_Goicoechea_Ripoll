@@ -145,7 +145,7 @@
         .image_upload_container {
             background-color: #275DAD;
             display: flex;
-            width: 258px;
+            width: 40vh;
             height: 100%;
             align-items: center;
             justify-content: center;
@@ -183,7 +183,7 @@
         }
         .details input{
             font-family: "Kanit", sans-serif;
-            width: 100%;
+            width: 97%;
             border: 1px solid #ccc;
             padding: 5px;
             font-size: 16px;
@@ -193,7 +193,7 @@
         }
         .details textarea {
             font-family: "Kanit", sans-serif;
-            width: 100%;
+            width: 97%;
             max-width:100%;
             border: 1px solid #ccc;
             padding: 5px;
@@ -201,6 +201,16 @@
             @media (max-width: 768px) {
                 width: 99%; 
                 min-height: 40vh; 
+            }
+        }
+        .input-group select {
+            font-family: "Kanit", sans-serif;
+            width: 100%;
+            border: 1px solid #ccc;
+            padding: 5px;
+            font-size: 16px;
+            @media (max-width: 768px) {
+                width: 99%;  
             }
         }
         .price_box { 
@@ -233,6 +243,7 @@
             border: none;
             cursor: pointer;
             border-radius: 12px;
+            color: #ffffff
         }
         .button:hover{
             background-color: #7ca6e4;
@@ -358,8 +369,9 @@
                 <img class="logo" src="{{ asset('Images/LOGO V2 horizontal.png') }}" alt="8-Bit Market Logo"/>
             </a>
         </div>
-        <form class="search_bar" action="#" method="GET">
-            <input class="search" type="text" placeholder="Search">
+        <form id="searchForm" class="search_bar" action="{{ route('admin_categorized_games') }}" method="GET">
+            <input type="hidden" id="categoryInput" name="category" value="{{ request('search') }}">
+            <input class="search" id="searchInput" type="text" name="search" value="{{ request('search') }}" placeholder="Search games">
         </form>
         <div class="user_actions">
             <a class="nav open-logout" href="#">
@@ -388,7 +400,7 @@
             <div class="game_name">
                 <div class="game_name_field">
                     <label for="game_name"><h2>Game Name:</h2></label>
-                    <input type="text" id="genre" name="title" value="xxxxxxxxxx">
+                    <input type="text" id="genre" name="title"  value="{{old('title')}}">
                     @error('title')
                         <div class="text-red-500 text-sm">{{ $message }}</div>
                     @enderror
@@ -412,35 +424,35 @@
                     <div class="details">
                         <div class="input-group">
                             <label for="publisher_name"><strong>Publisher:</strong></label>
-                            <input type="text" id="publisher_name" name="publisher_name" value="xxxxxxxxxx">
+                            <input type="text" id="publisher_name" name="publisher_name" value="{{old('publisher_name')}}">
                             @error('publisher_name')
                                 <div class="text-red-500 text-sm">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="input-group">
                             <label for="platform"><strong>Platform:</strong></label>
-                            <input type="text" id="platform" name="platform" value="xxxxxxxxxx">
+                            <input type="text" id="platform" name="platform" value="{{old('platform')}}">
                             @error('platform')
                                 <div class="text-red-500 text-sm">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="input-group">
                             <label for="region"><strong>Region:</strong></label>
-                            <input type="text" id="region" name="region" value="xxxxxxxxxx">
+                            <input type="text" id="region" name="region" value="{{old('region')}}">
                             @error('region')
                                 <div class="text-red-500 text-sm">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="input-group">
                             <label for="genre"><strong>Genre:</strong></label>
-                            <input type="text" id="genre" name="genre" value="xxxxxxxxxx">
+                            <input type="text" id="genre" name="genre" value="{{old('genre')}}">
                             @error('genre')
                                 <div class="text-red-500 text-sm">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="input-group">
                             <label for="category"><strong>Category:</strong></label>
-                            <select id="category" name="category">
+                            <select id="category" name="category" value="{{old('category')}}">
                                 <option value="Short games">Short games</option>
                                 <option value="Long games">Long games</option>
                                 <option value="Pixel art">Pixel art</option>
@@ -452,13 +464,13 @@
                         </div>
                         <div class="input-group">
                             <label for="release_date"><strong>Date of release:</strong></label>
-                            <input type="date" id="release_date" name="release_date" value="xx/xx/xxxx">
+                            <input type="date" id="release_date" name="release_date" value="{{old('release_date')}}">
                             @error('release_date')
                                 <div class="text-red-500 text-sm">{{ $message }}</div>
                             @enderror
                         </div>
                         <label for="description"><strong>Description:</strong></label>
-                        <textarea id="description" name="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</textarea>
+                        <textarea id="description" name="description">{{old('description')}}</textarea>
                         @error('description')
                             <div class="text-red-500 text-sm">{{ $message }}</div>
                         @enderror
@@ -467,7 +479,7 @@
                 <div class="right_part">
                     <div class="price_box">
                         <h3 class="price">Price</h3>
-                        <input type="number" id="price" name="price" value="15" min="0.01" step="0.01">
+                        <input type="number" id="price" name="price" value="{{old('price')}}" min="0.01" step="0.01">
                         @error('number')
                             <div class="text-red-500 text-sm">{{ $message }}</div>
                         @enderror

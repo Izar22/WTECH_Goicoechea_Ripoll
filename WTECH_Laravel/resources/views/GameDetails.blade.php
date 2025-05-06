@@ -234,6 +234,7 @@
             border: none;
             cursor: pointer;
             border-radius: 12px;
+            color: #ffffff
         }
         .button:hover{
             background-color: #7ca6e4;
@@ -445,6 +446,9 @@
 
                 <div class="details">
                     <div class="input-group">
+                        <p><strong>Publisher:</strong> <span>{{ $game->publisher_name }}</span></p>
+                    </div>
+                    <div class="input-group">
                         <p><strong>Platform:</strong> <span>{{ $game->platform }}</span></p>
                     </div>
                     <div class="input-group">
@@ -452,6 +456,9 @@
                     </div>
                     <div class="input-group">
                         <p><strong>Genre:</strong> <span>{{ $game->genre }}</span></p>
+                    </div>
+                    <div class="input-group">
+                        <p><strong>Category:</strong> <span>{{ $game->category }}</span></p>
                     </div>
                     <div class="input-group">
                         <p><strong>Date of release:</strong> <span>{{ $game->release_date }}</span></p>

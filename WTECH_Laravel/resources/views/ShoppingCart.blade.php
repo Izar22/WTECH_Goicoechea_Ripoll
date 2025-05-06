@@ -307,6 +307,7 @@
             margin-bottom: 10px;
             width: 100%;
             border: solid 1px black;
+            color: #ffffff
         }
         .right_section button:hover{
             background-color: #7ca6e4;
