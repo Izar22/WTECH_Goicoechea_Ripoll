@@ -111,9 +111,6 @@
             align-self: stretch;
         }
         @media (max-width: 768px) {
-            .title img {
-                content: url('./Images/logo simple.png'); 
-            }
             .form_container {
                 flex-direction: column;
                 align-items: center;
@@ -195,4 +192,12 @@
     </div>
     <footer>&copy; 2024 8-Bit Market. All rights reserved. 🎮❤️</footer>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const img = document.querySelector(".title img");
+        if (window.innerWidth <= 830) {
+            img.src = "{{ asset('Images/logo simple.png') }}";
+        }
+    });
+</script>
 </html>

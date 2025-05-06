@@ -352,6 +352,9 @@
             background-color: rgb(255, 0, 0);
             color: white;
         }
+        .form_logout{
+            display: inline-flex;
+        }
         .icon{
             width: 24px;
             height: 24px;
@@ -528,7 +531,7 @@
         <div id="logoutModal" class="modal">
             <div class="modal_content">
                 <p>Are you sure you want to log out?</p>
-                <form action="/admin/logout" method="POST">
+                <form action="/admin/logout" method="POST" class="form_logout">
                     @csrf
                     <button id="confirmLogout">Yes</button>
                 </form>

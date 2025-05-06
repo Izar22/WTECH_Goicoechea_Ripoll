@@ -163,10 +163,6 @@
                 content: none; 
             }
 
-            .title img {
-                content: url('./Images/logo simple.png'); 
-            }
-
             .form_container {
                 flex-direction: column;
                 align-items: center;
@@ -190,7 +186,7 @@
 <body>
     <header>
         <a href="{{ route('landing_page') }}" class="title">
-            <img src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo" class="logo">
+            <img src="{{ asset('./Images/LOGO V2 horizontal.png') }}" alt="8-Bit Market Logo" class="logo">
         </a>
         Log In or Create an Account
     </header>
@@ -253,4 +249,12 @@
     </div>
     <footer>&copy; 2024 8-Bit Market. All rights reserved. 🎮❤️</footer>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const img = document.querySelector(".title img");
+        if (window.innerWidth <= 830) {
+            img.src = "{{ asset('Images/logo simple.png') }}";
+        }
+    });
+</script>
 </html>

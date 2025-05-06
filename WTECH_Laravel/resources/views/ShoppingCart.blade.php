@@ -391,6 +391,9 @@
                 height: auto;
             }
         }
+        .form_logout{
+            display: inline-flex;
+        }
         .modal_content button{
             font-size: 20px;
             font-family: "Kanit", sans-serif;
@@ -466,7 +469,7 @@
     <header>
         <div class="title">
             <a class="nav" href="{{ route('landing_page') }}"> 
-                <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
+                <img class="logo" src="{{ asset('./Images/LOGO V2 horizontal.png') }}" alt="8-Bit Market Logo"/>
             </a>
         </div>
         <form id="searchForm" class="search_bar" action="{{ route('categorized_games') }}" method="GET">
@@ -475,15 +478,15 @@
         </form>
         <div class="user_actions">
             <a class="nav open-logout" href="#">
-                <img src="./Images/log-out-svgrepo-com.svg" alt="LogOut" class="icon"> 
+                <img src="{{ asset('./Images/log-out-svgrepo-com.svg') }}" alt="LogOut" class="icon"> 
             </a>
             <a class="action nav open-logout" href="#">Log Out</a>
             <a class="nav" href="{{ route('shopping_cart') }}">
-                <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
+                <img src="{{ asset('./Images/cart-shopping-svgrepo-com.svg') }}" alt="Menu" class="icon">               
             </a>
             <a class="action nav" href="{{ route('shopping_cart') }}">Cart</a>
             <div class="menu">
-                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
+                <img src="{{ asset('./Images/menu-svgrepo-com.svg') }}" alt="Menu" class="icon">
             </div>
         </div>    
     </header>             
@@ -491,7 +494,7 @@
     <header>
         <div class="title">
             <a class="nav" href="{{ route('landing_page') }}"> 
-                <img class="logo" src="./Images/LOGO V2 horizontal.png" alt="8-Bit Market Logo"/>
+                <img class="logo" src="{{ asset('./Images/LOGO V2 horizontal.png') }}" alt="8-Bit Market Logo"/>
             </a>
         </div>
         <form id="searchForm" class="search_bar" action="{{ route('categorized_games') }}" method="GET">
@@ -500,15 +503,15 @@
         </form>
         <div class="user_actions">
             <a href="{{ route('sign_in') }}">
-                <img src="./Images/avatar-default-svgrepo-com.svg" alt="SignIn" class="icon"> 
+                <img src="{{ asset('./Images/avatar-default-svgrepo-com.svg') }}" alt="SignIn" class="icon"> 
             </a>
             <a class="action" href="{{ route('sign_in') }}">Sign In</a>
             <a class="nav" href="{{ route('shopping_cart') }}">
-                <img src="./Images/cart-shopping-svgrepo-com.svg" alt="Menu" class="icon">               
+                <img src="{{ asset('./Images/cart-shopping-svgrepo-com.svg') }}" alt="Menu" class="icon">               
             </a>
             <a class="action nav" href="{{ route('shopping_cart') }}">Cart</a>
             <div class="menu">
-                <img src="./Images/menu-svgrepo-com.svg" alt="Menu" class="icon">
+                <img src="{{ asset('./Images/menu-svgrepo-com.svg') }}" alt="Menu" class="icon">
             </div>
         </div>
     </header>
@@ -560,7 +563,7 @@
                                 @if ($item->game->images->isNotEmpty())
                                     <img class="image_game" src="{{ asset($item->game->images->first()->path) }}" alt="{{ $item->game->images->first()->path }}" />
                                 @else
-                                    <img class="image_game" src="./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg" alt="Imagen por defecto" />
+                                    <img class="image_game" src="{{ asset('./Images/Overwatch 2/Overwatch_2_Steam_artwork.jpg') }}" alt="Imagen por defecto" />
                                 @endif
                                 <div class="number_game">
                                     <p>{{ $item->game->title }}</p>
@@ -575,7 +578,7 @@
                                 <form action="{{ route('cart_delete', $item->id) }}" method="POST" class="delete-form">
                                     @csrf
                                     <button type="submit" class="delete_button" style="background: none; border: none; padding: 0;">
-                                        <img src="./Images/trash-svgrepo-com.svg" alt="Delete"  class="delete_button">
+                                        <img src="{{ asset('./Images/trash-svgrepo-com.svg') }}" alt="Delete"  class="delete_button">
                                     </button>
                                 </form>
                                 <p class="total-price">{{ number_format($item->quantity * $item->game->price, 2) }}€</p>
@@ -720,7 +723,7 @@
         <div id="logoutModal" class="modal_logOut">
             <div class="modal_content_logOut">
                 <p>Are you sure you want to log out?</p>
-                <form action="/log_out" method="POST">
+                <form action="/log_out" method="POST" class="form_logout">
                     @csrf
                     <button id="confirmLogout">Yes</button>
                 </form>
