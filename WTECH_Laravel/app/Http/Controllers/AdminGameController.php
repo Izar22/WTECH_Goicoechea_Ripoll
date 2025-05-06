@@ -167,7 +167,8 @@ class AdminGameController extends Controller
             'genre' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'description' => 'required|string',
-            'images.*' => 'image|mimes:jpg,jpeg,png,gif,svg'
+            'images' => 'required|array|min:1',
+            'images.*' => 'required|image|mimes:jpg,jpeg,png,gif,svg'
         ]);
 
         $game = Game::create($validated);

@@ -340,6 +340,11 @@
         .input-group{
             margin: 16px 0;
         }
+
+        .text-red-500{
+            color: red;
+            font-size: 10px;
+        }
         footer {
             position: fixed;
             left: 0;
