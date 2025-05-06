@@ -606,7 +606,7 @@
                         @enderror
                     </div>
                     <div class="form_group">
-                        <input type="email" name="email" placeholder="E-mail address" value="{{ old('email') }}">
+                        <input type="text" name="email" placeholder="E-mail address" value="{{ old('email') }}">
                         @error('email')
                             <div class="text-red-500 text-sm">{{ $message }}</div>
                         @enderror
@@ -664,23 +664,23 @@
                 <div class="left_section">
                     <div class="section_title">Payment Details</div>
                     <div class="double_width">
-                        <input type="text" name="cardholder_name" placeholder="Cardholder Name">
+                        <input type="text" name="cardholder_name" placeholder="Cardholder Name" value="{{ old('cardholder_name') }}">
                         @error('cardholder_name')
                             <div class="text-red-500 text-sm">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="double_width">
-                        <input type="text" name="card_number" placeholder="Card Number">
+                        <input type="text" name="card_number" placeholder="Card Number" value="{{ old('card_number') }}">
                         @error('card_number')
                             <div class="text-red-500 text-sm">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form_group">
-                        <input type="text" name="expiration_date" placeholder="Expiration Date (MM/YY)">
+                        <input type="text" name="expiration_date" placeholder="Expiration Date (MM/YY)" value="{{ old('expiration_date') }}">
                         @error('expiration_date')
                             <div class="text-red-500 text-sm">{{ $message }}</div>
                         @enderror
-                        <input type="text" name="CVV" placeholder="CVV">
+                        <input type="text" name="CVV" placeholder="CVV" value="{{ old('CVV') }}">
                         @error('CVV')
                             <div class="text-red-500 text-sm">{{ $message }}</div>
                         @enderror

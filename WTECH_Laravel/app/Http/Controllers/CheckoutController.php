@@ -19,18 +19,18 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
-            'surname' => 'required|string',
+            'name' => ['required', 'regex:/^[\pL\s\-]+$/u', 'max:100'],
+            'surname' => ['required', 'regex:/^[\pL\s\-]+$/u', 'max:100'],
             'email' => 'required|email',
-            'phone' => 'required|string',
+            'phone' => ['required', 'regex:/^\+?[0-9\s\-]{7,20}$/'],
             'address' => 'required|string',
-            'city' => 'required|string',
-            'region' => 'required|string',
-            'country' => 'required|string',
-            'zip' => 'required|string',
-            'cardholder_name' => 'required|string',
+            'city' => ['required', 'regex:/^[\pL\s\-]+$/u', 'max:100'],
+            'region' => ['required', 'regex:/^[\pL\s\-]+$/u', 'max:100'],
+            'country' => ['required', 'regex:/^[\pL\s\-]+$/u', 'max:100'],
+            'zip' => ['required', 'regex:/^[A-Za-z0-9\- ]{3,10}$/'],
+            'cardholder_name' => ['required', 'regex:/^[\pL\s\-]+$/u', 'max:100'],
             'card_number' => 'required|digits:16',
-            'expiration_date' => 'required',
+            'expiration_date' => ['required', 'regex:/^(0[1-9]|1[0-2])\/?([0-9]{2})$/'],
             'CVV' => 'required|digits:3',
         ]);
 
