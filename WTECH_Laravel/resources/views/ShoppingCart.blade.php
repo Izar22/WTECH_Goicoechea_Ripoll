@@ -391,6 +391,9 @@
                 height: auto;
             }
         }
+        .form_logout{
+            display: inline-flex;
+        }
         .modal_content button{
             font-size: 20px;
             font-family: "Kanit", sans-serif;
@@ -720,7 +723,7 @@
         <div id="logoutModal" class="modal_logOut">
             <div class="modal_content_logOut">
                 <p>Are you sure you want to log out?</p>
-                <form action="/log_out" method="POST">
+                <form action="/log_out" method="POST" class="form_logout">
                     @csrf
                     <button id="confirmLogout">Yes</button>
                 </form>
