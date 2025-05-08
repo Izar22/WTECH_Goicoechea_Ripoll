@@ -44,11 +44,25 @@ class AdminGameController extends Controller
             'release_date'  => 'required|date',
             'description'    => 'required|string',
             'price'         => 'required|numeric|min:0.01',
-            'images' => 'required|array|min:1',
             'images.*' => 'required|image|mimes:jpg,jpeg,png,gif,svg'
         ]);
 
         $game = Game::findOrFail($id);
+
+        $deletedIds = json_decode($request->input('deleted_images'), true) ?? [];
+
+        $remaining = $game->images()->count() - count($deletedIds);
+
+        $newImages = $request->file('images');
+        $newCount = $newImages ? count($newImages) : 0;
+
+        $totalAfter = $remaining + $newCount;
+
+        if ($totalAfter < 2) {
+            return back()
+                ->withErrors(['images' => 'At least two images.'])
+                ->withInput();
+        }
 
         if ($request->has('deleted_images')) {
 
@@ -171,8 +185,11 @@ class AdminGameController extends Controller
             'genre' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'description' => 'required|string',
-            'images' => 'required|array|min:1',
+            'images' => 'required|array|min:2',
             'images.*' => 'required|image|mimes:jpg,jpeg,png,gif,svg'
+        ], [
+            'images.required' => 'At least two images.',
+            'images.min' => 'At least two images.',
         ]);
 
         $game = Game::create($validated);

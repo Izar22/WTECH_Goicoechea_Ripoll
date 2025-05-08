@@ -6,6 +6,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\GameSeeder;
+use Database\Seeders\AdminSeeder;
 use Database\Seeders\ImagesTableSeeder;
 use Database\Seeders\ImageGameTableSeeder;
 
@@ -19,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(GameSeeder::class);
         $this->call(ImagesTableSeeder::class);
         $this->call(ImageGameTableSeeder::class);
+        $this->call(AdminSeeder::class);
     }
 }

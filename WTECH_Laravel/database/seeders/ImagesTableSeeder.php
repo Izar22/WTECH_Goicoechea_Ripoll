@@ -16,13 +16,10 @@ class ImagesTableSeeder extends Seeder
      */
     public function run()
     {
-        // Ruta de la carpeta donde están las imágenes
         $imageFolder = public_path('Images/Games');
         
-        // Obtener todos los archivos de la carpeta
         $images = File::allFiles($imageFolder);
 
-        // Iterar sobre cada imagen en la carpeta
         foreach ($images as $image) {
             $filename = $image->getFilename();
             $relativePath = 'images/games/' . $filename;

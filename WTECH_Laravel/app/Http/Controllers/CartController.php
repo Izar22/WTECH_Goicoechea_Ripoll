@@ -58,7 +58,7 @@ class CartController extends Controller
         }
 
         return redirect()->route('game_details', ['id' => $gameId])
-                        ->with('success', '¡Juego agregado al carrito!');
+                        ->with('success', 'Game added to shopping cart!');
     }
 
     public function shopNow(Request $request)
@@ -107,7 +107,7 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->route('shopping_cart')->with('success', '¡Juego agregado al carrito!');
+        return redirect()->route('shopping_cart')->with('success', 'Game added to shopping cart!');
     }
 
     public function showCart()
@@ -157,7 +157,7 @@ class CartController extends Controller
         $item = GameShoppingCart::find($itemId);
 
         if (!$item) {
-            return response()->json(['error' => 'Item no encontrado'], 404);
+            return response()->json(['error' => 'Item not founded'], 404);
         }
 
         if ($action === 'increase') {
