@@ -7,8 +7,7 @@ To set up the Laravel project, follow the steps below:
 Clone or download the project into your working directory. The Laravel project is located in the `WTECH_Laravel` folder.
 
 ```bash
-git clone <repository-url>
-# or extract from a compressed archive
+git clone https://github.com/Izar22/WTECH_Goicoechea_Ripoll.git
 ```
 
 ## 2. Dependency Installation
