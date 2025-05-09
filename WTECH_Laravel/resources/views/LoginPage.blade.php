@@ -206,6 +206,9 @@
                     @error('loginpassword')
                         <div class="text-red-500 text-sm">{{ $message }}</div>
                     @enderror
+                    @error('login_error')
+                        <div class="text-red-500 text-sm">{{ $message }}</div>
+                    @enderror
                     <button type="submit">Log In</button>
                 </form>
                 <div class="admin_link">
