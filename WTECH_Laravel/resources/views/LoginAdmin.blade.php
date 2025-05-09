@@ -171,7 +171,7 @@
                         <div class="text-red-500 text-sm">{{ $message }}</div>
                     @enderror
                     <label for="password_login">Password</label>
-                    <input type="password" id="password_login" name="password_login" value="{{old('email_login')}}" required>
+                    <input type="password" id="password_login" name="password_login" required>
                     @error('password_login')
                         <div class="text-red-500 text-sm">{{ $message }}</div>
                     @enderror
